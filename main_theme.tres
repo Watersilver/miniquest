@@ -1,0 +1,32 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bbd4u5ml0tay1"]
+
+[ext_resource type="Texture2D" uid="uid://bhkwcqtwu0ckg" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Inputs.png" id="1_470mv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a2l2q"]
+atlas = ExtResource("1_470mv")
+region = Rect2(80, 216, 8, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0omi4"]
+atlas = ExtResource("1_470mv")
+region = Rect2(80, 232, 8, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58jnp"]
+atlas = ExtResource("1_470mv")
+region = Rect2(0, 232, 8, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_466ly"]
+atlas = ExtResource("1_470mv")
+region = Rect2(0, 216, 8, 9)
+
+[resource]
+default_font_size = 6
+CheckBox/constants/check_v_offset = 2
+CheckBox/constants/icon_max_width = 8
+CheckBox/icons/checked = SubResource("AtlasTexture_a2l2q")
+CheckBox/icons/checked_disabled = null
+CheckBox/icons/radio_checked = SubResource("AtlasTexture_0omi4")
+CheckBox/icons/radio_checked_disabled = null
+CheckBox/icons/radio_unchecked = SubResource("AtlasTexture_58jnp")
+CheckBox/icons/radio_unchecked_disabled = null
+CheckBox/icons/unchecked = SubResource("AtlasTexture_466ly")
+CheckBox/icons/unchecked_disabled = null

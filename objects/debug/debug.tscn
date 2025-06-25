@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgndmplwe3ut4"]
+
+[ext_resource type="Script" uid="uid://ruvvspnhk2rt" path="res://objects/debug/debug.gd" id="1_tflpb"]
+
+[node name="Debug" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_tflpb")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 90.0
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+
+[node name="ControlledFall" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Controlled Fall"
+
+[node name="Jump" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Jump"
+
+[node name="DoubleJump" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Double Jump"
+
+[node name="Backdash" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Backdash"
+
+[node name="Run" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Run"
+
+[node name="Bat" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fairy Transform"
+
+[node name="Griffon" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Griffon Jump"
+
+[node name="Swim" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Swim"
+
+[node name="WaterWalk" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Water Walk"
+
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/ControlledFall" to="." method="_on_controlled_fall_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Jump" to="." method="_on_jump_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/DoubleJump" to="." method="_on_double_jump_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Backdash" to="." method="_on_backdash_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Run" to="." method="_on_run_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Bat" to="." method="_on_bat_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Griffon" to="." method="_on_griffon_jump_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Swim" to="." method="_on_swim_toggled"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/WaterWalk" to="." method="_on_water_walk_toggled"]

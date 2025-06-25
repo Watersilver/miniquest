@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://byj6q7bnsn0lk"]
+
+[ext_resource type="PackedScene" uid="uid://dd75ml4vwpveo" path="res://objects/switch_blocks/switch_block.tscn" id="1_hcrcg"]
+
+[node name="SwitchBlock" instance=ExtResource("1_hcrcg")]
+solid = false
+color = 1
+
+[node name="StaticBody2D" parent="." index="1"]
+collision_layer = 2
+
+[node name="CollisionShape2D" parent="StaticBody2D" index="0"]
+one_way_collision = true
+
+[node name="Sprite" parent="StaticBody2D" index="1"]
+region_rect = Rect2(24, 56, 8, 8)

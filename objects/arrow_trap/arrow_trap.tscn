@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bx6debc3if30v"]
+
+[ext_resource type="Script" uid="uid://8s871a3h51yx" path="res://objects/arrow_trap/arrow_trap.gd" id="1_cpb4q"]
+[ext_resource type="PackedScene" uid="uid://bpewkwdbvv7j4" path="res://objects/arrow_trap/arrow/arrow.tscn" id="2_bj35y"]
+
+[node name="ArrowTrap" type="Node2D"]
+script = ExtResource("1_cpb4q")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+target_position = Vector2(0, 0)
+
+[node name="Arrow" parent="." instance=ExtResource("2_bj35y")]

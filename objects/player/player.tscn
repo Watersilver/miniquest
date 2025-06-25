@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=3 uid="uid://it1cyyrgkatr"]
+
+[ext_resource type="Script" uid="uid://8yu8573n01nd" path="res://objects/player/player.gd" id="1_g7ett"]
+[ext_resource type="PackedScene" uid="uid://dy08oreqdktro" path="res://components/character_animations/character_animations.tscn" id="2_g7ett"]
+[ext_resource type="Script" uid="uid://w6extbk40gde" path="res://objects/player/bat_mana_center.gd" id="3_jnjyq"]
+[ext_resource type="PackedScene" uid="uid://df6jrg7bwgpii" path="res://components/health/health.tscn" id="3_ssrue"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ssrue"]
+size = Vector2(4, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jnjyq"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7ett"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gnkmh"]
+size = Vector2(1, 2)
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_g7ett")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 256
+collision_mask = 3
+
+[node name="NormalShape" type="CollisionShape2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_ssrue")
+
+[node name="BatShape" type="CollisionShape2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_jnjyq")
+
+[node name="CharacterAnimations" parent="CharacterBody2D" instance=ExtResource("2_g7ett")]
+unique_name_in_owner = true
+
+[node name="LadderDetector" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/LadderDetector"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_g7ett")
+debug_color = Color(0.697941, 0.487454, 0.215366, 0.42)
+
+[node name="WaterDetector" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/WaterDetector"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_g7ett")
+debug_color = Color(0.202461, 0.554576, 0.857374, 0.42)
+
+[node name="WaterSurfaceDetector" type="RayCast2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+position = Vector2(0, -8)
+target_position = Vector2(0, 8)
+collision_mask = 128
+collide_with_areas = true
+
+[node name="Hitbox" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_g7ett")
+debug_color = Color(0.931882, 0.261252, 1.92523e-07, 0.42)
+
+[node name="SwimJumpDetector" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 129
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/SwimJumpDetector"]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_gnkmh")
+
+[node name="BatManaCenter" type="Node2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+position = Vector2(0, -4)
+script = ExtResource("3_jnjyq")
+
+[node name="StateDebugLabel" type="Label" parent="CharacterBody2D"]
+unique_name_in_owner = true
+visible = false
+offset_left = -19.0
+offset_top = -20.0
+offset_right = 21.0
+offset_bottom = -8.0
+text = "Ass"
+horizontal_alignment = 1
+
+[node name="Health" parent="." instance=ExtResource("3_ssrue")]
+unique_name_in_owner = true
+maximum = 6.0
+value = 6.0
+
+[connection signal="griffon_ceiling_smash" from="." to="." method="_on_griffon_ceiling_smash"]
+[connection signal="area_entered" from="CharacterBody2D/Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="CharacterBody2D/Hitbox" to="." method="_on_hitbox_body_entered"]

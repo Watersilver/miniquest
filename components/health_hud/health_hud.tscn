@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://wvs0svl8aeyc"]
+
+[ext_resource type="Script" uid="uid://b3wqs2s7hkkbh" path="res://components/health_hud/health_hud.gd" id="1_10nqm"]
+[ext_resource type="Texture2D" uid="uid://c17oyow80ldnm" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Other.png" id="2_620b7"]
+
+[node name="HealthHud" type="Node2D"]
+script = ExtResource("1_10nqm")
+
+[node name="Bar" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Bar"]
+texture = ExtResource("2_620b7")
+region_enabled = true
+region_rect = Rect2(88, 32, 8, 8)

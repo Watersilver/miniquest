@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw5b0srfo2hd0"]
+
+[ext_resource type="PackedScene" uid="uid://dd75ml4vwpveo" path="res://objects/switch_blocks/switch_block.tscn" id="1_c63kp"]
+
+[node name="SwitchBlock" instance=ExtResource("1_c63kp")]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4c0m4ew8x0e0"]
+
+[ext_resource type="PackedScene" uid="uid://dd75ml4vwpveo" path="res://objects/switch_blocks/switch_block.tscn" id="1_6s8x6"]
+
+[node name="SwitchBlock" instance=ExtResource("1_6s8x6")]
+color = 5
+
+[node name="Sprite" parent="StaticBody2D" index="1"]
+region_rect = Rect2(40, 56, 8, 8)

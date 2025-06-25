@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjlsknmiiv8gs"]
+
+[ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="1_2kn5q"]
+[ext_resource type="Script" uid="uid://bjcsvxo080h26" path="res://objects/box/box.gd" id="1_xv1ks"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2kn5q"]
+size = Vector2(8, 8)
+
+[node name="Box" type="Node2D"]
+script = ExtResource("1_xv1ks")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(4, 4)
+texture = ExtResource("1_2kn5q")
+region_enabled = true
+region_rect = Rect2(16, 64, 8, 8)
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(4, 4)
+shape = SubResource("RectangleShape2D_2kn5q")

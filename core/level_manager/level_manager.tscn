@@ -1,0 +1,292 @@
+[gd_scene load_steps=8 format=3 uid="uid://o36v7l1i26g4"]
+
+[ext_resource type="Script" uid="uid://bfwrgb1f2mcs2" path="res://core/level_manager/level_manager.gd" id="1_hoaxj"]
+[ext_resource type="PackedScene" uid="uid://wvs0svl8aeyc" path="res://components/health_hud/health_hud.tscn" id="2_wlvk2"]
+[ext_resource type="Texture2D" uid="uid://bwl5l2moh0odr" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Frames-and-Banners.png" id="3_2vneh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30fk5"]
+size = Vector2(160, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ik5p"]
+size = Vector2(8, 104)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7iaam"]
+size = Vector2(160, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0lf06"]
+size = Vector2(8, 104)
+
+[node name="LevelManager" type="Node2D"]
+script = ExtResource("1_hoaxj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" type="Control" parent="CanvasLayer"]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Hud"]
+layout_mode = 0
+offset_top = 104.0
+offset_right = 160.0
+offset_bottom = 120.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Hud/MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Hud/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 28
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Hud/MarginContainer/MarginContainer"]
+position = Vector2(28, 4)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(32, 8, 8, 8)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Hud/MarginContainer/MarginContainer"]
+position = Vector2(28, 10)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(32, 8, 8, 8)
+
+[node name="RoomName" type="Label" parent="CanvasLayer/Hud/MarginContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "Room Name"
+
+[node name="HealthHud" parent="CanvasLayer" instance=ExtResource("2_wlvk2")]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(3, 118)
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+z_index = 1
+position = Vector2(4, 108)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(128, 72, 8, 8)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+position = Vector2(152, 0)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(152, 72, 8, 8)
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(8, 0)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D4" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(16, 0)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D5" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(20, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D6" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(28, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D7" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(36, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D8" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(44, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D9" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(52, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D10" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(60, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D11" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(68, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D12" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(76, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D13" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(84, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D14" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(92, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D15" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(100, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D16" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(108, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D17" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(116, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D18" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(124, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D19" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(132, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="Sprite2D20" type="Sprite2D" parent="CanvasLayer/Sprite2D"]
+z_index = 1
+texture_repeat = 2
+position = Vector2(140, -4)
+texture = ExtResource("3_2vneh")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 8, 8)
+
+[node name="TopExit" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="TopExitShape" type="CollisionShape2D" parent="TopExit"]
+unique_name_in_owner = true
+position = Vector2(80, -4)
+shape = SubResource("RectangleShape2D_30fk5")
+
+[node name="RightExit" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="RightExitShape" type="CollisionShape2D" parent="RightExit"]
+unique_name_in_owner = true
+position = Vector2(164, 52)
+shape = SubResource("RectangleShape2D_2ik5p")
+
+[node name="BottomExit" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="BottomExitShape" type="CollisionShape2D" parent="BottomExit"]
+unique_name_in_owner = true
+position = Vector2(80, 108)
+shape = SubResource("RectangleShape2D_7iaam")
+
+[node name="LeftExit" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="LeftExitShape" type="CollisionShape2D" parent="LeftExit"]
+unique_name_in_owner = true
+position = Vector2(-4, 52)
+shape = SubResource("RectangleShape2D_0lf06")
+
+[connection signal="body_entered" from="TopExit" to="." method="_on_top_exit_body_entered"]
+[connection signal="body_entered" from="RightExit" to="." method="_on_right_exit_body_entered"]
+[connection signal="body_entered" from="BottomExit" to="." method="_on_bottom_exit_body_entered"]
+[connection signal="body_entered" from="LeftExit" to="." method="_on_left_exit_body_entered"]

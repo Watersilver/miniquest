@@ -1,0 +1,13 @@
+upgrades:
+	* swimming (can stay on water surface)
+	* water walk (can walk underwater)
+	* underwater movement (infinite jumps if has swimming)
+	* run
+	* jump
+		-> double jump
+		-> griffin jump
+	* fairy transform (reach high, fit in small spaces)
+	* controlled fall
+	* backdash
+	* dmg up
+	* blink?? (down + dash, not implemented yet)

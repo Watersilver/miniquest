@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://d18n5d4asr05x"]
+
+[ext_resource type="Script" uid="uid://brghxabwevbam" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://it1cyyrgkatr" path="res://objects/player/player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://o36v7l1i26g4" path="res://core/level_manager/level_manager.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cgndmplwe3ut4" path="res://objects/debug/debug.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cdpqnb8c4ak7f" path="res://levels/dungeon/dungeon.tscn" id="5_lquwl"]
+
+[node name="Main" type="Node"]
+process_mode = 3
+script = ExtResource("1_h2yge")
+
+[node name="LevelManager" parent="." node_paths=PackedStringArray("level", "player", "camera") instance=ExtResource("2_1bvp3")]
+level = NodePath("Dungeon")
+player = NodePath("../Player")
+camera = NodePath("../Player/Camera2D")
+
+[node name="Dungeon" parent="LevelManager" instance=ExtResource("5_lquwl")]
+
+[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
+unique_name_in_owner = true
+position = Vector2(80, 56)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, -28)
+
+[node name="Debug" parent="." instance=ExtResource("4_1bvp3")]
+unique_name_in_owner = true
