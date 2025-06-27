@@ -16,6 +16,7 @@ class_name TrapArrow
 
 
 signal collided
+signal out_of_bounds
 
 
 ## How often does it move (secs)
@@ -29,10 +30,14 @@ signal collided
 
 var _t := 0.0
 var _collided := false
+var _out_of_bounds := false
 
 
 func has_collided():
 	return _collided
+
+func is_out_of_bounds():
+	return _out_of_bounds
 
 
 func reset():
@@ -48,6 +53,7 @@ func reset():
 	
 	arrowfront.visible = true
 	_collided = false
+	_out_of_bounds = false
 	_t = 0
 
 
@@ -73,6 +79,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if _out_of_bounds: return
+	
 	if not _collided:
 		if _t >= freq:
 			arrowback.visible = true
@@ -89,3 +97,9 @@ func _process(delta: float) -> void:
 			if _t >= linger_time:
 				arrowback.visible = false
 	_t += delta
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	hitbox_shape.disabled = true
+	_out_of_bounds = true
+	out_of_bounds.emit()

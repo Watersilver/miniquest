@@ -56,3 +56,9 @@ monitoring = false
 unique_name_in_owner = true
 position = Vector2(1.5, 0.5)
 shape = SubResource("RectangleShape2D_u38uc")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(2.38419e-07, 0.5)
+scale = Vector2(0.4, 0.15)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

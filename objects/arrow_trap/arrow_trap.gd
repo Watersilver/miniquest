@@ -19,6 +19,7 @@ func _ready() -> void:
 	ray_cast_2d.force_raycast_update()
 	
 	arrow.collided.connect(func(): spawn_timer = 1)
+	arrow.out_of_bounds.connect(func(): spawn_timer = 0.1)
 
 
 func _physics_process(delta: float) -> void:
