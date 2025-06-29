@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dywxslirgcfu5"]
+
+[ext_resource type="Script" uid="uid://cgymoo4nlptey" path="res://objects/skill_collectible/skill_collectible.gd" id="1_fh5cx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_llmjp"]
+radius = 3.0
+
+[node name="SkillCollectible" type="Node2D"]
+script = ExtResource("1_fh5cx")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_llmjp")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
