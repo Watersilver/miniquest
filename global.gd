@@ -29,14 +29,6 @@ enum Switch {
 	ORANGE
 }
 
-class DifficultyRating:
-	enum Tester {
-		Dev
-	}
-	enum Difficulty {
-		EASY,NORMAL,HARD
-	}
-
 class _SavedData extends Resource:
 	pass
 
@@ -56,7 +48,7 @@ class _Upgrades extends Resource:
 	@export var element_fire := false
 	@export var element_ice := false
 	
-	@export var weapon := Weapon.NONE
+	@export var weapon := Weapon.STAFF
 
 class _Checkpoint:
 	var room := Vector2i(0,0)

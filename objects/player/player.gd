@@ -1,6 +1,7 @@
 extends Node2D
 class_name Player
 
+const PLAYER_ATTACK = preload("res://objects/player_attack/player_attack.tscn")
 
 signal griffon_ceiling_smash
 
@@ -27,6 +28,8 @@ const JUMP_RECOVERY_MIN_DURATION := 0.05
 const SLOW_FALL_THRESHOLD := 50.0
 const WALK_SPEED := 50.0
 const BAT_DURATION := 3.0
+
+var attack: PlayerAttack
 
 
 func get_room_block_coordinates(room: Room) -> Vector2i:
@@ -188,7 +191,7 @@ func _should_backdash():
 	return _backdash_cooldown <= 0 and body.is_on_floor() and Global.session.upgrades.backdash and Input.is_action_just_pressed("dodge")
 
 func _should_attack():
-	return _attack_cooldown <= 0 and Input.is_action_just_pressed("attack") and Global.session.upgrades.weapon != Global.Weapon.NONE
+	return not is_instance_valid(attack) and _attack_cooldown <= 0 and Input.is_action_just_pressed("attack") and Global.session.upgrades.weapon != Global.Weapon.NONE
 
 func _should_climb():
 	return Input.is_action_pressed("move_up") and ladder_detector.has_overlapping_bodies() and _climb_cooldown <= 0
@@ -308,6 +311,14 @@ func _physics_process(delta: float) -> void:
 					velocity.x = 0
 				State.ATTACK:
 					_state_countdown = 0.1
+					var att := PLAYER_ATTACK.instantiate()
+					att.weapon = Global.session.upgrades.weapon
+					att.direction = _direction
+					att.position = position + body.position + Vector2(_direction * 6,-4)
+					add_sibling(att)
+					var i := att.get_index()
+					att.get_parent().move_child(att, i - 1)
+					attack = att
 				State.BAT:
 					normal_shape.disabled = true
 					bat_shape.disabled = false

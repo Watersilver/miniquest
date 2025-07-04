@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://d16y4pi46eriw"]
+
+[ext_resource type="Script" uid="uid://cnkcxk62cuk5h" path="res://objects/player_attack/player_attack.gd" id="1_t4hjj"]
+[ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="2_qw415"]
+[ext_resource type="Shader" uid="uid://crqf558ww8rhu" path="res://shaders/outline.gdshader" id="3_evdib"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="3_qw415"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_evdib"]
+shader = ExtResource("3_evdib")
+shader_parameter/clr = Color(0, 0, 0, 1)
+shader_parameter/type = 2
+shader_parameter/thickness = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5bt2j"]
+shader = ExtResource("3_evdib")
+shader_parameter/clr = Color(0, 0, 0, 1)
+shader_parameter/type = 2
+shader_parameter/thickness = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t4hjj"]
+radius = 2.0
+
+[node name="PlayerAttack" type="Area2D"]
+collision_layer = 512
+collision_mask = 1025
+script = ExtResource("1_t4hjj")
+
+[node name="ArrowSpr" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_evdib")
+texture = ExtResource("2_qw415")
+region_enabled = true
+region_rect = Rect2(88, 8, 8, 8)
+
+[node name="AttackSpr" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_5bt2j")
+position = Vector2(0, 2)
+texture = ExtResource("3_qw415")
+region_enabled = true
+region_rect = Rect2(16, 472, 8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t4hjj")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(5.96046e-07, 5.96046e-07)
+scale = Vector2(0.6, 0.6)

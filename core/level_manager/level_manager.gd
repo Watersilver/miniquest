@@ -86,7 +86,16 @@ func _ready() -> void:
 	
 	health_hud.player = player
 	
-	call_deferred("go_to_room", level.start)
+	var p := level.spawn_point.position if level.spawn_point else Vector2(level.position.x + Room.BLOCK_WIDTH / 2.0, level.position.y + Room.BLOCK_HEIGHT / 2.0)
+	var room_coords := p
+	room_coords.x /= Room.BLOCK_WIDTH
+	room_coords.y /= Room.BLOCK_HEIGHT
+	room_coords = room_coords.floor()
+	var player_pos := p
+	player_pos.x -= room_coords.x * Room.BLOCK_WIDTH
+	player_pos.y -= room_coords.y * Room.BLOCK_HEIGHT
+	
+	call_deferred("go_to_room", Vector2i(room_coords), player_pos)
 
 
 func _notification(what: int) -> void:

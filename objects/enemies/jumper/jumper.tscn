@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cj25b2mpqu35s"]
+[gd_scene load_steps=7 format=3 uid="uid://cj25b2mpqu35s"]
 
 [ext_resource type="Script" uid="uid://d1di5awybi227" path="res://objects/enemies/jumper/jumper.gd" id="1_58ogx"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_ip3ub"]
@@ -11,6 +11,9 @@ radius = 2.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_58ogx"]
 radius = 80.0999
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i6yb1"]
+size = Vector2(6, 6)
 
 [node name="Jumper" type="CharacterBody2D"]
 collision_layer = 0
@@ -28,6 +31,7 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_58ogx")
 
 [node name="AttackArea" type="Area2D" parent="."]
+unique_name_in_owner = true
 collision_layer = 8
 collision_mask = 0
 monitoring = false
@@ -45,3 +49,13 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sight"]
 shape = SubResource("CircleShape2D_58ogx")
+
+[node name="Hitbox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 1024
+collision_mask = 512
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_i6yb1")
+debug_color = Color(0.296501, 0.61089, 0.430645, 0.42)

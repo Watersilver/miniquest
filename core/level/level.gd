@@ -10,7 +10,7 @@ var _new_room_pos := Vector2(0,0)
 var _can_be_interacted_with := false
 
 
-@export var start := Vector2i(0,0)
+@export var spawn_point: Marker2D
 
 @export_tool_button("Add New Room (Insert)") var anr = func():
 	const ROOM = preload("res://core/room/room.tscn")
