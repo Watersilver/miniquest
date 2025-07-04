@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://it1cyyrgkatr"]
+[gd_scene load_steps=10 format=3 uid="uid://it1cyyrgkatr"]
 
 [ext_resource type="Script" uid="uid://8yu8573n01nd" path="res://objects/player/player.gd" id="1_g7ett"]
 [ext_resource type="PackedScene" uid="uid://dy08oreqdktro" path="res://components/character_animations/character_animations.tscn" id="2_g7ett"]
@@ -16,6 +16,9 @@ size = Vector2(2, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnkmh"]
 size = Vector2(1, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xkryw"]
+size = Vector2(4, 6)
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_g7ett")
@@ -100,10 +103,18 @@ offset_bottom = -8.0
 text = "Ass"
 horizontal_alignment = 1
 
+[node name="IsInWallDetector" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/IsInWallDetector"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_xkryw")
+
 [node name="Health" parent="." instance=ExtResource("3_ssrue")]
 unique_name_in_owner = true
-maximum = 6.0
-value = 6.0
+maximum = 2.0
+value = 2.0
 
 [connection signal="griffon_ceiling_smash" from="." to="." method="_on_griffon_ceiling_smash"]
 [connection signal="area_entered" from="CharacterBody2D/Hitbox" to="." method="_on_hitbox_area_entered"]

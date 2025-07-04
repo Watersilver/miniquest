@@ -9,7 +9,6 @@ signal griffon_ceiling_smash
 # TODO: Why hurt state after death during respawn??
 
 # TODO: should always be able to teleport to checkpoint to avoid softlocks
-# TODO: Figure out what to when changing shapes after bat transform if you get stuck
 
 @onready var body: CharacterBody2D = %CharacterBody2D
 @onready var anim: CharacterAnimations = %CharacterAnimations
@@ -20,6 +19,7 @@ signal griffon_ceiling_smash
 @onready var water_detector: Area2D = %WaterDetector
 @onready var water_surface_detector: RayCast2D = %WaterSurfaceDetector
 @onready var swim_jump_detector: Area2D = %SwimJumpDetector
+@onready var is_in_wall_detector: Area2D = %IsInWallDetector
 #@onready var state_debug_label: Label = %StateDebugLabel
 
 const JUMP_INIT_SPEED := 180.0
@@ -109,6 +109,7 @@ var _lung_capacity := 0.0
 var _swim_mode := true
 var _fall_peak := INF
 var _waterwalk_to_swim_cooldown := 0.0
+var _inside_wall_timer := 0.0
 
 var _init_vel := Vector2(0,0)
 var velocity: Vector2:
@@ -899,6 +900,16 @@ func _physics_process(delta: float) -> void:
 		#if t > 1000:
 			#print(t)
 		#start_time = Time.get_ticks_msec()
+	
+	if _state != State.BAT and _state != State.DAED:
+		if is_in_wall_detector.has_overlapping_bodies():
+			if _inside_wall_timer > 0.25:
+				_inside_wall_timer = 0
+				_state = State.DAED
+			_inside_wall_timer += delta
+		else:
+			_inside_wall_timer -= delta
+			_inside_wall_timer = max(0, _inside_wall_timer)
 #
 #var start_time := 0
 

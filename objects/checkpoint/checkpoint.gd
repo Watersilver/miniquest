@@ -1,7 +1,16 @@
 extends Area2D
+class_name Checkpoint
 
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
+
+
+static func mark() -> void:
+	Refs.level_manager.player.health.value = Refs.level_manager.player.health.maximum
+	Global.session.checkpoint.room = Refs.level_manager.get_room_coordinates()
+	Global.session.checkpoint.pos = Refs.level_manager.player.body.global_position
+	Global.session.checkpoint.upgrades = Global.session.upgrades.duplicate()
+	Global.session.checkpoint.saved_data = Global.session.saved_data.duplicate()
 
 
 func is_active():
@@ -12,11 +21,7 @@ var _toggled := 0.0:
 	set(t):
 		_toggled = maxf(0,t)
 func _toggle(_fuckyou):
-	Refs.level_manager.player.health.value = Refs.level_manager.player.health.maximum
-	Global.session.checkpoint.room = Refs.level_manager.get_room_coordinates()
-	Global.session.checkpoint.pos = Refs.level_manager.player.body.global_position
-	Global.session.checkpoint.upgrades = Global.session.upgrades.duplicate()
-	Global.session.checkpoint.saved_data = Global.session.saved_data.duplicate()
+	mark()
 	
 	sprite_2d.region_rect.position.x = 0
 	_toggled = 0.5

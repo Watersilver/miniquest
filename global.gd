@@ -43,7 +43,7 @@ class _Upgrades extends Resource:
 	@export var swim := false
 	@export var water_walk := false
 	
-	@export var extra_lung_capacity := 0.0
+	#@export var extra_lung_capacity := 0.0
 	
 	@export var element_fire := false
 	@export var element_ice := false

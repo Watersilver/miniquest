@@ -9,7 +9,11 @@ class_name LevelManager
 @onready var bottom_exit_shape: CollisionShape2D = %BottomExitShape
 @onready var left_exit_shape: CollisionShape2D = %LeftExitShape
 
-@export var level: Level
+@export var level: Level:
+	set(l):
+		level = l
+		if is_node_ready():
+			_spawn_to_level()
 @export var player: Player
 @export var camera: Camera2D
 
@@ -35,13 +39,15 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	
 	
 	# Clear old room
+	var old_room := current_room
 	if is_instance_valid(current_room) and current_room.is_inside_tree():
 		current_room.queue_free()
 		current_room = null
 	
 	
 	# Load new room
-	current_room = level.get_room_at(destination).instantiate()
+	current_room = room_scene.instantiate()
+	if old_room: old_room.name = "to." + current_room.name # Ensure there won't be a name collision
 	_room_coordinates = level.get_room_origin_at(destination)
 	add_child(current_room)
 	
@@ -80,12 +86,7 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	player.body.global_position = new_player_pos
 
 
-
-func _ready() -> void:
-	Refs.level_manager = self
-	
-	health_hud.player = player
-	
+func _spawn_to_level():
 	var p := level.spawn_point.position if level.spawn_point else Vector2(level.position.x + Room.BLOCK_WIDTH / 2.0, level.position.y + Room.BLOCK_HEIGHT / 2.0)
 	var room_coords := p
 	room_coords.x /= Room.BLOCK_WIDTH
@@ -95,7 +96,42 @@ func _ready() -> void:
 	player_pos.x -= room_coords.x * Room.BLOCK_WIDTH
 	player_pos.y -= room_coords.y * Room.BLOCK_HEIGHT
 	
-	call_deferred("go_to_room", Vector2i(room_coords), player_pos)
+	go_to_room(Vector2i(room_coords), player_pos)
+	
+	var s := current_room.st_up_skills
+	
+	var check_bitflag := func(flag: int, index: int) -> bool:
+		var value := 2 ** index
+		return (flag & value) == value
+	
+	if check_bitflag.call(s, 0):
+		Global.session.upgrades.controlled_fall = true
+	if check_bitflag.call(s, 1):
+		Global.session.upgrades.jump = true
+	if check_bitflag.call(s, 2):
+		Global.session.upgrades.double_jump = true
+	if check_bitflag.call(s, 3):
+		Global.session.upgrades.backdash = true
+	if check_bitflag.call(s, 4):
+		Global.session.upgrades.run = true
+	if check_bitflag.call(s, 5):
+		Global.session.upgrades.bat = true
+	if check_bitflag.call(s, 6):
+		Global.session.upgrades.griffon = true
+	if check_bitflag.call(s, 7):
+		Global.session.upgrades.swim = true
+	if check_bitflag.call(s, 8):
+		Global.session.upgrades.water_walk = true
+	
+	Checkpoint.mark()
+
+
+func _ready() -> void:
+	Refs.level_manager = self
+	
+	health_hud.player = player
+	
+	call_deferred("_spawn_to_level")
 
 
 func _notification(what: int) -> void:

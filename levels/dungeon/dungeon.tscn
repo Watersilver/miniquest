@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://cdpqnb8c4ak7f"]
+[gd_scene load_steps=18 format=4 uid="uid://cdpqnb8c4ak7f"]
 
 [ext_resource type="PackedScene" uid="uid://bp0ron36y8t7b" path="res://core/level/level.tscn" id="1_b571b"]
 [ext_resource type="Script" uid="uid://bqbgd3yofyn5b" path="res://levels/dungeon/dungeon.gd" id="2_eu48m"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cj25b2mpqu35s" path="res://objects/enemies/jumper/jumper.tscn" id="7_5jar8"]
 [ext_resource type="PackedScene" uid="uid://dywxslirgcfu5" path="res://objects/skill_collectible/skill_collectible.tscn" id="8_ymkqj"]
 [ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="9_daf8d"]
+[ext_resource type="Script" uid="uid://c8olu2g7ognry" path="res://core/room/room.gd" id="10_daf8d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jar8"]
 size = Vector2(88, 32)
@@ -45,14 +46,18 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ymkqj"]
+size = Vector2(136, 56)
+
 [node name="Dungeon" node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_b571b")]
 script = ExtResource("2_eu48m")
 spawn_point = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Marker2D" parent="." index="0"]
-position = Vector2(-552, 600)
+position = Vector2(-296, 984)
 
 [node name="Welcome to DIE!" parent="." index="1" instance=ExtResource("3_l1p8w")]
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -66,6 +71,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="Empty Space" parent="." index="2" instance=ExtResource("3_l1p8w")]
 position = Vector2(0, 104)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -77,6 +83,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="Which way?" parent="." index="3" instance=ExtResource("3_l1p8w")]
 position = Vector2(0, 208)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -88,6 +95,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="Careful now" parent="." index="4" instance=ExtResource("3_l1p8w")]
 position = Vector2(-160, 208)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -105,6 +113,7 @@ position = Vector2(80, 80)
 
 [node name="Timing" parent="." index="5" instance=ExtResource("3_l1p8w")]
 position = Vector2(-320, 208)
+st_up_skills = 0
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
 hide_exits_up = Array[int]([0])
@@ -127,6 +136,7 @@ secs_till_jump = 0.0
 
 [node name="What\'s up there?" parent="." index="6" instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 208)
+st_up_skills = 0
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -138,6 +148,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="Windy, not windy" parent="." index="7" instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 312)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 
@@ -148,6 +159,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="Chains" parent="." index="8" instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 416)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 
@@ -170,6 +182,7 @@ position = Vector2(32, 40)
 
 [node name="Room6" parent="." index="9" instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 520)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 
@@ -195,6 +208,7 @@ shape = SubResource("RectangleShape2D_e4w0t")
 
 [node name="Don\'t give up" parent="." index="10" instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 520)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
@@ -211,6 +225,7 @@ position = Vector2(76, 80)
 
 [node name="Uncanny gravity" parent="." index="11" instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 416)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 
@@ -221,6 +236,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="Vertical movement" parent="." index="12" instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 312)
+st_up_skills = 0
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 
@@ -241,8 +257,50 @@ frame_progress = 0.25443
 
 [node name="A shortcut" parent="." index="13" instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 208)
+st_up_skills = 0
 exit_markers_down = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
 [node name="Dare you enter my magical realm? (add piss to water tileset_ That\'s right, add piss)" parent="." index="14" instance=ExtResource("3_l1p8w")]
 position = Vector2(-160, 416)
+st_up_skills = 0
+
+[node name="Watery Crossroads" parent="." index="15" instance=ExtResource("3_l1p8w")]
+position = Vector2(-160, 832)
+st_up_skills = 390
+
+[node name="TileLayer1" type="TileMapLayer" parent="Watery Crossroads" index="1"]
+tile_map_data = PackedByteArray("AAAAAAYABAABACAAAAABAAYABAABACAAAAACAAYABAAEABgAAAACAAcABAAEABkAAAACAAgABAAEABkAAAACAAkABAAEABkAAAACAAoABAAEABkAAAACAAsABAAAABgAAAADAAsABAABAB4AAAAEAAsABAABAB4AAAAFAAsABAABAB4AAAAGAAsABAABAB4AAAAHAAsABAABAB4AAAAIAAsABAAEABgAAAAIAAwABAAEABkAAAALAAwABAADABgAAAAMAAsABAADABgAAAAMAAwABAABABgAAAANAAsABAABAB4AAAAOAAsABAABAB4AAAAPAAsABAABAB4AAAAQAAsABAABAB4AAAARAAsABAABAB4AAAASAAsABAABAB4AAAASAAcABAAGABoAAAASAAYABAABABcAAAAPAAUABAADABgAAAAQAAUABAABAB4AAAARAAUABAABAB4AAAASAAUABAABAB4AAAAPAAYABAAGABoAAAAQAAYABAAAAB4AAAARAAYABAAAAB4AAAADAAYABgAKAAAAAAAEAAYABgAKAAAAAAAFAAYABgAKAAAAAAAGAAYABgAKAAAAAAAHAAYABgAKAAAAAAAIAAYABgAKAAAAAAAJAAYABgAKAAAAAAAKAAYABgAKAAAAAAALAAYABgAKAAAAAAAMAAYABgAKAAAAAAANAAYABgAKAAAAAAAOAAYABgAKAAAAAAAFAAoABgAUAAcAAAAGAAoABgAUAAgAAAAHAAoABgAUAAkAAAANAAoABgAVAAcAAAAOAAoABgAVAAgAAAAPAAoABgAVAAkAAAADAAcABgAUAAsAAAATAAsABAABAB4AAAATAAcABAAAAB4AAAATAAUABAABAB4AAAAQAAcABAARACAAAAAQAAgABAARACEAAAAQAAkABAARACIAAAAQAAoABAARACMAAAASAAgABAARACAAAAASAAkABAARACEAAAASAAoABAARACMAAAABAAgABAAZABsAAAAAAAoABAAYABsAAAACAAwABAAYABsAAAATAAYABAAZAB0AAAAOAAwABAAYAB0AAAAQAAwABAAZABsAAAARAAwABAAYABsAAAAQAAIABAAWABgAAAAQAAMABAAWABkAAAAQAAQABAAWABoAAAAQAAEAAQAAAAMAAAACAAUABAAEABgAAAABAAUABAABAB4AAAAAAAUABAABAB4AAAAMAAoABAALABAAAAALAAoABAAJABAAAAALAAsABAAJABIAAAA=")
+tile_set = ExtResource("5_5jar8")
+script = ExtResource("5_l1p8w")
+
+[node name="Label" type="Label" parent="Watery Crossroads" index="2"]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "At some point in the game
+you will have to choose 
+between a path that leads 
+to \"swim\" or \"water walk\".
+This Room can be progressed 
+(and leads to different
+places if you have either."
+
+[node name="Water" type="Area2D" parent="Watery Crossroads" index="3"]
+position = Vector2(40, 64)
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Watery Crossroads/Water" index="0"]
+position = Vector2(52, 12)
+shape = SubResource("RectangleShape2D_ymkqj")
+
+[node name="Hurry Fairy!" type="Node2D" parent="." index="16" instance=ExtResource("3_l1p8w")]
+position = Vector2(-320, 936)
+script = ExtResource("10_daf8d")
+st_up_skills = 34
+
+[node name="TileLayer1" type="TileMapLayer" parent="Hurry Fairy!" index="1"]
+tile_map_data = PackedByteArray("AAAGAAYABAADABoAAAAHAAYABAADABoAAAAIAAYABAADABoAAAAJAAYABAADABoAAAAKAAYABAADABoAAAALAAYABAADABoAAAAMAAYABAADABoAAAANAAYABAADABoAAAAOAAYABAAEABoAAAAOAAUABAAEABkAAAAOAAQABAAEABkAAAAOAAMABAAEABkAAAAOAAIABAAEABkAAAAOAAEABAAEABkAAAAGAAUABAADABkAAAAGAAQABAADABkAAAAGAAMABAADABkAAAAGAAIABAADABkAAAAGAAEABAADABkAAAAGAAAABAABABcAAAAOAAAABAAAABcAAAAFAAAABAAAAB4AAAAEAAAABAAAAB4AAAADAAAABAAAAB4AAAACAAAABAAAAB4AAAABAAAABAAAAB4AAAAAAAAABAAAAB4AAAAPAAAABAAAAB4AAAAQAAAABAAAAB4AAAARAAAABAAAAB4AAAASAAAABAAAAB4AAAATAAAABAAAAB4AAAAGAAcABAADABgAAAAHAAcABAABAB4AAAAIAAcABAABAB4AAAAJAAcABAABAB4AAAAKAAcABAABAB4AAAALAAcABAABAB4AAAAMAAcABAABAB4AAAANAAcABAABAB4AAAAOAAcABAAEABgAAAAGAAgABAADABkAAAAGAAkABAADABkAAAAOAAgABAAEABkAAAAOAAkABAAEABkAAAAFAAoABAABAB4AAAAEAAoABAABAB4AAAADAAoABAABAB4AAAACAAoABAABAB4AAAABAAoABAABAB4AAAAAAAoABAABAB4AAAAPAAoABAABAB4AAAAQAAoABAABAB4AAAARAAoABAABAB4AAAASAAoABAABAB4AAAATAAoABAABAB4AAAAGAAoABAABABgAAAAOAAoABAAAABgAAAAEAAgAAAAAAAgAAAAEAAkAAAAAAAkAAAAFAAgAAAABAAgAAAAFAAkAAAABAAkAAAABAAgAAAAIAAgAAAABAAkAAAAIAAkAAAACAAgAAAAJAAgAAAACAAkAAAAJAAkAAAADAAgAAAAKAAgAAAADAAkAAAAKAAkAAAAPAAkAAAAEAAYAAAAQAAkAAAAFAAYAAAARAAkAAAAGAAYAAAASAAkAAAAHAAYAAAACAAUAAQAKAAIAAAACAAYAAQAKAAMAAAAEAAUAAQAKAAIAAAAEAAYAAQAKAAMAAAADAAMAAQAKAAIAAAADAAQAAQAKAAMAAAAPAAUABAAYABgAABAPAAYABAAYABkAABA=")
+tile_set = ExtResource("5_5jar8")
+script = ExtResource("5_l1p8w")
