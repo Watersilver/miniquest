@@ -11,6 +11,14 @@ func _ready() -> void:
 	player.griffon_ceiling_smash.connect(_on_player_griffon_ceiling_smash)
 
 func _physics_process(_delta: float) -> void:
+	# Handle child pause
+	if MessageDisplayer.text.size() > 0:
+		for child in get_children():
+			child.process_mode = Node.PROCESS_MODE_DISABLED
+	else:
+		for child in get_children():
+			child.process_mode = Node.PROCESS_MODE_INHERIT
+	
 	if Input.is_physical_key_pressed(KEY_P):
 		if not _is_pressing_p:
 			if debug.is_inside_tree():

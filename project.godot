@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://global.tscn"
 AudioManager="*res://autoloads/audio_manager/audio_manager.tscn"
+MessageDisplayer="*res://autoloads/message_displayer/message_displayer.tscn"
 
 [display]
 

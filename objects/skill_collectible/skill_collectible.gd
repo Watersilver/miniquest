@@ -28,6 +28,7 @@ enum Type {
 @export var type := Type.NULL
 
 @export_multiline var acquisition_text := ""
+@export_multiline var extra_acquisition_text :Array[String] = []
 
 
 static func has_type(t: Type) -> bool:
@@ -89,4 +90,31 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 		Type.WATER_WALK:
 			u.water_walk = true
 	
+	var form_dict := {
+		"jump": _to_str(InputMap.action_get_events("jump"))
+	}
+	var at := acquisition_text.format(form_dict)
+	var eat := extra_acquisition_text
+	var i := 0
+	for t in eat:
+		eat[i] = t.format(form_dict)
+		i += 1
+	MessageDisplayer.text = [at]
+	MessageDisplayer.text.append_array(eat)
+	MessageDisplayer.text = MessageDisplayer.text.filter(func(t: String): return t.strip_edges() != "")
+	
 	queue_free()
+
+
+func _to_str(ae: Array[InputEvent]) -> String:
+	var t: Array[String] = []
+	var regex = RegEx.new()
+	regex.compile("\\(.*\\)")
+	for e in ae:
+		var text := e.as_text()
+		text = regex.sub(text, "").strip_edges()
+		t.push_back(text)
+	if t.size() > 1:
+		return "any of the following keys: (" + ", ".join(t) + ")"
+	else:
+		return t[0]

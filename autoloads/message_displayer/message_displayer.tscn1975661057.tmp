@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://gqe842iok3kq"]
+
+[ext_resource type="Script" uid="uid://bscns3473kpw" path="res://autoloads/message_displayer/message_displayer.gd" id="1_wbyfn"]
+[ext_resource type="Texture2D" uid="uid://bwl5l2moh0odr" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Frames-and-Banners.png" id="2_w5vpb"]
+
+[node name="MessageDisplayer" type="Node2D"]
+script = ExtResource("1_wbyfn")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 152.0
+offset_bottom = 88.0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_w5vpb")
+region_rect = Rect2(224, 72, 32, 32)
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="Label" type="Label" parent="MarginContainer/MarginContainer/ScrollContainer"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Your mama is so fat that I don't know that I can eat her phat ass because it's too big"
+autowrap_mode = 3
