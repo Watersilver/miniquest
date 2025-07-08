@@ -30,7 +30,8 @@ enum Switch {
 }
 
 class _SavedData extends Resource:
-	pass
+	@export var money := 0
+	@export var object_flags: Dictionary[String, bool] = {}
 
 class _Upgrades extends Resource:
 	@export var controlled_fall := false
@@ -44,11 +45,12 @@ class _Upgrades extends Resource:
 	@export var water_walk := false
 	
 	#@export var extra_lung_capacity := 0.0
+	@export var max_health := 1.0
 	
 	@export var element_fire := false
 	@export var element_ice := false
 	
-	@export var weapon := Weapon.STAFF
+	@export var weapon := Weapon.SWORD
 
 class _Checkpoint:
 	var room := Vector2i(0,0)
@@ -78,5 +80,9 @@ class Session:
 		var prev := _pressed_switches[col]
 		_pressed_switches[col] = true
 		if prev != true: switch_activated.emit(col)
+	
+	func load_checkpoint():
+		Global.session.upgrades = Global.session.checkpoint.upgrades
+		Global.session.saved_data = Global.session.checkpoint.saved_data
 
 var session := Session.new()

@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://capbfilrbk2im"]
+
+[ext_resource type="Script" uid="uid://catwux1m1qeaq" path="res://objects/underwater_bubble/underwater_bubble.gd" id="1_tfpvy"]
+[ext_resource type="Shader" uid="uid://crqf558ww8rhu" path="res://shaders/outline.gdshader" id="2_a5hmh"]
+[ext_resource type="Texture2D" uid="uid://du58dpms5bvcg" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Water.png" id="2_f80es"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_slmjj"]
+shader = ExtResource("2_a5hmh")
+shader_parameter/clr = Color(0, 0, 0, 1)
+shader_parameter/type = 2
+shader_parameter/thickness = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfpvy"]
+size = Vector2(4, 1)
+
+[node name="UnderwaterBubble" type="Node2D"]
+script = ExtResource("1_tfpvy")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_slmjj")
+texture = ExtResource("2_f80es")
+hframes = 22
+vframes = 35
+frame = 439
+
+[node name="WaterDetector" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -5)
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterDetector"]
+shape = SubResource("RectangleShape2D_tfpvy")
+
+[node name="IsAboveVisible" type="VisibleOnScreenNotifier2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(4.17233e-07, -9)
+scale = Vector2(0.8, 0.1)
+
+[node name="IsBelowVisible" type="VisibleOnScreenNotifier2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(2.84217e-14, 8)
+scale = Vector2(0.8, 0.1)

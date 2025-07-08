@@ -2,6 +2,7 @@ extends Node2D
 class_name Player
 
 const PLAYER_ATTACK = preload("res://objects/player_attack/player_attack.tscn")
+const UNDERWATER_BUBBLE = preload("res://objects/underwater_bubble/underwater_bubble.tscn")
 
 signal griffon_ceiling_smash
 
@@ -18,8 +19,10 @@ signal griffon_ceiling_smash
 @onready var bat_mana_center: BatManaCenter = %BatManaCenter
 @onready var water_detector: Area2D = %WaterDetector
 @onready var water_surface_detector: RayCast2D = %WaterSurfaceDetector
+@onready var water_bubble_possible_detector: Area2D = %WaterBubblePossibleDetector
 @onready var swim_jump_detector: Area2D = %SwimJumpDetector
 @onready var is_in_wall_detector: Area2D = %IsInWallDetector
+@onready var interaction_checker: Area2D = %InteractionChecker
 #@onready var state_debug_label: Label = %StateDebugLabel
 
 const JUMP_INIT_SPEED := 180.0
@@ -110,6 +113,7 @@ var _swim_mode := true
 var _fall_peak := INF
 var _waterwalk_to_swim_cooldown := 0.0
 var _inside_wall_timer := 0.0
+var _exhale_timer := 0.0
 
 var _init_vel := Vector2(0,0)
 var velocity: Vector2:
@@ -230,6 +234,9 @@ func _ready() -> void:
 	anim.animation_looped.connect(_on_character_animations_animation_looped)
 	velocity = _init_vel
 	
+	health.maximum = Global.session.upgrades.max_health
+	health.value = health.maximum
+	
 	for child in get_children():
 		if child is Camera2D:
 			child.reparent(body)
@@ -237,6 +244,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	health.maximum = Global.session.upgrades.max_health
+	health.value = health.value
+	
 	anim.weapon = Global.session.upgrades.weapon
 	
 	_backdash_cooldown -= delta
@@ -317,8 +327,9 @@ func _physics_process(delta: float) -> void:
 					att.direction = _direction
 					att.position = position + body.position + Vector2(_direction * 6,-4)
 					add_sibling(att)
-					var i := att.get_index()
-					att.get_parent().move_child(att, i - 1)
+					att.reparent(Refs.level_manager.current_room)
+					#var i := att.get_index()
+					#att.get_parent().move_child(att, i - 1)
 					attack = att
 				State.BAT:
 					normal_shape.disabled = true
@@ -655,6 +666,8 @@ func _physics_process(delta: float) -> void:
 				velocity = Vector2(h,v).normalized() * 15
 				_move()
 				_uncontrolled_jump_x_vel = WALK_SPEED * 0.5 * sign(velocity.x)
+				if sign(_uncontrolled_jump_x_vel) != 0:
+					_direction = Global.Direction.LEFT if _uncontrolled_jump_x_vel < 0 else Global.Direction.RIGHT
 				
 				if Input.is_action_just_pressed("jump") and Global.session.upgrades.jump:
 					if JUMP_ANTICIPATION_DURATION > 0 and not Global.session.upgrades.controlled_fall:
@@ -739,6 +752,8 @@ func _physics_process(delta: float) -> void:
 			
 			_move()
 			
+			_uncontrolled_jump_x_vel = velocity.x
+			
 			if Input.is_action_just_pressed("move_down") and Global.session.upgrades.water_walk:
 				_swim_mode = false
 				_state = State.NORMAL
@@ -758,15 +773,12 @@ func _physics_process(delta: float) -> void:
 					_state = State.NORMAL
 		State.DAED:
 			if _state_countdown < 0:
-				#if Global.session.checkpoint.room != Refs.level_manager.get_room_coordinates():
-					#Refs.level_manager.go_to_room(Global.session.checkpoint.room, Global.session.checkpoint.pos)
-				#else:
-					#global_position = Global.session.checkpoint.pos
+				Global.session.load_checkpoint()
 				Refs.level_manager.go_to_room(Global.session.checkpoint.room, Global.session.checkpoint.pos)
-				Global.session.upgrades = Global.session.checkpoint.upgrades
 				health.value = health.maximum
-				_i_frames = 0
+				_i_frames = 0.01
 				_uncontrolled_jump_x_vel = 0
+				velocity.x = 0
 				velocity.y = 0
 				
 				_state = State.NORMAL
@@ -910,11 +922,35 @@ func _physics_process(delta: float) -> void:
 		else:
 			_inside_wall_timer -= delta
 			_inside_wall_timer = max(0, _inside_wall_timer)
+	
+	
+	if _state != State.DAED:
+		_exhale_timer -= delta
+		
+		if water_bubble_possible_detector.has_overlapping_areas():
+			
+			if _exhale_timer < 0:
+				var ub := UNDERWATER_BUBBLE.instantiate()
+				ub.rises = true
+				Refs.level_manager.current_room.add_child(ub)
+				ub.global_position = body.global_position
+				ub.position.x += 1
+				ub.position.y -= 6
+		
+		if _exhale_timer < 0:
+			_exhale_timer = 1 + randf()
+	
+	if interaction_checker.has_overlapping_areas():
+		interaction_checker.visible = true
+	else:
+		interaction_checker.visible = false
 #
 #var start_time := 0
 
 
 func _take_damage(dmg: int = 1):
+	if _state == State.DAED: return
+	if _state == State.HURT: return
 	if _i_frames > 0: return
 	_i_frames = 3
 	health.value -= max(dmg,0)

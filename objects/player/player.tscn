@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://it1cyyrgkatr"]
+[gd_scene load_steps=15 format=3 uid="uid://it1cyyrgkatr"]
 
 [ext_resource type="Script" uid="uid://8yu8573n01nd" path="res://objects/player/player.gd" id="1_g7ett"]
 [ext_resource type="PackedScene" uid="uid://dy08oreqdktro" path="res://components/character_animations/character_animations.tscn" id="2_g7ett"]
+[ext_resource type="Shader" uid="uid://crqf558ww8rhu" path="res://shaders/outline.gdshader" id="2_gnkmh"]
 [ext_resource type="Script" uid="uid://w6extbk40gde" path="res://objects/player/bat_mana_center.gd" id="3_jnjyq"]
 [ext_resource type="PackedScene" uid="uid://df6jrg7bwgpii" path="res://components/health/health.tscn" id="3_ssrue"]
+[ext_resource type="PackedScene" uid="uid://bot7kb0vk3nld" path="res://components/press_button_prompt/press_button_prompt.tscn" id="5_xkryw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ssrue"]
 size = Vector2(4, 6)
@@ -11,7 +13,19 @@ size = Vector2(4, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jnjyq"]
 size = Vector2(2, 2)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkryw"]
+shader = ExtResource("2_gnkmh")
+shader_parameter/clr = Color(0, 0, 0, 1)
+shader_parameter/type = 2
+shader_parameter/thickness = 1.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g7ett"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ow0dq"]
+size = Vector2(2, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4kly"]
 size = Vector2(2, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnkmh"]
@@ -39,7 +53,24 @@ visible = false
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_jnjyq")
 
-[node name="CharacterAnimations" parent="CharacterBody2D" instance=ExtResource("2_g7ett")]
+[node name="OutlineAdder" type="SubViewportContainer" parent="CharacterBody2D"]
+editor_description = "Using this subviewport container to add outline because using the shader directly on the sprite causes the outline to appear for out of bounds pixels. Rendering the sprite region on a subviewport makes it its own texture, so there are no out of bounds pixels. It can also allow for outline to be placed outside of the normal sprite size."
+material = SubResource("ShaderMaterial_xkryw")
+offset_left = -6.0
+offset_top = -9.0
+offset_right = 6.0
+offset_bottom = 1.0
+
+[node name="SubViewport" type="SubViewport" parent="CharacterBody2D/OutlineAdder"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(12, 10)
+render_target_update_mode = 4
+
+[node name="Positioner" type="Node2D" parent="CharacterBody2D/OutlineAdder/SubViewport"]
+position = Vector2(6, 9)
+
+[node name="CharacterAnimations" parent="CharacterBody2D/OutlineAdder/SubViewport/Positioner" instance=ExtResource("2_g7ett")]
 unique_name_in_owner = true
 
 [node name="LadderDetector" type="Area2D" parent="CharacterBody2D"]
@@ -62,6 +93,16 @@ position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_g7ett")
 debug_color = Color(0.202461, 0.554576, 0.857374, 0.42)
 
+[node name="WaterBubblePossibleDetector" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/WaterBubblePossibleDetector"]
+position = Vector2(0, -8.5)
+shape = SubResource("RectangleShape2D_ow0dq")
+debug_color = Color(0.202461, 0.554576, 0.857374, 0.42)
+
 [node name="WaterSurfaceDetector" type="RayCast2D" parent="CharacterBody2D"]
 unique_name_in_owner = true
 position = Vector2(0, -8)
@@ -78,6 +119,20 @@ collision_mask = 8
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_g7ett")
 debug_color = Color(0.931882, 0.261252, 1.92523e-07, 0.42)
+
+[node name="InteractionChecker" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+collision_mask = 2048
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/InteractionChecker"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_m4kly")
+debug_color = Color(0.647721, 0.521018, 1.92523e-07, 0.42)
+
+[node name="PressButtonPrompt" parent="CharacterBody2D/InteractionChecker" instance=ExtResource("5_xkryw")]
+position = Vector2(0, -16)
 
 [node name="SwimJumpDetector" type="Area2D" parent="CharacterBody2D"]
 unique_name_in_owner = true

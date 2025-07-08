@@ -3,6 +3,7 @@ class_name LevelManager
 
 @onready var room_name: Label = %RoomName
 @onready var health_hud: HealthHud = %HealthHud
+@onready var money_lbl: Label = %MoneyLbl
 
 @onready var top_exit_shape: CollisionShape2D = %TopExitShape
 @onready var right_exit_shape: CollisionShape2D = %RightExitShape
@@ -86,6 +87,17 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	player.body.global_position = new_player_pos
 
 
+func get_unique_name(node: Node) -> String:
+	var u := ""
+	while (node):
+		u += node.name + "/"
+		node = node.get_parent()
+		if node == self:
+			u += node.name + "/"
+			break
+	return u
+
+
 func _spawn_to_level():
 	var p := level.spawn_point.position if level.spawn_point else Vector2(level.position.x + Room.BLOCK_WIDTH / 2.0, level.position.y + Room.BLOCK_HEIGHT / 2.0)
 	var room_coords := p
@@ -132,6 +144,13 @@ func _ready() -> void:
 	health_hud.player = player
 	
 	call_deferred("_spawn_to_level")
+
+
+func _process(_delta: float) -> void:
+	money_lbl.text = str(Global.session.saved_data.money)
+	if money_lbl.text.length() == 1:
+		money_lbl.text = "0" + money_lbl.text
+	money_lbl.text = ":" + money_lbl.text
 
 
 func _notification(what: int) -> void:

@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://dwqkqrgq6j3jn"]
+
+[ext_resource type="Script" uid="uid://np37h20xma84" path="res://objects/shop_item/shop_item.gd" id="1_sm7ym"]
+[ext_resource type="Texture2D" uid="uid://gw23isqhaw70" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Items.png" id="2_83r6v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_83r6v"]
+radius = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c03cr"]
+atlas = ExtResource("2_83r6v")
+region = Rect2(32, 32, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s21l7"]
+atlas = ExtResource("2_83r6v")
+region = Rect2(32, 40, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ts8ep"]
+atlas = ExtResource("2_83r6v")
+region = Rect2(32, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_210i1"]
+atlas = ExtResource("2_83r6v")
+region = Rect2(32, 56, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w588g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c03cr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s21l7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ts8ep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_210i1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ShopItem" type="Area2D"]
+collision_layer = 2048
+collision_mask = 256
+script = ExtResource("1_sm7ym")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_83r6v")
+
+[node name="LabelOffset" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -12)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="LabelOffset"]
+position = Vector2(-3, 0)
+sprite_frames = SubResource("SpriteFrames_w588g")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="LabelOffset"]
+unique_name_in_owner = true
+offset_left = 1.0
+offset_top = -7.0
+offset_right = 41.0
+offset_bottom = 5.0
+text = "5"

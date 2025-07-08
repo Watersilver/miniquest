@@ -3,12 +3,13 @@ class_name MainTileset
 
 const BOX = preload("res://objects/box/box.tscn")
 const ARROW_TRAP = preload("res://objects/arrow_trap/arrow_trap.tscn")
-
+const UNDERWATER_BUBBLE = preload("res://objects/underwater_bubble/underwater_bubble.tscn")
 
 class _ReplacedTile extends Resource:
 	enum Type {
 		BOX,
-		ARROW_TRAP
+		ARROW_TRAP,
+		UNDERWATER_BUBBLE
 	}
 	var type: Type
 	var coords := Vector2i(0,0)
@@ -305,6 +306,14 @@ func _ready() -> void:
 					waterfall.push_back(CellData.new(src, coords, new_atlas_coords))
 				else:
 					break
+		elif src == 6 and (_t(atlas_coords, [Rect2i(Vector2i(21,19), Vector2i(1,3))])):
+			var rt := _ReplacedTile.new()
+			rt.type = _ReplacedTile.Type.UNDERWATER_BUBBLE
+			rt.coords = coords
+			rt.variant = 0 if atlas_coords.y == 19 else 1 if atlas_coords.y == 20 else 2
+			_replacements.push_back(rt)
+			
+			erase_cell(coords)
 	
 	for r in _replacements:
 		match r.type:
@@ -321,6 +330,13 @@ func _ready() -> void:
 				box.position = r.coords
 				box.position *= 8
 				add_child(box)
+			_ReplacedTile.Type.UNDERWATER_BUBBLE:
+				var ub := UNDERWATER_BUBBLE.instantiate()
+				ub.starting_frame = r.variant
+				ub.position = r.coords * 8
+				ub.position.x += 4
+				ub.position.y += 4
+				add_child(ub)
 
 func _physics_process(delta: float) -> void:
 	_should_do_tilemap_update = false
