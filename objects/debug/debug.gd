@@ -10,7 +10,7 @@ extends Node
 @onready var swim: CheckBox = %Swim
 @onready var water_walk: CheckBox = %WaterWalk
 
-func _ready() -> void:
+func _process(_delta) -> void:
 	controlled_fall.button_pressed = Global.session.upgrades.controlled_fall
 	jump.button_pressed = Global.session.upgrades.jump
 	double_jump.button_pressed = Global.session.upgrades.double_jump

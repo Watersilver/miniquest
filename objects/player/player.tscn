@@ -72,6 +72,7 @@ position = Vector2(6, 9)
 
 [node name="CharacterAnimations" parent="CharacterBody2D/OutlineAdder/SubViewport/Positioner" instance=ExtResource("2_g7ett")]
 unique_name_in_owner = true
+npc_fallback_skin = null
 
 [node name="LadderDetector" type="Area2D" parent="CharacterBody2D"]
 unique_name_in_owner = true
@@ -123,7 +124,7 @@ debug_color = Color(0.931882, 0.261252, 1.92523e-07, 0.42)
 [node name="InteractionChecker" type="Area2D" parent="CharacterBody2D"]
 unique_name_in_owner = true
 visible = false
-collision_layer = 0
+collision_layer = 4096
 collision_mask = 2048
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/InteractionChecker"]

@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	# Handle child pause
-	if MessageDisplayer.text.size() > 0:
+	if MessageDisplayer.has_text() or BinaryChoiceManager.is_active():
 		for child in get_children():
 			child.process_mode = Node.PROCESS_MODE_DISABLED
 	else:

@@ -38,6 +38,11 @@ enum SkinType {
 
 @export var speed_scale := 1.0
 
+@export_group("NPC", "npc_")
+## If true, will use fallback skin in case the player has chosen the same skin as the chosen skin for this
+@export var npc_use_fallback_skin := true
+@export var npc_fallback_skin := SkinType.DEFAULT
+
 
 enum AnimationId {
 	IDLE,
@@ -107,6 +112,12 @@ func _ready() -> void:
 	_init_anim()
 
 func _process(_delta: float) -> void:
+	if not Engine.is_editor_hint():
+		if npc_use_fallback_skin and not Refs.level_manager.player.anim == self:
+			if Refs.level_manager.player.anim.skin == skin:
+				skin = npc_fallback_skin
+	
+	
 	animation_player.process_priority = process_priority - 1
 	
 	animation_player.speed_scale = speed_scale

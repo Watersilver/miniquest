@@ -5,6 +5,8 @@ class_name Room
 
 @export_group("Starting Upgrades", "st_up_")
 @export_flags("controlled_fall", "jump", "double_jump", "backdash", "run", "bat", "griffon", "swim", "water_walk") var st_up_skills := 0
+@export var st_up_gold := 0
+@export var st_up_health := 1
 
 const BLOCK_WIDTH := 160
 const BLOCK_HEIGHT := 120 - 16 #(Screen size - 16 to allow for hud on the bottom)

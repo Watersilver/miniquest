@@ -50,6 +50,7 @@ autowrap_mode = 3
 
 [node name="ButtonUpSpr" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 position = Vector2(140, 44)
 rotation = 1.5708
 texture = ExtResource("3_umaxm")
@@ -58,6 +59,7 @@ region_rect = Rect2(0, 120, 16, 16)
 
 [node name="ButtonDownSpr" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 position = Vector2(140, 84)
 rotation = 1.5708
 texture = ExtResource("3_umaxm")
@@ -66,6 +68,7 @@ region_rect = Rect2(0, 104, 16, 16)
 
 [node name="NextGraphic" type="NinePatchRect" parent="."]
 unique_name_in_owner = true
+visible = false
 modulate = Color(0.364706, 0.890196, 0.290196, 1)
 offset_left = 140.0
 offset_top = 76.0

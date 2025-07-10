@@ -135,6 +135,9 @@ func _spawn_to_level():
 	if check_bitflag.call(s, 8):
 		Global.session.upgrades.water_walk = true
 	
+	Global.session.saved_data.money = current_room.st_up_gold
+	Global.session.upgrades.max_health = current_room.st_up_health
+	
 	Checkpoint.mark()
 
 

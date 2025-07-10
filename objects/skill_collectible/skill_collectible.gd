@@ -99,9 +99,10 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 	for t in eat:
 		eat[i] = t.format(form_dict)
 		i += 1
-	MessageDisplayer.text = [at]
-	MessageDisplayer.text.append_array(eat)
-	MessageDisplayer.text = MessageDisplayer.text.filter(func(t: String): return t.strip_edges() != "")
+	var txt: Array[String] = [at]
+	txt.append_array(eat)
+	txt = txt.filter(func(t: String): return t.strip_edges() != "")
+	MessageDisplayer.display(txt)
 	
 	queue_free()
 

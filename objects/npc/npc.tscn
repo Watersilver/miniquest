@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddtplryl7v5i0"]
+
+[ext_resource type="Script" uid="uid://6k80wsexu1u5" path="res://objects/npc/npc.gd" id="1_nxjfv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15dke"]
+size = Vector2(24, 8)
+
+[node name="Npc" type="Area2D"]
+collision_layer = 2048
+collision_mask = 4096
+script = ExtResource("1_nxjfv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_15dke")

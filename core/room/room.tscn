@@ -7,6 +7,8 @@ size = Vector2(160, 104)
 
 [node name="Room" type="Node2D"]
 script = ExtResource("1_1r8uc")
+st_up_gold = null
+st_up_health = null
 
 [node name="RoomArea" type="Area2D" parent="."]
 visible = false

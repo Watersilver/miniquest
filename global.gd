@@ -50,7 +50,7 @@ class _Upgrades extends Resource:
 	@export var element_fire := false
 	@export var element_ice := false
 	
-	@export var weapon := Weapon.SWORD
+	@export var weapon := Weapon.NONE
 
 class _Checkpoint:
 	var room := Vector2i(0,0)

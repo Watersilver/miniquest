@@ -29,40 +29,36 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Hud"]
-layout_mode = 0
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Hud"]
+layout_mode = 2
 offset_top = 104.0
 offset_right = 160.0
 offset_bottom = 120.0
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Hud/MarginContainer"]
-layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Hud/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_constants/margin_left = 28
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Hud/MarginContainer/MarginContainer"]
-position = Vector2(28, 4)
-texture = ExtResource("3_2vneh")
-region_enabled = true
-region_rect = Rect2(32, 8, 8, 8)
-
-[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Hud/MarginContainer/MarginContainer"]
-position = Vector2(28, 10)
-texture = ExtResource("3_2vneh")
-region_enabled = true
-region_rect = Rect2(32, 8, 8, 8)
-
-[node name="RoomName" type="Label" parent="CanvasLayer/Hud/MarginContainer/MarginContainer"]
+[node name="RoomName" type="Label" parent="CanvasLayer/Hud"]
 unique_name_in_owner = true
 layout_mode = 2
+offset_left = 35.0
+offset_top = 102.0
+offset_right = 87.0
+offset_bottom = 114.0
 size_flags_horizontal = 0
 size_flags_vertical = 1
 text = "Room Name"
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Hud"]
+position = Vector2(36, 110)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(32, 8, 8, 8)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Hud"]
+visible = false
+position = Vector2(35, 116)
+texture = ExtResource("3_2vneh")
+region_enabled = true
+region_rect = Rect2(32, 8, 8, 8)
 
 [node name="HealthHud" parent="CanvasLayer" instance=ExtResource("2_wlvk2")]
 unique_name_in_owner = true
@@ -245,7 +241,7 @@ region_rect = Rect2(40, 0, 8, 8)
 
 [node name="MoneySpr" type="Sprite2D" parent="CanvasLayer"]
 z_index = 1
-position = Vector2(5, 109)
+position = Vector2(6, 109)
 texture = ExtResource("4_4tt8b")
 region_enabled = true
 region_rect = Rect2(0, 144, 8, 8)
@@ -254,9 +250,9 @@ region_rect = Rect2(0, 144, 8, 8)
 unique_name_in_owner = true
 offset_left = 5.0
 offset_top = -7.0
-offset_right = 17.0
+offset_right = 25.0
 offset_bottom = 5.0
-text = ":00"
+text = ":000"
 
 [node name="TopExit" type="Area2D" parent="."]
 unique_name_in_owner = true

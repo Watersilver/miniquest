@@ -235,7 +235,6 @@ func _ready() -> void:
 	velocity = _init_vel
 	
 	health.maximum = Global.session.upgrades.max_health
-	health.value = health.maximum
 	
 	for child in get_children():
 		if child is Camera2D:
@@ -245,7 +244,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	health.maximum = Global.session.upgrades.max_health
-	health.value = health.value
 	
 	anim.weapon = Global.session.upgrades.weapon
 	

@@ -6,7 +6,13 @@ signal changed(amount: float)
 func _ready() -> void:
 	value = value # limit value to max
 
-@export var maximum := 1.0
+@export var maximum := 1.0:
+	set(m):
+		if m > maximum:
+			maximum = m
+			value = m
+		else:
+			maximum = m
 @export var value := 1.0:
 	set(v):
 		var prev := value
