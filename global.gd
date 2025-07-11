@@ -37,7 +37,7 @@ class _Upgrades extends Resource:
 	@export var controlled_fall := false
 	@export var jump := false
 	@export var double_jump := false
-	@export var backdash := false
+	@export var backdash := true
 	@export var run := false
 	@export var bat := false
 	@export var griffon := false
@@ -50,7 +50,9 @@ class _Upgrades extends Resource:
 	@export var element_fire := false
 	@export var element_ice := false
 	
-	@export var weapon := Weapon.NONE
+	@export var weapon := Weapon.NONE:
+		set(w):
+			weapon = clampi(0, w, 4) as Weapon
 
 class _Checkpoint:
 	var room := Vector2i(0,0)

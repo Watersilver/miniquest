@@ -1,17 +1,27 @@
 @tool
 extends Area2D
 
-const SKILL_COLLECTIBLE = preload("res://objects/skill_collectible/skill_collectible.tscn")
-
 @onready var label_offset: Node2D = %LabelOffset
 @onready var label: Label = %Label
 
 @export var price := 5
 @export_multiline var description: Array[String] = []
 @export var offset := -12.0
+@export var offset_x := 0
 
-@export var spawn_on_buy: PackedScene = null
-@export var skill_type := SkillCollectible.Type.NULL
+#@export var spawn_on_buy: PackedScene = null
+
+enum Item {
+	NULL,
+	AIR_CONTROL,
+	LIFE_UP,
+	WEAPON,
+	FIRE,
+	ICE
+}
+
+@export var item := Item.NULL
+
 
 var _cooldown := 0.0
 
@@ -42,6 +52,7 @@ func _process(delta: float) -> void:
 	
 	label.text = str(price)
 	label_offset.position.y = offset
+	label_offset.position.x = offset_x
 
 func _on_description_end():
 	BinaryChoiceManager.prompt("Buy", "Don't buy", _on_buy_attempt)
@@ -49,17 +60,23 @@ func _on_description_end():
 func _on_buy_attempt():
 	if Global.session.saved_data.money >= price:
 		Global.session.saved_data.money -= price
-		if spawn_on_buy:
-			var s = spawn_on_buy.instantiate()
-			s.position = position
-			add_sibling(s)
-			s.global_position = Refs.level_manager.player.body.global_position
-		if skill_type != SkillCollectible.Type.NULL:
-			var sk = SKILL_COLLECTIBLE.instantiate()
-			sk.type = skill_type
-			sk.position = position
-			add_sibling(sk)
-			sk.global_position = Refs.level_manager.player.body.global_position
+		#if spawn_on_buy:
+			#var s = spawn_on_buy.instantiate()
+			#s.position = position
+			#add_sibling(s)
+			#s.global_position = Refs.level_manager.player.body.global_position
+		match item:
+			Item.AIR_CONTROL:
+				Global.session.upgrades.controlled_fall = true
+			Item.LIFE_UP:
+				Global.session.upgrades.max_health += 1
+			Item.FIRE:
+				Global.session.upgrades.element_fire = true
+			Item.ICE:
+				Global.session.upgrades.element_ice = true
+			Item.WEAPON:
+				@warning_ignore("int_as_enum_without_cast")
+				Global.session.upgrades.weapon += 1
 		Global.session.saved_data.object_flags[Refs.level_manager.get_unique_name(self)] = true
 		queue_free()
 	else:

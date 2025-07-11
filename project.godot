@@ -39,6 +39,7 @@ enabled=PackedStringArray("res://addons/TilesEditorBGSettingsPlugin/plugin.cfg")
 
 waypoints="Important location of rooms"
 connections="They describe what is required to move between the waypoints they connect"
+shop_items=""
 
 [gui]
 
@@ -143,6 +144,7 @@ dash={
 2d_physics/layer_11="enemy hitbox"
 2d_physics/layer_12="interactive"
 2d_physics/layer_13="player_interactivity_checker"
+2d_physics/layer_14="box"
 2d_physics/layer_31="room_area"
 2d_physics/layer_32="waypoint"
 

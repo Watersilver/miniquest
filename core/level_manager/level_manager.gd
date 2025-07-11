@@ -137,6 +137,7 @@ func _spawn_to_level():
 	
 	Global.session.saved_data.money = current_room.st_up_gold
 	Global.session.upgrades.max_health = current_room.st_up_health
+	Global.session.upgrades.weapon = current_room.st_up_weapon
 	
 	Checkpoint.mark()
 

@@ -23,6 +23,8 @@ var weapon := Global.Weapon.NONE:
 
 var direction := Global.Direction.RIGHT
 var pierce := 0
+var push := true
+var pos_start := Vector2(0,0)
 
 var _life := -INF
 
@@ -37,6 +39,8 @@ func _ready() -> void:
 	body_shape_entered.connect(_on_body_shape_entered)
 	area_entered.connect(_on_area_entered)
 	visible_on_screen_notifier_2d.screen_exited.connect(destroy)
+	
+	pos_start = global_position
 
 
 func _process(_delta: float) -> void:
@@ -96,6 +100,8 @@ func _on_body_shape_entered(body_rid: RID, _body: Node2D, _body_shape_index: int
 			destroy()
 	if (l & 1024) == 1024:
 		_on_piercable_hit()
+	if (l & 8192) == 8192:
+		set_deferred("push", false)
 
 
 func _on_area_entered(area: Area2D) -> void:

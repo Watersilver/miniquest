@@ -21,8 +21,8 @@ shader_parameter/thickness = 1.0
 radius = 2.0
 
 [node name="PlayerAttack" type="Area2D"]
-collision_layer = 512
-collision_mask = 1025
+collision_layer = 576
+collision_mask = 9217
 script = ExtResource("1_t4hjj")
 
 [node name="ArrowSpr" type="Sprite2D" parent="."]

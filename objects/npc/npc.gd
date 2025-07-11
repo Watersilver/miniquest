@@ -2,12 +2,16 @@ extends Area2D
 
 
 @export_multiline var text: Array[String] = ["I greet you and it's great to meet you"]
+@export_multiline var no_shop_items_override: Array[String] = []
 ## Default facing should be right
 @export var face_player := true
 
 
 ## Override for conditional text checks
 func get_text():
+	if no_shop_items_override.size() > 0:
+		if get_tree().get_nodes_in_group("shop_items").size() == 0:
+			return no_shop_items_override
 	return text
 
 
