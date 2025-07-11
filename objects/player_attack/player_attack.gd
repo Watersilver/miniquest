@@ -20,19 +20,51 @@ var weapon := Global.Weapon.NONE:
 					_life = INF
 				Global.Weapon.STAFF:
 					_life = INF
+var damage := Global.Damage.ROLL_1D2
+var enhancement := 0
+ ## % percentage
+var crit_chance := 0
 
 var direction := Global.Direction.RIGHT
-var pierce := 0
 var push := true
 var pos_start := Vector2(0,0)
 
 var _life := -INF
 
 
+func init_from_global():
+	weapon = Global.session.upgrades.weapon
+	crit_chance = Global.session.upgrades.crit_chance
+	damage = Global.session.upgrades.damage
+	enhancement = Global.session.upgrades.enhancement
+
+
 func destroy() -> void:
 	collision_mask = 0
 	collision_layer = 0
 	queue_free()
+
+
+class AttackHit:
+	func _init(_mult, _dmg) -> void:
+		crit_mult = _mult
+		dmg = _dmg
+	
+	var crit_mult := 0
+	var dmg := 0
+
+
+func calc_hit():
+	var mult := 0
+	var is_crit := (randi() % 100) < crit_chance
+	while is_crit and mult < 100:
+		mult += 1
+		is_crit = (randi() % 100) < crit_chance
+	
+	var dmg := enhancement
+	for _times in mult + 1:
+		dmg += Global.roll_damage(damage)
+	return AttackHit.new(mult, dmg)
 
 
 func _ready() -> void:
@@ -87,11 +119,6 @@ func _physics_process(delta: float) -> void:
 	_life -= delta
 
 
-func _on_piercable_hit():
-	pierce -= 1
-	if pierce < 0:
-		destroy()
-
 
 func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	var l := PhysicsServer2D.body_get_collision_layer(body_rid)
@@ -100,11 +127,11 @@ func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int,
 			if body is TileMapLayer and body is MainTileset:
 				destroy()
 	if (l & 1024) == 1024:
-		_on_piercable_hit()
+		destroy()
 	if (l & 8192) == 8192:
 		set_deferred("push", false)
 
 
 func _on_area_entered(area: Area2D) -> void:
 	if (area.collision_layer & 1024) == 1024:
-		_on_piercable_hit()
+		destroy()

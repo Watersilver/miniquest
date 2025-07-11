@@ -321,7 +321,7 @@ func _physics_process(delta: float) -> void:
 				State.ATTACK:
 					_state_countdown = 0.1
 					var att := PLAYER_ATTACK.instantiate()
-					att.weapon = Global.session.upgrades.weapon
+					att.init_from_global()
 					att.direction = _direction
 					att.position = position + body.position + Vector2(_direction * 6,-4)
 					add_sibling(att)

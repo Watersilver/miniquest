@@ -13,6 +13,8 @@ const _PERIOD := 2.0
 
 var _recovery_timer := 0.01
 
+var _hitpoints := 1
+var _hurt := 0.0
 var _frozen := false
 var _dead := false
 const _DEATH_TIMER_MAX := 0.15
@@ -37,9 +39,6 @@ func _ready() -> void:
 	hitbox.area_entered.connect(_on_hitbox_area_entered)
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
 	
 	if _dead:
 		if _death_timer < _DEATH_TIMER_MAX * 0.5:
@@ -49,6 +48,15 @@ func _physics_process(delta: float) -> void:
 		if not _frozen:
 			_death_timer -= delta
 		return
+	
+	if _hurt > 0:
+		_hurt -= delta
+		sprite_2d.frame_coords.y = 18
+		return
+	
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
 	
 	# Handle jump.
 	if secs_till_jump <= 0 and is_on_floor() and _recovery_timer <= 0:
@@ -84,5 +92,13 @@ func _physics_process(delta: float) -> void:
 			sprite_2d.flip_h = pl.global_position.x - global_position.x < 0
 
 
-func _on_hitbox_area_entered(_area: Area2D) -> void:
-	_die()
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area is PlayerAttack:
+		var dmg = area.calc_hit().dmg
+		_hitpoints -= dmg
+	else:
+		_hitpoints -= 1
+	if _hitpoints < 0:
+		_die()
+	else:
+		_hurt = 0.3

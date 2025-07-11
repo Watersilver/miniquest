@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://cdpqnb8c4ak7f"]
+[gd_scene load_steps=30 format=4 uid="uid://cdpqnb8c4ak7f"]
 
 [ext_resource type="PackedScene" uid="uid://bp0ron36y8t7b" path="res://core/level/level.tscn" id="1_b571b"]
 [ext_resource type="Script" uid="uid://bqbgd3yofyn5b" path="res://levels/dungeon/dungeon.gd" id="2_eu48m"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dwqkqrgq6j3jn" path="res://objects/shop_item/shop_item.tscn" id="13_s1gl0"]
 [ext_resource type="PackedScene" uid="uid://m5w2hdaplqas" path="res://components/oscillatron/oscillatron.tscn" id="14_s6c5h"]
 [ext_resource type="Texture2D" uid="uid://gw23isqhaw70" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Items.png" id="15_ixhkm"]
+[ext_resource type="PackedScene" uid="uid://r1t8xp7ddrca" path="res://objects/bosses/big_slime/big_slime.tscn" id="16_ixhkm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jar8"]
 size = Vector2(88, 32)
@@ -94,7 +95,7 @@ script = ExtResource("2_eu48m")
 spawn_point = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Marker2D" parent="." index="0"]
-position = Vector2(-256, 280)
+position = Vector2(240, 808)
 
 [node name="Welcome to DIE!" parent="." index="1" instance=ExtResource("3_l1p8w")]
 st_up_gold = 0
@@ -582,3 +583,18 @@ st_up_health = 1
 position = Vector2(-1120, 728)
 st_up_gold = 0
 st_up_health = 1
+
+[node name="The Slime Pit" parent="." index="30" instance=ExtResource("3_l1p8w")]
+position = Vector2(160, 728)
+st_up_skills = 2
+st_up_gold = 0
+st_up_health = 3
+st_up_weapon = 1
+
+[node name="TileLayer1" type="TileMapLayer" parent="The Slime Pit" index="1"]
+tile_map_data = PackedByteArray("AAAAAAAABAAEABkAAAAAAAEABAAEABkAAAAAAAIABAAEABkAAAAAAAMABAAEABkAAAAAAAQABAAEABkAAAAAAAUABAAEABkAAAAAAAYABAAEABkAAAAAAAcABAAEABkAAAAAAAgABAAEABkAAAAAAAkABAAEABkAAAAAAAoABAAEABkAAAAAAAsABAAAABgAAAABAAsABAADABoAAAACAAsABAADABoAAAADAAsABAADABoAAAAEAAsABAADABoAAAAFAAsABAADABoAAAAGAAsABAADABoAAAAHAAsABAADABoAAAAIAAsABAADABoAAAAJAAsABAADABoAAAAKAAsABAADABoAAAALAAsABAADABoAAAAMAAsABAADABoAAAANAAsABAADABoAAAAOAAsABAADABoAAAAPAAsABAADABoAAAAQAAsABAADABoAAAARAAsABAADABoAAAASAAsABAADABoAAAATAAsABAABABgAAAATAAoABAADABkAAAATAAkABAADABkAAAATAAgABAADABkAAAATAAcABAADABkAAAATAAYABAADABkAAAATAAUABAADABkAAAATAAQABAADABkAAAATAAMABAADABkAAAATAAIABAADABkAAAATAAEABAADABkAAAATAAAABAADABkAAAA=")
+tile_set = ExtResource("5_5jar8")
+script = ExtResource("5_l1p8w")
+
+[node name="BigSlime" parent="The Slime Pit" index="2" instance=ExtResource("16_ixhkm")]
+position = Vector2(16, 80)

@@ -8,6 +8,9 @@ class_name Room
 @export var st_up_gold := 0
 @export var st_up_health := 1
 @export var st_up_weapon := Global.Weapon.NONE
+@export var st_up_damage := Global.Damage.ROLL_1D2
+@export var st_up_crit := 0
+@export var st_up_enhancement := 0
 
 const BLOCK_WIDTH := 160
 const BLOCK_HEIGHT := 120 - 16 #(Screen size - 16 to allow for hud on the bottom)

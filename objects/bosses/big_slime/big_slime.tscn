@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://r1t8xp7ddrca"]
+
+[ext_resource type="Script" uid="uid://ctghu6s0ts75b" path="res://objects/bosses/big_slime/big_slime.gd" id="1_1qp7u"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_geegy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qp7u"]
+atlas = ExtResource("1_geegy")
+region = Rect2(0, 608, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v26i2"]
+atlas = ExtResource("1_geegy")
+region = Rect2(16, 608, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a5ixh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qp7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v26i2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="BigSlime" type="CharacterBody2D"]
+script = ExtResource("1_1qp7u")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a5ixh")
+animation = &"idle"

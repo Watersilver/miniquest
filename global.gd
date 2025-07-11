@@ -19,6 +19,35 @@ enum Weapon {
 	STAFF
 }
 
+enum Damage {
+	ROLL_1D2,
+	ROLL_1D4,
+	ROLL_1D6,
+	ROLL_1D8,
+	ROLL_1D10,
+	ROLL_2D6,
+	ROLL_4D4
+}
+
+
+func roll_damage(damage_dice: Damage):
+	match damage_dice:
+		Damage.ROLL_1D2:
+			return (randi() % 2) + 1
+		Damage.ROLL_1D4:
+			return (randi() % 4) + 1
+		Damage.ROLL_1D6:
+			return (randi() % 6) + 1
+		Damage.ROLL_1D8:
+			return (randi() % 8) + 1
+		Damage.ROLL_1D10:
+			return (randi() % 10) + 1
+		Damage.ROLL_2D6:
+			return (randi() % 6) + (randi() % 6) + 2
+		Damage.ROLL_4D4:
+			return (randi() % 4) + (randi() % 4) + (randi() % 4) + (randi() % 4) + 4
+
+
 enum Switch {
 	GREEN,
 	BLUE,
@@ -53,6 +82,12 @@ class _Upgrades extends Resource:
 	@export var weapon := Weapon.NONE:
 		set(w):
 			weapon = clampi(0, w, 4) as Weapon
+	
+	@export var damage := Damage.ROLL_1D2
+	@export var enhancement := 0
+	
+	 ## % percentage
+	@export var crit_chance := 0
 
 class _Checkpoint:
 	var room := Vector2i(0,0)
