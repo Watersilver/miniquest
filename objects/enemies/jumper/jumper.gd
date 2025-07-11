@@ -13,14 +13,24 @@ const _PERIOD := 2.0
 
 var _recovery_timer := 0.01
 
+var _frozen := false
 var _dead := false
 const _DEATH_TIMER_MAX := 0.15
 var _death_timer := _DEATH_TIMER_MAX
 func _die() -> void:
+	if _dead:
+		_frozen = false
+		return
 	sprite_2d.flip_v = false
 	sprite_2d.frame_coords.x = 0
 	sprite_2d.frame_coords.y = 18
 	_dead = true
+	if Global.session.upgrades.element_ice:
+		var ice_block: Node2D = $IceBlock
+		ice_block.visible = true
+		var tile_map_layer: TileMapLayer = $IceBlock/TileMapLayer
+		tile_map_layer.collision_enabled = true
+		_frozen = true
 	attack_area.queue_free()
 
 func _ready() -> void:
@@ -36,7 +46,8 @@ func _physics_process(delta: float) -> void:
 			sprite_2d.frame_coords.y = 19
 		if _death_timer < 0:
 			queue_free()
-		_death_timer -= delta
+		if not _frozen:
+			_death_timer -= delta
 		return
 	
 	# Handle jump.

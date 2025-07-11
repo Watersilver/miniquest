@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj25b2mpqu35s"]
+[gd_scene load_steps=8 format=3 uid="uid://cj25b2mpqu35s"]
 
 [ext_resource type="Script" uid="uid://d1di5awybi227" path="res://objects/enemies/jumper/jumper.gd" id="1_58ogx"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_ip3ub"]
+[ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="3_i6yb1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_58ogx"]
 size = Vector2(4, 4)
@@ -59,3 +60,12 @@ collision_mask = 512
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_i6yb1")
 debug_color = Color(0.296501, 0.61089, 0.430645, 0.42)
+
+[node name="IceBlock" type="Node2D" parent="."]
+visible = false
+
+[node name="TileMapLayer" type="TileMapLayer" parent="IceBlock"]
+position = Vector2(-4, -4)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 6, 0, 20, 0, 29, 0, 0, 0)
+tile_set = ExtResource("3_i6yb1")
+collision_enabled = false

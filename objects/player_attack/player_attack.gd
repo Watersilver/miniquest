@@ -93,11 +93,12 @@ func _on_piercable_hit():
 		destroy()
 
 
-func _on_body_shape_entered(body_rid: RID, _body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
+func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	var l := PhysicsServer2D.body_get_collision_layer(body_rid)
 	if (l & 1) == 1:
 		if weapon != Global.Weapon.STAFF:
-			destroy()
+			if body is TileMapLayer and body is MainTileset:
+				destroy()
 	if (l & 1024) == 1024:
 		_on_piercable_hit()
 	if (l & 8192) == 8192:

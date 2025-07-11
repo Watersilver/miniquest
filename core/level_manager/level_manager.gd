@@ -134,6 +134,10 @@ func _spawn_to_level():
 		Global.session.upgrades.swim = true
 	if check_bitflag.call(s, 8):
 		Global.session.upgrades.water_walk = true
+	if check_bitflag.call(s, 9):
+		Global.session.upgrades.element_ice = true
+	if check_bitflag.call(s, 10):
+		Global.session.upgrades.element_fire = true
 	
 	Global.session.saved_data.money = current_room.st_up_gold
 	Global.session.upgrades.max_health = current_room.st_up_health

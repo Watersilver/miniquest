@@ -94,7 +94,7 @@ script = ExtResource("2_eu48m")
 spawn_point = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Marker2D" parent="." index="0"]
-position = Vector2(248, 272)
+position = Vector2(-256, 280)
 
 [node name="Welcome to DIE!" parent="." index="1" instance=ExtResource("3_l1p8w")]
 st_up_gold = 0
@@ -157,14 +157,16 @@ position = Vector2(80, 80)
 
 [node name="Timing" parent="." index="5" instance=ExtResource("3_l1p8w")]
 position = Vector2(-320, 208)
+st_up_skills = 514
 st_up_gold = 0
 st_up_health = 1
+st_up_weapon = 1
+exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
-hide_exits_up = Array[int]([0])
 
 [node name="TileLayer1" type="TileMapLayer" parent="Timing" index="1"]
-tile_map_data = PackedByteArray("AAATAAsABAABAB4AAAASAAsABAABAB4AAAARAAsABAABAB4AAAAQAAsABAABAB4AAAAPAAsABAABAB4AAAAOAAsABAABAB4AAAANAAsABAABAB4AAAAMAAsABAABAB4AAAALAAsABAABAB4AAAAKAAsABAABAB4AAAAJAAsABAABAB4AAAAIAAsABAABAB4AAAAHAAsABAABAB4AAAAGAAsABAABAB4AAAAFAAsABAABAB4AAAAEAAsABAABAB4AAAADAAsABAABAB4AAAACAAsABAABAB4AAAABAAsABAABAB4AAAAAAAsABAABAB4AAAATAAMABAAAAB4AAAASAAMABAAAAB4AAAARAAMABAAAAB4AAAAQAAMABAAAAB4AAAAPAAMABAAAAB4AAAAOAAMABAAAAB4AAAANAAMABAAAAB4AAAAMAAMABAAAAB4AAAALAAMABAAAAB4AAAAKAAMABAAAAB4AAAAJAAMABAAAAB4AAAAIAAMABAAAAB4AAAAHAAMABAAAAB4AAAAGAAMABAAAAB4AAAAFAAMABAAAAB4AAAAEAAMABAAAAB4AAAADAAMABAAAAB4AAAACAAMABAAAAB4AAAABAAMABAAAAB4AAAAAAAMABAAAAB4AAAAJAAwABAAYABsAAAAKAAwABAAYABsAAAAPAAwABAAYAB0AAAAOAAwABAAYAB0AAAAEAAwABAAZABsAAAAFAAwABAAZABsAAAACAAEABAAZABsAAAAFAAIABAAZABsAAAAMAAAABAAZABsAAAANAAEABAAZABsAAAASAAIABAAZAB0AAAATAAEABAAZABsAAAAQAAEABAAYAB0AAAAJAAIABAAYAB0AAAAFAAAABAAYAB0AAAA=")
+tile_map_data = PackedByteArray("AAATAAsABAABAB4AAAASAAsABAABAB4AAAARAAsABAABAB4AAAAQAAsABAABAB4AAAAPAAsABAABAB4AAAAOAAsABAABAB4AAAANAAsABAABAB4AAAAMAAsABAABAB4AAAALAAsABAABAB4AAAAKAAsABAABAB4AAAAJAAsABAABAB4AAAAIAAsABAABAB4AAAAHAAsABAABAB4AAAAGAAsABAABAB4AAAAFAAsABAABAB4AAAAEAAsABAABAB4AAAADAAsABAABAB4AAAACAAsABAABAB4AAAABAAsABAABAB4AAAAAAAsABAABAB4AAAATAAMABAAAAB4AAAASAAMABAAAAB4AAAARAAMABAAAAB4AAAAQAAMABAAAAB4AAAAPAAMABAAAAB4AAAAOAAMABAAAAB4AAAANAAMABAAAAB4AAAAMAAMABAAAAB4AAAALAAMABAAAAB4AAAAKAAMABAAAAB4AAAAJAAMABAAAAB4AAAAIAAMABAAGABoAAAAGAAMABAAHABoAAAAFAAMABAAAAB4AAAAEAAMABAAAAB4AAAADAAMABAAAAB4AAAACAAMABAAAAB4AAAABAAMABAAAAB4AAAAAAAMABAAAAB4AAAAJAAwABAAYABsAAAAKAAwABAAYABsAAAAPAAwABAAYAB0AAAAOAAwABAAYAB0AAAAEAAwABAAZABsAAAAFAAwABAAZABsAAAACAAEABAAZABsAAAAFAAIABAAZABsAAAAMAAAABAAZABsAAAANAAEABAAZABsAAAASAAIABAAZAB0AAAATAAEABAAZABsAAAAQAAEABAAYAB0AAAAJAAIABAAYAB0AAAAFAAAABAAYAB0AAAAGAAoABAAJABMAAAAIAAoABAALABMAAAAGAAcABAAJABAAAAAGAAgABAAJABEAAAAGAAkABAAJABIAAAAIAAcABAALABAAAAAIAAgABAALABEAAAAIAAkABAALABIAAAAHAAcABAAKABAAAAAGAAIABAAHABkAAAAGAAEABAAHABkAAAAGAAAABAAHABkAAAAIAAIABAAGABkAAAAIAAEABAAGABkAAAAIAAAABAAGABkAAAAHAAAABQAGAAoAAAAHAAEABQAGAAoAAAAHAAIABQAGAAoAAAAHAAMABQAGAAoAAAAHAAQABQAGAAoAAAA=")
 tile_set = ExtResource("5_5jar8")
 script = ExtResource("5_l1p8w")
 
@@ -324,6 +326,7 @@ position = Vector2(-640, 208)
 st_up_gold = 0
 st_up_health = 1
 exit_markers_down = Array[int]([0])
+exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
 [node name="TileLayer1" type="TileMapLayer" parent="A shortcut" index="1"]
@@ -337,8 +340,8 @@ color = 2
 content_type = 1
 amount = 5
 
-[node name="Dare you enter my magical realm? (add piss to water tileset_ That\'s right, add piss)" parent="." index="14" instance=ExtResource("3_l1p8w")]
-position = Vector2(-160, 416)
+[node name="Dare you enter my magical realm?" parent="." index="14" instance=ExtResource("3_l1p8w")]
+position = Vector2(320, 520)
 st_up_gold = 0
 st_up_health = 1
 
@@ -358,7 +361,6 @@ tile_set = ExtResource("5_5jar8")
 script = ExtResource("5_l1p8w")
 
 [node name="Label" type="Label" parent="Watery Crossroads" index="2"]
-visible = false
 offset_right = 40.0
 offset_bottom = 12.0
 text = "At some point in the game
@@ -484,3 +486,99 @@ script = ExtResource("5_l1p8w")
 
 [node name="Checkpoint" parent="Obstacle" index="2" instance=ExtResource("6_fnbmj")]
 position = Vector2(32, 72)
+
+[node name="Room" parent="." index="19" instance=ExtResource("3_l1p8w")]
+position = Vector2(-800, 208)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_up = Array[int]([0])
+exit_markers_left = Array[int]([0])
+exit_markers_right = Array[int]([0])
+
+[node name="Room2" parent="." index="20" instance=ExtResource("3_l1p8w")]
+position = Vector2(-800, 104)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_down = Array[int]([0])
+exit_markers_right = Array[int]([0])
+
+[node name="Room3" parent="." index="21" instance=ExtResource("3_l1p8w")]
+position = Vector2(-640, 104)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_left = Array[int]([0])
+
+[node name="Label" type="Label" parent="Room3" index="1"]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "Secret room. Has a wall
+that is a secret"
+
+[node name="Room4" parent="." index="22" instance=ExtResource("3_l1p8w")]
+position = Vector2(-960, 208)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_left = Array[int]([0])
+exit_markers_right = Array[int]([0])
+
+[node name="Label" type="Label" parent="Room4" index="1"]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "Needs dash jumping to go
+left"
+
+[node name="Room5" parent="." index="23" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 208)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_up = Array[int]([0])
+exit_markers_down = Array[int]([0])
+exit_markers_left = Array[int]([0])
+exit_markers_right = Array[int]([0])
+
+[node name="Label" type="Label" parent="Room5" index="1"]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "Can fall down, needs bat to
+go left, griffon to go far up"
+
+[node name="Room6" parent="." index="24" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 104)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_down = Array[int]([0])
+
+[node name="Room7" parent="." index="25" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 312)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_up = Array[int]([0])
+exit_markers_down = Array[int]([0])
+
+[node name="Label" type="Label" parent="Room7" index="1"]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "Long fall, change biome on
+end"
+
+[node name="Room8" parent="." index="26" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 416)
+st_up_gold = 0
+st_up_health = 1
+exit_markers_up = Array[int]([0])
+exit_markers_down = Array[int]([0])
+
+[node name="Room9" parent="." index="27" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 520)
+st_up_gold = 0
+st_up_health = 1
+
+[node name="Room10" parent="." index="28" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 624)
+st_up_gold = 0
+st_up_health = 1
+
+[node name="Room11" parent="." index="29" instance=ExtResource("3_l1p8w")]
+position = Vector2(-1120, 728)
+st_up_gold = 0
+st_up_health = 1
