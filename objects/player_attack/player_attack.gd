@@ -54,7 +54,7 @@ class AttackHit:
 	var dmg := 0
 
 
-func calc_hit():
+func roll_attack_hit() -> AttackHit:
 	var mult := 0
 	var is_crit := (randi() % 100) < crit_chance
 	while is_crit and mult < 100:

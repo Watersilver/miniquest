@@ -94,7 +94,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area is PlayerAttack:
-		var dmg = area.calc_hit().dmg
+		var dmg = area.roll_attack_hit().dmg
 		_hitpoints -= dmg
 	else:
 		_hitpoints -= 1

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpfn7w2lxbkeq"]
+
+[ext_resource type="Script" uid="uid://dn7ai8a1o7ib1" path="res://components/hazard/hazard.gd" id="1_5nfg4"]
+
+[node name="Hazard" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_5nfg4")

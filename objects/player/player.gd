@@ -876,9 +876,9 @@ func _physics_process(delta: float) -> void:
 	
 	
 	# MISC
-	for _are in hitbox.get_overlapping_areas():
+	for _area in hitbox.get_overlapping_areas():
 		_take_damage()
-	for _bod in hitbox.get_overlapping_bodies():
+	for _body in hitbox.get_overlapping_bodies():
 		_take_damage()
 	
 	#var state_names := [
