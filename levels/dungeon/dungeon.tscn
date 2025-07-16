@@ -95,7 +95,7 @@ script = ExtResource("2_eu48m")
 spawn_point = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Marker2D" parent="." index="0"]
-position = Vector2(240, 808)
+position = Vector2(-296, 272)
 
 [node name="Welcome to DIE!" parent="." index="1" instance=ExtResource("3_l1p8w")]
 st_up_gold = 0

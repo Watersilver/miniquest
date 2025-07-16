@@ -1,5 +1,5 @@
 extends Area2D
-
+class_name Hazard
 
 @export var dmg_dice := Global.Damage.ROLL_1D2
 @export var enhancement := 0

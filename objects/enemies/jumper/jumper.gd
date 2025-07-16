@@ -1,9 +1,8 @@
 extends CharacterBody2D
 
 @onready var sprite_2d: Sprite2D = %Sprite2D
-@onready var sight: Area2D = %Sight
-@onready var hitbox: Area2D = %Hitbox
-@onready var attack_area: Area2D = %AttackArea
+
+@onready var common_enemy: CommonEnemy = %CommonEnemy
 
 const JUMP_VELOCITY = -100.0
 
@@ -13,44 +12,32 @@ const _PERIOD := 2.0
 
 var _recovery_timer := 0.01
 
-var _hitpoints := 1
-var _hurt := 0.0
-var _frozen := false
-var _dead := false
 const _DEATH_TIMER_MAX := 0.15
 var _death_timer := _DEATH_TIMER_MAX
-func _die() -> void:
-	if _dead:
-		_frozen = false
-		return
+
+
+func _on_died():
 	sprite_2d.flip_v = false
 	sprite_2d.frame_coords.x = 0
 	sprite_2d.frame_coords.y = 18
-	_dead = true
-	if Global.session.upgrades.element_ice:
-		var ice_block: Node2D = $IceBlock
-		ice_block.visible = true
-		var tile_map_layer: TileMapLayer = $IceBlock/TileMapLayer
-		tile_map_layer.collision_enabled = true
-		_frozen = true
-	attack_area.queue_free()
+
 
 func _ready() -> void:
-	hitbox.area_entered.connect(_on_hitbox_area_entered)
+	common_enemy.died.connect(_on_died)
+
 
 func _physics_process(delta: float) -> void:
 	
-	if _dead:
+	if common_enemy.is_dead():
 		if _death_timer < _DEATH_TIMER_MAX * 0.5:
 			sprite_2d.frame_coords.y = 19
 		if _death_timer < 0:
 			queue_free()
-		if not _frozen:
+		if not common_enemy.is_frozen:
 			_death_timer -= delta
 		return
 	
-	if _hurt > 0:
-		_hurt -= delta
+	if common_enemy.is_hurt():
 		sprite_2d.frame_coords.y = 18
 		return
 	
@@ -88,17 +75,5 @@ func _physics_process(delta: float) -> void:
 		else:
 			sprite_2d.flip_v = false
 		
-		for pl in sight.get_overlapping_bodies():
-			sprite_2d.flip_h = pl.global_position.x - global_position.x < 0
-
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area is PlayerAttack:
-		var dmg = area.roll_attack_hit().dmg
-		_hitpoints -= dmg
-	else:
-		_hitpoints -= 1
-	if _hitpoints < 0:
-		_die()
-	else:
-		_hurt = 0.3
+		if common_enemy.can_see_target():
+			sprite_2d.flip_h = common_enemy.get_sight_target_relative_direction().x < 0

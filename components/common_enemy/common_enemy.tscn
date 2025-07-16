@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://co281h45lh5hi"]
+
+[ext_resource type="Script" uid="uid://7wepg8baajky" path="res://components/common_enemy/common_enemy.gd" id="1_ssg3g"]
+[ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="2_dq6h6"]
+[ext_resource type="PackedScene" uid="uid://cpfn7w2lxbkeq" path="res://components/hazard/hazard.tscn" id="3_m2ub5"]
+[ext_resource type="PackedScene" uid="uid://dtyikevh5ps6c" path="res://components/sight/sight.tscn" id="4_bwopo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bwopo"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ey04"]
+size = Vector2(8, 8)
+
+[node name="CommonEnemy" type="Node2D"]
+script = ExtResource("1_ssg3g")
+
+[node name="IceBlock" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(-4, -4)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 6, 0, 20, 0, 29, 0, 0, 0)
+tile_set = ExtResource("2_dq6h6")
+collision_enabled = false
+
+[node name="Hazard" parent="." instance=ExtResource("3_m2ub5")]
+unique_name_in_owner = true
+
+[node name="HazShape2D" type="CollisionShape2D" parent="Hazard"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_bwopo")
+debug_color = Color(0.999084, 0, 0.124091, 0.42)
+
+[node name="Sight" parent="." instance=ExtResource("4_bwopo")]
+visible = false
+
+[node name="Hitbox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 1024
+collision_mask = 512
+
+[node name="HitShape2D" type="CollisionShape2D" parent="Hitbox"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_6ey04")
+debug_color = Color(0.296501, 0.61089, 0.430645, 0.42)
