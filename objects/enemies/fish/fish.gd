@@ -218,9 +218,8 @@ func _physics_process(delta: float) -> void:
 		
 		body.position += _velocity * delta
 		
-		if not visible_on_screen_notifier_2d.is_on_screen():
-			print('why')
-			queue_free()
+		#if not visible_on_screen_notifier_2d.is_on_screen():
+			#queue_free()
 	
 	if patrol_directions.size() > 0:
 		_patrol_dir_i = _patrol_dir_i % patrol_directions.size()

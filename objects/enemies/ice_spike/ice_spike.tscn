@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://coi2ja0tthnk6"]
+
+[ext_resource type="Script" uid="uid://cbvn8drpv7rso" path="res://objects/enemies/ice_spike/ice_spike.gd" id="1_hn3ds"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_dayxl"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_m4dn5"]
+
+[node name="IceSpike" type="Node2D" unique_id=1907473795]
+script = ExtResource("1_hn3ds")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=128335633]
+unique_name_in_owner = true
+texture = ExtResource("2_dayxl")
+flip_h = true
+hframes = 12
+vframes = 86
+frame = 422
+
+[node name="CommonEnemy" parent="." unique_id=2040644512 instance=ExtResource("3_m4dn5")]
+unique_name_in_owner = true
+immune_to_ice = true
+haz_shape = Rect2(0, 1, 6, 6)
+hitbox_shape = Rect2(0, 1, 6, 6)

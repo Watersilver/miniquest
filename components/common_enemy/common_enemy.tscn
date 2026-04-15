@@ -6,9 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://dtyikevh5ps6c" path="res://components/sight/sight.tscn" id="4_bwopo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bwopo"]
+resource_local_to_scene = true
 size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6ey04"]
+resource_local_to_scene = true
 size = Vector2(8, 8)
 
 [node name="CommonEnemy" type="Node2D" unique_id=809384789 groups=["enemies"]]

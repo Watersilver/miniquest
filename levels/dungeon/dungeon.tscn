@@ -34,6 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://cc1vnejgotdn3" path="res://objects/wind_controller/wind_controller.tscn" id="31_jig87"]
 [ext_resource type="Script" uid="uid://05fo8fr304mu" path="res://resources/oscillation.gd" id="32_gk7u0"]
 [ext_resource type="PackedScene" uid="uid://bshqoe3f50kaq" path="res://objects/enemies/fish/fish.tscn" id="34_gr6xm"]
+[ext_resource type="Script" uid="uid://c8olu2g7ognry" path="res://core/room/room.gd" id="35_idt5l"]
 [ext_resource type="PackedScene" uid="uid://bk7exdv8chgkk" path="res://objects/enemies/worm/worm.tscn" id="36_hklwl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jar8"]
@@ -239,7 +240,7 @@ script = ExtResource("2_eu48m")
 spawn_point = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Marker2D" parent="." index="0" unique_id=1551430169]
-position = Vector2(352, 272)
+position = Vector2(-864, 264)
 
 [node name="Welcome to DIE!" parent="." index="1" unique_id=1555630947 instance=ExtResource("3_l1p8w")]
 exit_markers_up = Array[int]([0])
@@ -531,7 +532,7 @@ position = Vector2(80, 84)
 shape = SubResource("RectangleShape2D_8je5q")
 
 [node name="Watery Crossroads" parent="." index="16" unique_id=1355837865 instance=ExtResource("3_l1p8w")]
-position = Vector2(-160, 520)
+position = Vector2(-1280, -312)
 st_up_skills = 390
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
@@ -577,7 +578,7 @@ position = Vector2(112, 20)
 shape = SubResource("RectangleShape2D_mdwuu")
 
 [node name="Hurry Fairy!" parent="." index="17" unique_id=1662823728 instance=ExtResource("3_l1p8w")]
-position = Vector2(0, 416)
+position = Vector2(480, 0)
 st_up_skills = 34
 
 [node name="TileLayer1" type="TileMapLayer" parent="Hurry Fairy!" index="1" unique_id=1184773007]
@@ -856,12 +857,12 @@ exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
 [node name="TileLayer1" type="TileMapLayer" parent="Long Jump" index="3" unique_id=1070007164]
-tile_map_data = PackedByteArray("AAATAAkABAAEABoAAAASAAkABAAEABoAAAARAAkABAADABgAAAAPAAkABAAEABgAAAAQAAkABQAAAAoAAAAQAAoABQAAAAoAAAAQAAsABQAAAAoAAAAQAAwABQAAAAoAAAAPAAoABAAEABkAAAAPAAsABAAEABkAAAAPAAwABAAEABkAAAARAAoABAADABkAAAARAAsABAADABkAAAARAAwABAADABkAAAAOAAkABAAEABoAAAANAAkABAAEABoAAAAMAAkABAAEABoAAAALAAkABAAEABoAAAAKAAkABAAEABoAAAAJAAkABAAEABoAAAAIAAkABAADABgAAAAIAAoABAADABkAAAAIAAsABAADABkAAAAIAAwABAADABkAAAADAAkABAAEABgAAAACAAkABAAEABoAAAABAAkABAAEABoAAAAAAAkABAAEABoAAAADAAoABAAEABkAAAADAAsABAAEABkAAAADAAwABAAEABkAAAAIAAcABAAWABkAAAAIAAgABAAWABoAAAAIAAYABAAWABgAAAAIAAUAAQAAAAMAAAAKAAgABAAWABkAAAAKAAYAAQAAAAMAABAKAAcABAAWABgAAAAGAAYAAQALAAQAAAAFAAYAAQALAAQAAAAFAAUAAQALAAIAAAAGAAUAAQALAAEAAAAFAAQAAQACAAMAAAAGAAQAAQACAAMAAAAQAAgABQAAAAoAAAACAAMABwAHABYAAAAGAAoABwAHABYAAAAMAAIABwAGABYAAAARAAUABwAEABUAAAAHAAIABwABABYAAAALAAYABwAAABYAAAAEAAcABgAUAAEAAAAHAAcABgAUAAEAAAAEAAgABgACABQAAAAHAAgABgAEABUAAAAEAAkABgACAAwAAAAHAAkABgAEAA0AAAAEAAoABgAEAAwAAAAEAAsABgACAAwAAAAEAAwABgAEAAwAAAAHAAoABgACAAwAAAAHAAwABgACAAwAAAAHAAsABgAEAAwAAAATAAEABAAGABoAAAATAAAABAAGABkAAAA=")
+tile_map_data = PackedByteArray("AAATAAkABAAEABoAAAASAAkABAAEABoAAAARAAkABAADABgAAAAPAAkABAAEABgAAAAQAAkABQAAAAoAAAAQAAoABQAAAAoAAAAQAAsABQAAAAoAAAAQAAwABQAAAAoAAAAPAAoABAAEABkAAAAPAAsABAAEABkAAAAPAAwABAAEABkAAAARAAoABAADABkAAAARAAsABAADABkAAAARAAwABAADABkAAAAOAAkABAAEABoAAAANAAkABAAEABoAAAAMAAkABAAEABoAAAALAAkABAAEABoAAAAKAAkABAAEABoAAAAJAAkABAAEABoAAAAIAAkABAADABgAAAAIAAoABAADABkAAAAIAAsABAADABkAAAAIAAwABAADABkAAAADAAkABAAEABgAAAACAAkABAAEABoAAAABAAkABAAEABoAAAAAAAkABAAEABoAAAADAAoABAAEABkAAAADAAsABAAEABkAAAADAAwABAAEABkAAAAIAAcABAAWABkAAAAIAAgABAAWABoAAAAIAAYABAAWABgAAAAIAAUAAQAAAAMAAAAKAAgABAAWABkAAAAKAAYAAQAAAAMAABAKAAcABAAWABgAAAAGAAYAAQALAAQAAAAFAAYAAQALAAQAAAAFAAUAAQALAAIAAAAGAAUAAQALAAEAAAAFAAQAAQACAAMAAAAGAAQAAQACAAMAAAAQAAgABQAAAAoAAAACAAMABwAHABYAAAAGAAoABwAHABYAAAAMAAIABwAGABYAAAARAAUABwAEABUAAAAHAAIABwABABYAAAALAAYABwAAABYAAAAEAAcABgAUAAEAAAAHAAcABgAUAAEAAAAEAAgABgACABQAAAAHAAgABgAEABUAAAAEAAkABgACAAwAAAAHAAkABgAEAA0AAAAEAAoABgAEAAwAAAAEAAsABgACAAwAAAAEAAwABgAEAAwAAAAHAAoABgACAAwAAAAHAAwABgACAAwAAAAHAAsABgAEAAwAAAATAAEABAAGABoAAAATAAAABAAGABkAAAAJAAsABAAYABsAAAAKAAoABAAZABsAAAANAAsABAAYAB0AAAABAAoABAAYAB0AAAACAAoABAAYABsAAAAAAAwABAAYAB0AAAA=")
 tile_set = ExtResource("5_5jar8")
 script = ExtResource("5_l1p8w")
 
 [node name="The Slime Pit" parent="." index="26" unique_id=1968584364 instance=ExtResource("3_l1p8w")]
-position = Vector2(160, 520)
+position = Vector2(-160, 624)
 st_up_skills = 2
 st_up_health = 7
 st_up_weapon = 2
@@ -909,7 +910,7 @@ amount = 5
 
 [node name="Mind the gap" parent="." index="28" unique_id=1778180225 instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 0)
-st_up_skills = 6
+st_up_skills = 7
 st_up_health = 4
 st_up_weapon = 4
 reqs = Array[int]([1, 11])
@@ -1158,9 +1159,9 @@ init_inverse = true
 curve = SubResource("Curve2D_7ufvo")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Forsaken Prisoner/MovingPlatform/Path2D" index="0" unique_id=1780766629]
-position = Vector2(73.19182, 72)
+position = Vector2(115.36568, 21.462723)
 rotation = 1.5707964
-progress = 60.965263
+progress = 142.8796
 rotates = false
 loop = false
 
@@ -1253,9 +1254,9 @@ path_follow_2d = NodePath("Path2D/PathFollow2D")
 curve = SubResource("Curve2D_7b36x")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform/Path2D" index="0" unique_id=2094086771]
-position = Vector2(0, 2.906581)
+position = Vector2(0, 6.9404397)
 rotation = 1.5707964
-progress = 3.0002863
+progress = 9.411683
 rotates = false
 
 [node name="TileLayer2" type="TileMapLayer" parent="Moving platforms/MovingPlatform/Path2D/PathFollow2D" index="0" unique_id=1849660405]
@@ -1275,9 +1276,9 @@ path_follow_2d = NodePath("Path2D/PathFollow2D")
 curve = SubResource("Curve2D_o2wd6")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform5/Path2D" index="0" unique_id=368546323]
-position = Vector2(7.924039, -3.9620194)
+position = Vector2(10.92545, -5.462725)
 rotation = 1.5707964
-progress = 17.029064
+progress = 13.674429
 rotates = false
 loop = false
 
@@ -1299,9 +1300,9 @@ speed = 12.0
 curve = SubResource("Curve2D_o2wd6")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform6/Path2D" index="0" unique_id=1884419409]
-position = Vector2(14.4101095, -7.2978587)
+position = Vector2(15.05983, -7.6780615)
 rotation = 1.5707964
-progress = 9.7048025
+progress = 8.929497
 rotates = false
 loop = false
 
@@ -1323,9 +1324,9 @@ speed = 15.0
 curve = SubResource("Curve2D_7b36x")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform2/Path2D" index="0" unique_id=1346494782]
-position = Vector2(0, -2.2757456)
+position = Vector2(0, 7.4570084)
 rotation = 1.5707964
-progress = 18.25
+progress = 6.9999723
 rotates = false
 
 [node name="TileLayer2" type="TileMapLayer" parent="Moving platforms/MovingPlatform2/Path2D/PathFollow2D" index="0" unique_id=1610914255]
@@ -1347,9 +1348,9 @@ init_inverse = true
 curve = SubResource("Curve2D_7b36x")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform3/Path2D" index="0" unique_id=729301741]
-position = Vector2(0, -1.4218777)
+position = Vector2(0, -3.929238)
 rotation = 1.5707964
-progress = 17.399593
+progress = 19.899027
 rotates = false
 
 [node name="TileLayer2" type="TileMapLayer" parent="Moving platforms/MovingPlatform3/Path2D/PathFollow2D" index="0" unique_id=598249798]
@@ -1371,9 +1372,9 @@ init_inverse = true
 curve = SubResource("Curve2D_7b36x")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform7/Path2D" index="0" unique_id=1761603150]
-position = Vector2(0, -1.4218777)
+position = Vector2(0, -3.929238)
 rotation = 1.5707964
-progress = 17.399593
+progress = 19.899027
 rotates = false
 
 [node name="TileLayer2" type="TileMapLayer" parent="Moving platforms/MovingPlatform7/Path2D/PathFollow2D" index="0" unique_id=936253684]
@@ -1395,9 +1396,9 @@ init_inverse = true
 curve = SubResource("Curve2D_7b36x")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Moving platforms/MovingPlatform4/Path2D" index="0" unique_id=661164605]
-position = Vector2(0, 0.42217878)
+position = Vector2(0, -1.7409625)
 rotation = 1.5707964
-progress = 0.6501729
+progress = 17.71437
 rotates = false
 
 [node name="TileLayer2" type="TileMapLayer" parent="Moving platforms/MovingPlatform4/Path2D/PathFollow2D" index="0" unique_id=1660994021]
@@ -1439,7 +1440,9 @@ path_follow_2d = NodePath("Path2D/PathFollow2D")
 curve = SubResource("Curve2D_pul5h")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Hang in there/MovingPlatform/Path2D" index="0" unique_id=1600839163]
+position = Vector2(-23.245089, 0)
 rotation = 3.1415927
+progress = 23.21584
 rotates = false
 loop = false
 
@@ -1613,11 +1616,10 @@ position = Vector2(80, 32)
 [node name="Jumper2" parent="Steep climb" index="7" unique_id=769419933 instance=ExtResource("7_5jar8")]
 position = Vector2(24, 68)
 
-[node name="Chest" parent="Steep climb" index="8" unique_id=1259873822 instance=ExtResource("8_daf8d")]
+[node name="LocalSwitch" parent="Steep climb" index="8" unique_id=1558115635 instance=ExtResource("18_6q16k")]
 position = Vector2(120, 16)
-color = 3
-content_type = 1
-amount = 15
+flag = "prison_break"
+text = Array[String](["A loud noise echoes from below, as if metal suddenly rent.", "A few seconds later something heavy crushes to the ground."])
 
 [node name="Defeat them all" parent="." index="43" unique_id=1068468319 instance=ExtResource("3_l1p8w")]
 position = Vector2(0, -520)
@@ -1722,12 +1724,7 @@ tile_map_data = PackedByteArray("AAADAAAABAAEABkAAAACAAAABAAEABkAAAACAAEABAAEABk
 tile_set = ExtResource("5_5jar8")
 script = ExtResource("5_l1p8w")
 
-[node name="LocalSwitch" parent="Prison break" index="4" unique_id=1484033576 instance=ExtResource("18_6q16k")]
-position = Vector2(136, 48)
-flag = "prison_break"
-text = Array[String](["A loud noise echoes from below, as if metal suddenly rent.", "A few seconds later something heavy crushes to the ground."])
-
-[node name="BatSpawner" parent="Prison break" index="5" unique_id=709957018 node_paths=PackedStringArray("bottom") instance=ExtResource("21_77omy")]
+[node name="BatSpawner" parent="Prison break" index="4" unique_id=709957018 node_paths=PackedStringArray("bottom") instance=ExtResource("21_77omy")]
 position = Vector2(0, 16)
 frequency = 3.0
 init_timer = 3.0
@@ -1737,14 +1734,20 @@ bottom = NodePath("Marker2D")
 [node name="Marker2D" type="Marker2D" parent="Prison break/BatSpawner" index="1" unique_id=1643918505]
 position = Vector2(0, 56)
 
-[node name="Ranger" parent="Prison break" index="6" unique_id=1337816453 instance=ExtResource("27_pul5h")]
+[node name="Ranger" parent="Prison break" index="5" unique_id=1337816453 instance=ExtResource("27_pul5h")]
 position = Vector2(72, 40)
 
-[node name="Ranger2" parent="Prison break" index="7" unique_id=798057662 instance=ExtResource("27_pul5h")]
+[node name="Ranger2" parent="Prison break" index="6" unique_id=798057662 instance=ExtResource("27_pul5h")]
 position = Vector2(100, 24)
 
-[node name="Ranger3" parent="Prison break" index="8" unique_id=1694330580 instance=ExtResource("27_pul5h")]
+[node name="Ranger3" parent="Prison break" index="7" unique_id=1694330580 instance=ExtResource("27_pul5h")]
 position = Vector2(91, 56)
+
+[node name="Chest" parent="Prison break" index="8" unique_id=1701627166 instance=ExtResource("8_daf8d")]
+position = Vector2(144, 48)
+color = 3
+content_type = 1
+amount = 15
 
 [node name="Master if the tower" parent="." index="46" unique_id=1763154536 instance=ExtResource("3_l1p8w")]
 position = Vector2(-160, -624)
@@ -1856,7 +1859,7 @@ exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
 [node name="TileLayer1" type="TileMapLayer" parent="Cheating tips" index="3" unique_id=294729378]
-tile_map_data = PackedByteArray("AAAHAAoABAAGABoAAAAIAAoABAAGABgAAAAJAAoABAAGABgAAAAKAAoABAAGABgAAAALAAoABAAGABgAAAAMAAoABAAGABgAAAANAAoABAAGABgAAAAOAAoABAAGABgAAAAPAAoABAAGABgAAAAQAAwABAAGABkAAAAQAAsABAAGABkAAAAQAAoABAABABgAACAGAAkABAAGABgAAAAHAAkABAABABgAACAFAAkABAAGABoAAAAFAAgABAADABgAAAAGAAgABAADABoAAAAHAAgABAADABoAAAAIAAgABAADABoAAAAJAAgABAADABoAAAAKAAgABAADABoAAAALAAgABAADABoAAAAMAAgABAADABoAAAANAAgABAADABoAAAAOAAgABAADABoAAAAPAAgABAADABoAAAAQAAgABAADABoAAAARAAgABAADABoAAAASAAgABAADABoAAAATAAgABAADABoAAAARAAsABAAYABsAAAATAAkABAAYABsAAAATAAsABAAYAB0AAAANAAkABAAYAB0AAAAQAAkABAAYABsAAAARAAkABAAYABsAAAAIAAkABAAYABsAAAAPAAkABAAYAB0AAAAKAAkABAAYAB0AAAAEAAgABAAPACYAAAADAAgABQAEAAoAAAADAAkABQAEAAoAAAADAAoABQAEAAoAAAADAAsABQAEAAoAAAAHAAwABAASABgAAAAHAAsABAASABgAAAAFAAoABAATABYAAAAFAAsABAATABYAAAAFAAwABAATABcAAAAGAAoABAAUABgAAAAGAAsABAAUABgAAAAGAAwABAAUABkAAAAJAAsABAAUABgAAAAJAAwABAAUABkAAAAMAAsABAASABYAAAAMAAwABAASABcAAAA=")
+tile_map_data = PackedByteArray("AAAHAAoABAAGABoAAAAIAAoABAAGABgAAAAJAAoABAAGABgAAAAKAAoABAAGABgAAAALAAoABAAGABgAAAAMAAoABAAGABgAAAANAAoABAAGABgAAAAOAAoABAAGABgAAAAPAAoABAAGABgAAAAQAAwABAAGABkAAAAQAAsABAAGABkAAAAQAAoABAABABgAACAGAAkABAAGABgAAAAHAAkABAABABgAACAFAAkABAAGABoAAAAFAAgABAADABgAAAAGAAgABAADABoAAAAHAAgABAADABoAAAAIAAgABAADABoAAAAJAAgABAADABoAAAAKAAgABAADABoAAAALAAgABAADABoAAAAMAAgABAADABoAAAANAAgABAADABoAAAAOAAgABAADABoAAAAPAAgABAADABoAAAAQAAgABAADABoAAAARAAgABAADABoAAAASAAgABAADABoAAAATAAgABAADABoAAAARAAsABAAYABsAAAATAAkABAAYABsAAAATAAsABAAYAB0AAAANAAkABAAYAB0AAAAQAAkABAAYABsAAAARAAkABAAYABsAAAAIAAkABAAYABsAAAAPAAkABAAYAB0AAAAKAAkABAAYAB0AAAAEAAgABAAPACYAAAADAAgABQAEAAoAAAADAAkABQAEAAoAAAADAAoABQAEAAoAAAADAAsABQAEAAoAAAAHAAwABAASABgAAAAHAAsABAASABgAAAAFAAoABAATABYAAAAFAAsABAATABYAAAAFAAwABAATABcAAAAGAAoABAAUABgAAAAGAAsABAAUABgAAAAGAAwABAAUABkAAAAJAAsABAAUABgAAAAJAAwABAAUABkAAAAMAAsABAASABYAAAAMAAwABAASABcAAAAAAAcAAQACAAYAAAABAAcAAQACAAYAAAACAAcAAQACAAYAAAA=")
 tile_set = ExtResource("5_5jar8")
 script = ExtResource("5_l1p8w")
 
@@ -1904,7 +1907,7 @@ exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
 
 [node name="FishTestRoom" parent="." index="54" unique_id=2120786504 instance=ExtResource("3_l1p8w")]
-position = Vector2(640, 312)
+position = Vector2(-800, -624)
 exit_markers_left = Array[int]([0])
 
 [node name="TileLayer1" type="TileMapLayer" parent="FishTestRoom" index="3" unique_id=944741690]
@@ -1944,3 +1947,13 @@ script = ExtResource("5_l1p8w")
 
 [node name="Worm" parent="Room" index="4" unique_id=2109928070 instance=ExtResource("36_hklwl")]
 position = Vector2(72, 36)
+
+[node name="Room4" type="Node2D" parent="." index="56" unique_id=1166706269 instance=ExtResource("3_l1p8w")]
+position = Vector2(-160, -936)
+script = ExtResource("35_idt5l")
+
+[node name="Label" type="Label" parent="Room4" index="3" unique_id=1876430814]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "Third boss opens with either
+bat or griffon"

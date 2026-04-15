@@ -431,6 +431,7 @@ func _physics_process(delta: float) -> void:
 					# Failed jump penalty
 					_jump_cooldown = 0.25
 			
+			# Allows for short jumps with controlled_fall available
 			if Global.session.upgrades.controlled_fall:
 				if not Input.is_action_pressed("jump"):
 					velocity.y = max(velocity.y, -SLOW_FALL_THRESHOLD)
@@ -679,17 +680,19 @@ func _physics_process(delta: float) -> void:
 				var v := Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 				var h := Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 				velocity = Vector2(h,v).normalized() * 15
-				_move()
-				_uncontrolled_jump_x_vel = WALK_SPEED * 0.5 * sign(velocity.x)
-				if sign(_uncontrolled_jump_x_vel) != 0:
-					_direction = Global.Direction.LEFT if _uncontrolled_jump_x_vel < 0 else Global.Direction.RIGHT
 				
 				if Input.is_action_just_pressed("jump") and Global.session.upgrades.jump:
 					if JUMP_ANTICIPATION_DURATION > 0 and not Global.session.upgrades.controlled_fall:
 						_state = State.JUMP_ANTICIPATION
 					else:
+						#_state = State.JUMP_ANTICIPATION
 						_state = State.NORMAL
 						_jump(JUMP_INIT_SPEED)
+				
+				_move()
+				_uncontrolled_jump_x_vel = WALK_SPEED * 0.5 * sign(velocity.x)
+				if sign(_uncontrolled_jump_x_vel) != 0:
+					_direction = Global.Direction.LEFT if _uncontrolled_jump_x_vel < 0 else Global.Direction.RIGHT
 			else:
 				_jump(25)
 				_state = State.NORMAL
