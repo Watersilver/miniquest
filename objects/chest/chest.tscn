@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bg6fkjj0kc0tx"]
+[gd_scene format=3 uid="uid://bg6fkjj0kc0tx"]
 
 [ext_resource type="Script" uid="uid://banx56j2rx7t0" path="res://objects/chest/chest.gd" id="1_f2ppc"]
 [ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="2_141al"]
@@ -152,47 +152,62 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Chest" type="Area2D"]
+[sub_resource type="LabelSettings" id="LabelSettings_141al"]
+font_size = 6
+
+[node name="Chest" type="Area2D" unique_id=1189301274]
 collision_layer = 0
 collision_mask = 256
 script = ExtResource("1_f2ppc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2077244699]
 unique_name_in_owner = true
 position = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_5rr60")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1880522423]
 unique_name_in_owner = true
 position = Vector2(4, 4)
 texture = ExtResource("2_141al")
 region_enabled = true
 region_rect = Rect2(16, 168, 8, 8)
 
-[node name="LittleMoney" type="AnimatedSprite2D" parent="."]
+[node name="LittleMoney" type="AnimatedSprite2D" parent="." unique_id=196127604]
 unique_name_in_owner = true
 visible = false
 sprite_frames = SubResource("SpriteFrames_h21wd")
 frame_progress = 0.0875967
 
-[node name="DecentMoney" type="AnimatedSprite2D" parent="."]
+[node name="DecentMoney" type="AnimatedSprite2D" parent="." unique_id=1131161684]
 unique_name_in_owner = true
 visible = false
 sprite_frames = SubResource("SpriteFrames_w8b6h")
 frame_progress = 0.00571396
 
-[node name="GoodMoney" type="AnimatedSprite2D" parent="."]
+[node name="GoodMoney" type="AnimatedSprite2D" parent="." unique_id=331041436]
 unique_name_in_owner = true
 visible = false
 sprite_frames = SubResource("SpriteFrames_clqd1")
 frame_progress = 0.185985
 
-[node name="GreatMoney" type="AnimatedSprite2D" parent="."]
+[node name="GreatMoney" type="AnimatedSprite2D" parent="." unique_id=1817136524]
 unique_name_in_owner = true
 visible = false
 sprite_frames = SubResource("SpriteFrames_i27q5")
 
-[node name="Life" type="AnimatedSprite2D" parent="."]
+[node name="Life" type="AnimatedSprite2D" parent="." unique_id=1425063246]
 unique_name_in_owner = true
 visible = false
 sprite_frames = SubResource("SpriteFrames_boclg")
+
+[node name="Crit" type="Node2D" parent="." unique_id=527647392]
+unique_name_in_owner = true
+visible = false
+
+[node name="Label" type="Label" parent="Crit" unique_id=808940490]
+offset_left = -14.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 4.0
+text = "Crit+"
+label_settings = SubResource("LabelSettings_141al")

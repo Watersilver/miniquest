@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://b7qgoa2hyhi12"]
+
+[ext_resource type="Script" uid="uid://biarb6olqpkos" path="res://objects/enemies/snake/snake.gd" id="1_e6mak"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_nmmlc"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_iqyy5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58ogx"]
+size = Vector2(4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e6mak"]
+size = Vector2(2, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nmmlc"]
+size = Vector2(2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6mak"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(0, 184, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmmlc"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(0, 192, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqyy5"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(0, 168, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qw1w5"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(8, 168, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxi3e"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(16, 168, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rx3w5"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(0, 176, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kekc7"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(8, 176, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb1gq"]
+atlas = ExtResource("2_nmmlc")
+region = Rect2(16, 176, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5wbqj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6mak")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmmlc")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqyy5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qw1w5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxi3e")
+}],
+"loop": true,
+"name": &"red_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rx3w5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kekc7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mb1gq")
+}],
+"loop": true,
+"name": &"yellow_walk",
+"speed": 5.0
+}]
+
+[node name="Snake" type="CharacterBody2D" unique_id=1449567464]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_e6mak")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1694793803]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_58ogx")
+
+[node name="WallChecker" type="Area2D" parent="." unique_id=208848008]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8193
+
+[node name="WallCheckerShape" type="CollisionShape2D" parent="WallChecker" unique_id=734393670]
+unique_name_in_owner = true
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_e6mak")
+
+[node name="FloorChecker" type="Area2D" parent="." unique_id=1333661439]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8195
+
+[node name="FloorCheckerShape" type="CollisionShape2D" parent="FloorChecker" unique_id=1734865268]
+unique_name_in_owner = true
+position = Vector2(-4, 5)
+shape = SubResource("RectangleShape2D_nmmlc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55774422]
+unique_name_in_owner = true
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_5wbqj")
+animation = &"red_walk"
+autoplay = "red_walk"
+frame_progress = 0.5152854
+flip_h = true
+
+[node name="CommonEnemy" parent="." unique_id=2040644512 instance=ExtResource("3_iqyy5")]
+unique_name_in_owner = true
+dmg_dice = 1
+haz_shape = Rect2(0, 1, 6, 6)
+hitpoints = 2
+hitbox_shape = Rect2(0, 1, 6, 6)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1276025982]
+unique_name_in_owner = true
+show_rect = false

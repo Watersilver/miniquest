@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://qhcwyryg6cta"]
+
+[ext_resource type="Script" uid="uid://cml5436la76yn" path="res://objects/bosses/tower_guy/tower_guy.gd" id="1_2ph5t"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_002at"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_002at"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rt3pe"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 592, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_002at"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 584, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbdk6"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 576, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73nfc"]
+atlas = ExtResource("2_002at")
+region = Rect2(8, 576, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wloiw"]
+atlas = ExtResource("2_002at")
+region = Rect2(16, 576, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nvagn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt3pe")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_002at")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbdk6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73nfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wloiw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvagn"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 256, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7j1nq"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 240, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eg7vf"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 248, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m76hh"]
+atlas = ExtResource("2_002at")
+region = Rect2(8, 240, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psi4r"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 248, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3u2i3"]
+atlas = ExtResource("2_002at")
+region = Rect2(0, 240, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rt3pe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvagn")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7j1nq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eg7vf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m76hh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psi4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3u2i3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 12.0
+}]
+
+[node name="TowerGuy" type="Node2D" unique_id=1952431755]
+script = ExtResource("1_2ph5t")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=228876979]
+unique_name_in_owner = true
+modulate = Color(1, 0, 0, 1)
+position = Vector2(0, 2)
+sprite_frames = SubResource("SpriteFrames_nvagn")
+animation = &"dead"
+autoplay = "idle"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1760006417]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_rt3pe")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CommonEnemy" parent="." unique_id=809384789 instance=ExtResource("3_002at")]
+unique_name_in_owner = true
+has_iframes = true
+extra_iframes = 1.0
+dmg_dice = 1
+enhancement = 1
+haz_shape = Rect2(0, 0, 8, 4)
+hitpoints = 25
+hitbox_shape = Rect2(0, 0, 8, 6)

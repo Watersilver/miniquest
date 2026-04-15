@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://bshqoe3f50kaq"]
+
+[ext_resource type="Script" uid="uid://cph4h3u4ygtu3" path="res://objects/enemies/fish/fish.gd" id="1_2l8pw"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_uu5ky"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_quwfc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pewkd"]
+radius = 24.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pewkd"]
+size = Vector2(6, 2)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_quwfc"]
+radius = 1.0
+
+[node name="Fish" type="Node2D" unique_id=352762856]
+script = ExtResource("1_2l8pw")
+
+[node name="Body" type="Node2D" parent="." unique_id=886714417]
+unique_name_in_owner = true
+
+[node name="Area2D" type="Area2D" parent="Body" unique_id=632999959]
+monitoring = false
+monitorable = false
+
+[node name="DetectionShape" type="CollisionShape2D" parent="Body/Area2D" unique_id=1040180681]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_pewkd")
+disabled = true
+
+[node name="Sprite" type="Sprite2D" parent="Body" unique_id=366684017]
+unique_name_in_owner = true
+texture = ExtResource("1_uu5ky")
+hframes = 12
+vframes = 86
+frame = 528
+
+[node name="CommonEnemy" parent="Body" unique_id=809384789 instance=ExtResource("3_quwfc")]
+unique_name_in_owner = true
+dmg_dice = 3
+haz_shape = Rect2(0, 0, 6, 4)
+hitpoints = 3
+hitbox_shape = Rect2(0, 0, 6, 4)
+
+[node name="WaterDetector" type="Area2D" parent="Body" unique_id=1375170480]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/WaterDetector" unique_id=241561063]
+shape = SubResource("RectangleShape2D_pewkd")
+
+[node name="WaterDetector2" type="Area2D" parent="Body" unique_id=557568739]
+unique_name_in_owner = true
+position = Vector2(24, 0)
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/WaterDetector2" unique_id=250092748]
+shape = SubResource("CircleShape2D_quwfc")
+
+[node name="Arrow" type="RayCast2D" parent="Body" unique_id=1795196656]
+unique_name_in_owner = true
+enabled = false
+target_position = Vector2(24, 0)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Body" unique_id=1097663783]
+unique_name_in_owner = true
+show_rect = false

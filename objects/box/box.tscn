@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjlsknmiiv8gs"]
+[gd_scene format=3 uid="uid://bjlsknmiiv8gs"]
 
 [ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="1_2kn5q"]
 [ext_resource type="Script" uid="uid://bjcsvxo080h26" path="res://objects/box/box.gd" id="1_xv1ks"]
@@ -6,54 +6,60 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2kn5q"]
 size = Vector2(8, 8)
 
-[node name="Box" type="Node2D"]
+[node name="Box" type="Node2D" unique_id=1009726205]
 script = ExtResource("1_xv1ks")
 
-[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="." unique_id=1951045059]
 unique_name_in_owner = true
 collision_layer = 8193
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D" unique_id=711400270]
 position = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_2kn5q")
 
-[node name="PushableArea" type="Area2D" parent="AnimatableBody2D"]
+[node name="PushableArea" type="Area2D" parent="AnimatableBody2D" unique_id=2128944647]
 unique_name_in_owner = true
 visible = false
 collision_layer = 0
 collision_mask = 64
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/PushableArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/PushableArea" unique_id=1414312986]
 visible = false
 position = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_2kn5q")
 
-[node name="Down" type="RayCast2D" parent="AnimatableBody2D"]
+[node name="Down" type="RayCast2D" parent="AnimatableBody2D" unique_id=693548323]
 unique_name_in_owner = true
 visible = false
 position = Vector2(4, 4)
 target_position = Vector2(0, 167)
 hit_from_inside = true
 
-[node name="Right" type="RayCast2D" parent="AnimatableBody2D"]
+[node name="Right" type="RayCast2D" parent="AnimatableBody2D" unique_id=1909135697]
 unique_name_in_owner = true
 position = Vector2(4, 4)
 target_position = Vector2(8, 0)
 
-[node name="Left" type="RayCast2D" parent="AnimatableBody2D"]
+[node name="Left" type="RayCast2D" parent="AnimatableBody2D" unique_id=466619112]
 unique_name_in_owner = true
 position = Vector2(4, 4)
 target_position = Vector2(-8, 0)
 
-[node name="Sprite" type="Sprite2D" parent="AnimatableBody2D"]
+[node name="Sprite" type="Sprite2D" parent="AnimatableBody2D" unique_id=1334268508]
 unique_name_in_owner = true
 position = Vector2(4, 4)
 texture = ExtResource("1_2kn5q")
 region_enabled = true
 region_rect = Rect2(16, 64, 8, 8)
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="AnimatableBody2D"]
+[node name="Polygon2D" type="Polygon2D" parent="AnimatableBody2D/Sprite" unique_id=1565917636]
+show_behind_parent = true
+position = Vector2(-4, -4)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, 8, 8, 8, 8, 0, 0, 0)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="AnimatableBody2D" unique_id=963718766]
 unique_name_in_owner = true
 position = Vector2(4, 4)
 scale = Vector2(0.3, 0.3)

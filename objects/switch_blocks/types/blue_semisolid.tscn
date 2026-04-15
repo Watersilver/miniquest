@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://byj6q7bnsn0lk"]
+[gd_scene format=3 uid="uid://byj6q7bnsn0lk"]
 
 [ext_resource type="PackedScene" uid="uid://dd75ml4vwpveo" path="res://objects/switch_blocks/switch_block.tscn" id="1_hcrcg"]
 
-[node name="SwitchBlock" instance=ExtResource("1_hcrcg")]
+[node name="SwitchBlock" unique_id=964330461 instance=ExtResource("1_hcrcg")]
 solid = false
 color = 1
 

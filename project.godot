@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Miniquest"
 run/main_scene="uid://d18n5d4asr05x"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -40,6 +44,10 @@ enabled=PackedStringArray("res://addons/TilesEditorBGSettingsPlugin/plugin.cfg")
 waypoints="Important location of rooms"
 connections="They describe what is required to move between the waypoints they connect"
 shop_items=""
+switch_blocks=""
+enemies=""
+moving_platforms=""
+wind_controllers=""
 
 [gui]
 
@@ -145,6 +153,7 @@ dash={
 2d_physics/layer_12="interactive"
 2d_physics/layer_13="player_interactivity_checker"
 2d_physics/layer_14="box"
+2d_physics/layer_15="player_trans_area"
 2d_physics/layer_31="room_area"
 2d_physics/layer_32="waypoint"
 

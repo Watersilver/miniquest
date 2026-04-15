@@ -9,8 +9,8 @@ static func mark() -> void:
 	Refs.level_manager.player.health.value = Refs.level_manager.player.health.maximum
 	Global.session.checkpoint.room = Refs.level_manager.get_room_coordinates()
 	Global.session.checkpoint.pos = Refs.level_manager.player.body.global_position
-	Global.session.checkpoint.upgrades = Global.session.upgrades.duplicate()
-	Global.session.checkpoint.saved_data = Global.session.saved_data.duplicate()
+	Global.session.checkpoint.upgrades = Global.session.upgrades.duplicate(true)
+	Global.session.checkpoint.saved_data = Global.session.saved_data.duplicate(true)
 
 
 func is_active():

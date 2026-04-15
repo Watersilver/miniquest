@@ -3,13 +3,9 @@ class_name Player
 
 const PLAYER_ATTACK = preload("res://objects/player_attack/player_attack.tscn")
 const UNDERWATER_BUBBLE = preload("res://objects/underwater_bubble/underwater_bubble.tscn")
+const DAMAGE_NUMBER = preload("uid://dmig0d05okjv7")
 
 signal griffon_ceiling_smash
-
-
-# TODO: Why hurt state after death during respawn??
-
-# TODO: should always be able to teleport to checkpoint to avoid softlocks
 
 @onready var body: CharacterBody2D = %CharacterBody2D
 @onready var anim: CharacterAnimations = %CharacterAnimations
@@ -24,6 +20,7 @@ signal griffon_ceiling_smash
 @onready var is_in_wall_detector: Area2D = %IsInWallDetector
 @onready var interaction_checker: Area2D = %InteractionChecker
 #@onready var state_debug_label: Label = %StateDebugLabel
+@onready var climb_trans_shape: CollisionShape2D = %ClimbShape
 
 const JUMP_INIT_SPEED := 180.0
 const JUMP_ANTICIPATION_DURATION := 0.05
@@ -48,6 +45,11 @@ func get_room_block_coordinates(room: Room) -> Vector2i:
 			room.size_y - 1
 		)
 	)
+
+
+## Returns true if _swim_mode is true and you have swim upgrade
+func is_swim_mode_toggled() -> bool:
+	return Global.session.upgrades.swim and _swim_mode
 
 
 func handle_out_of_bounds():
@@ -118,14 +120,14 @@ var _exhale_timer := 0.0
 var _init_vel := Vector2(0,0)
 var velocity: Vector2:
 	set(v):
-		if Global.session.is_underwater and not _swim_mode:
+		if Global.session.is_underwater and not is_swim_mode_toggled():
 			if _state == State.BACKDASH:
 				v.x *= 0.95
 			elif _state == State.RUN:
 				v.x *= 0.9
 			else:
-				v.x *= 0.5
-				v.y *= 0.95
+				v.x *= 0.75
+				v.y *= 0.98
 		
 		if not is_node_ready():
 			_init_vel = v
@@ -171,7 +173,7 @@ func _move():
 	if velocity.y > JUMP_INIT_SPEED:
 		velocity.y = JUMP_INIT_SPEED
 	
-	if Global.session.is_underwater and not _swim_mode:
+	if Global.session.is_underwater and not is_swim_mode_toggled():
 		if velocity.y > JUMP_INIT_SPEED * 0.25:
 			velocity.y = JUMP_INIT_SPEED * 0.25
 	
@@ -179,7 +181,17 @@ func _move():
 	if _passing_through_semisolids:
 		body.set_collision_mask_value(2, false)
 	
-	body.move_and_slide()
+	if _state != State.JUMP_ANTICIPATION and _state != State.JUMP_RECOVERY and _state != State.CLIMB and _state != State.DAED:
+		var wind := 0.0
+		var wcs := get_tree().get_nodes_in_group("wind_controllers")
+		for n in wcs:
+			if n is WindController:
+				wind += n.wind
+		velocity.x += wind
+		body.move_and_slide()
+		velocity.x -= wind
+	else:
+		body.move_and_slide()
 	
 	body.set_collision_mask_value(2, semisolid_collision)
 
@@ -221,9 +233,9 @@ func _handle_underwater():
 				elif Global.session.upgrades.swim:
 					_swim_mode = true
 					_state = State.SWIM
-		elif Global.session.upgrades.swim and _state != State.SWIM and _swim_mode:
+		elif _state != State.SWIM and is_swim_mode_toggled():
 			if Global.session.is_underwater:
-				if _swim_mode and Global.session.upgrades.water_walk and Input.is_action_pressed("move_down"):
+				if Global.session.upgrades.water_walk and Input.is_action_pressed("move_down"):
 					_swim_mode = false
 				else:
 					_state = State.SWIM
@@ -232,6 +244,8 @@ func _handle_underwater():
 func _ready() -> void:
 	anim.animation_finished.connect(_on_character_animations_animation_finished)
 	anim.animation_looped.connect(_on_character_animations_animation_looped)
+	hitbox.area_entered.connect(_on_hitbox_area_entered)
+	hitbox.body_entered.connect(_on_hitbox_body_entered)
 	velocity = _init_vel
 	
 	health.maximum = Global.session.upgrades.max_health
@@ -281,6 +295,7 @@ func _physics_process(delta: float) -> void:
 			normal_shape.disabled = false
 			bat_shape.disabled = true
 			bat_mana_center.force_fadeout = false
+			climb_trans_shape.disabled = true
 			
 			# Cleanup prev
 			match _prev_state:
@@ -296,6 +311,8 @@ func _physics_process(delta: float) -> void:
 			
 			# Init new
 			match _state:
+				State.CLIMB:
+					climb_trans_shape.disabled = false
 				State.JUMP_ANTICIPATION:
 					if _prev_state != State.JUMP_RECOVERY:
 						_state_countdown = JUMP_ANTICIPATION_DURATION
@@ -601,7 +618,7 @@ func _physics_process(delta: float) -> void:
 			if body.is_on_floor() or _state_countdown <= 0:
 				_state = State.NORMAL
 			
-			if _swim_mode and Global.session.is_underwater:
+			if is_swim_mode_toggled() and Global.session.is_underwater:
 				if (_state_countdown <= 0 or velocity.y >= 0):
 					_state = State.SWIM
 			elif body.is_on_floor() or _state_countdown <= 0:
@@ -876,10 +893,13 @@ func _physics_process(delta: float) -> void:
 	
 	
 	# MISC
-	for _area in hitbox.get_overlapping_areas():
-		_take_damage()
+	for area in hitbox.get_overlapping_areas():
+		var dmg = 1
+		if area is Hazard:
+			dmg = area.roll_damage()
+		_take_damage(dmg)
 	for _body in hitbox.get_overlapping_bodies():
-		_take_damage()
+		_take_damage(floor(randf() * health.maximum) + 1)
 	
 	#var state_names := [
 		#"NONE",
@@ -952,6 +972,11 @@ func _take_damage(dmg: int = 1):
 	if _i_frames > 0: return
 	_i_frames = 3
 	health.value -= max(dmg,0)
+	var dn: DamageNumber = DAMAGE_NUMBER.instantiate()
+	dn.set_type(1)
+	dn.set_value(dmg)
+	get_viewport().add_child(dn)
+	dn.global_position = hitbox.global_position
 	if health.value <= 0:
 		_state = State.DAED
 		_i_frames = 0
@@ -959,12 +984,15 @@ func _take_damage(dmg: int = 1):
 		_state = State.HURT
 
 
-func _on_hitbox_area_entered(_area: Area2D) -> void:
-	_take_damage()
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	var dmg = 1
+	if area is Hazard:
+		dmg = area.roll_damage()
+	_take_damage(dmg)
 
 
 func _on_hitbox_body_entered(_body: Node2D) -> void:
-	_take_damage()
+	_take_damage(floor(randf() * health.maximum) + 1)
 
 
 func _on_character_animations_animation_finished() -> void:

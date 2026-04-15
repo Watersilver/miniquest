@@ -61,6 +61,8 @@ enum Switch {
 class _SavedData extends Resource:
 	@export var money := 0
 	@export var object_flags: Dictionary[String, bool] = {}
+	@export var keys := 0
+	@export var pressed_switches: Dictionary[Switch, bool] = {}
 
 class _Upgrades extends Resource:
 	@export var controlled_fall := false
@@ -83,7 +85,17 @@ class _Upgrades extends Resource:
 		set(w):
 			weapon = clampi(0, w, 4) as Weapon
 	
-	@export var damage := Damage.ROLL_1D2
+	## upgrades weapon to given value, but doesn't degrade
+	func set_weapon_upgrade(w: Weapon) -> void:
+		if w > weapon: weapon = w
+	
+	## upgrades weapon to given value, but doesn't degrade
+	func raise_dmg_die(amount: int) -> void:
+		damage = (damage + amount) as Damage
+	
+	@export var damage := Damage.ROLL_1D2:
+		set(d):
+			damage = clampi(0, d, 6) as Damage
 	@export var enhancement := 0
 	
 	 ## % percentage
@@ -104,22 +116,30 @@ class Session:
 	
 	var is_underwater := false
 	
-	var _pressed_switches: Dictionary[Switch, bool] = {}
-	
 	func get_lung_capacity_max():
 		return upgrades.extra_lung_capacity and (3 if upgrades.water_walk else 1 if upgrades.swim else 0)
 	
 	func is_switch_active(col: Switch) -> bool:
-		if not _pressed_switches.has(col): return false
-		return _pressed_switches[col]
+		if not saved_data.pressed_switches.has(col): return false
+		return saved_data.pressed_switches[col]
 	
 	func activate_switch(col: Switch) -> void:
-		var prev := _pressed_switches[col]
-		_pressed_switches[col] = true
-		if prev != true: switch_activated.emit(col)
+		if saved_data.pressed_switches.has(col):
+			var prev := saved_data.pressed_switches[col]
+			saved_data.pressed_switches[col] = true
+			if prev != true: switch_activated.emit(col)
+		else:
+			saved_data.pressed_switches[col] = true
+			switch_activated.emit(col)
 	
 	func load_checkpoint():
-		Global.session.upgrades = Global.session.checkpoint.upgrades
-		Global.session.saved_data = Global.session.checkpoint.saved_data
+		Global.session.upgrades = Global.session.checkpoint.upgrades.duplicate(true)
+		Global.session.saved_data = Global.session.checkpoint.saved_data.duplicate(true)
 
 var session := Session.new()
+
+func i_modulo(a: int, n: int) -> int:
+	return (a % n + n) % n
+
+func f_modulo(a: float, n: float) -> float:
+	return fmod(fmod(a, n) + n, n)

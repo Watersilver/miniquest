@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ckmc7ka7bkxv5"]
+
+[ext_resource type="Script" uid="uid://b0f1e48w8con5" path="res://objects/big_switch/big_switch.gd" id="1_n311a"]
+
+[node name="BigSwitch" type="Node2D" unique_id=236958433]
+script = ExtResource("1_n311a")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=520118874]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 512
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=1218838398]
+polygon = PackedVector2Array(1, 16, 1, 13, 8, 7, 15, 13, 15, 16)

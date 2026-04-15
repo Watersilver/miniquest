@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bugdl6ins2snb"]
+
+[ext_resource type="Script" uid="uid://b08drg427wshb" path="res://objects/switch/switch.gd" id="1_7oapj"]
+[ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="1_umaeg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7oapj"]
+size = Vector2(8, 8)
+
+[node name="LocalSwitch" type="Area2D" unique_id=968327545]
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("1_7oapj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=553777086]
+position = Vector2(4, 4)
+shape = SubResource("RectangleShape2D_7oapj")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=415116062]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 46, 0, 0, 0)
+tile_set = ExtResource("1_umaeg")

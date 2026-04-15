@@ -5,16 +5,42 @@ const BOX = preload("res://objects/box/box.tscn")
 const ARROW_TRAP = preload("res://objects/arrow_trap/arrow_trap.tscn")
 const UNDERWATER_BUBBLE = preload("res://objects/underwater_bubble/underwater_bubble.tscn")
 
+const BLUE_SEMISOLID = preload("uid://byj6q7bnsn0lk")
+const BLUE_SOLID = preload("uid://cvnmxitm83e6l")
+const GREEN_SEMISOLID = preload("uid://bdbw4l8rlfdpt")
+const GREEN_SOLID = preload("uid://bw5b0srfo2hd0")
+const GREY_SEMISOLID = preload("uid://com5cgy3ur3rm")
+const GREY_SOLID = preload("uid://d4c0m4ew8x0e0")
+const ORANGE_SEMISOLID = preload("uid://d3kih5fhy0yq2")
+const ORANGE_SOLID = preload("uid://dj86aotmooj8v")
+const PURPLE_SEMISOLID = preload("uid://duxn4tqxmi357")
+const PURPLE_SOLID = preload("uid://cbqixst422fx0")
+const RED_SEMISOLID = preload("uid://c8mds501jbon3")
+const RED_SOLID = preload("uid://cskfnpfuf6rrv")
+const YELLOW_SEMISOLID = preload("uid://bcskqpt5b4pjt")
+const YELLOW_SOLID = preload("uid://dn882e8xfd5er")
+
+
+@export var enable_trigger := ""
+
+@export var disable_trigger := ""
+
+
 class _ReplacedTile extends Resource:
 	enum Type {
 		BOX,
 		ARROW_TRAP,
-		UNDERWATER_BUBBLE
+		UNDERWATER_BUBBLE,
+		SWITCH_BLOCK
+	}
+	enum Colour {
+		BLUE, GREEN, GREY, ORANGE, PURPLE, RED, YELLOW
 	}
 	var type: Type
 	var coords := Vector2i(0,0)
 	var dir := Global.Direction.RIGHT
 	var variant := 0
+	var col := Colour.BLUE
 @export_storage var _replacements: Array[_ReplacedTile] = []
 
 ## Checks if tileset tile is valid for given values
@@ -216,6 +242,27 @@ func apply_shake(duration: float, power: int):
 	shake.duration = duration
 	shake.offset = power
 
+func _handle_triggers():
+	var e := 0
+	
+	if enable_trigger != "":
+		if Global.session.saved_data.object_flags.has(enable_trigger) and Global.session.saved_data.object_flags[enable_trigger]:
+			e += 1
+		else:
+			e -= 1
+	else:
+		e += 1
+	
+	if disable_trigger != "":
+		if Global.session.saved_data.object_flags.has(disable_trigger) and Global.session.saved_data.object_flags[disable_trigger]:
+			e -= 1
+		else:
+			e += 1
+	else:
+		e += 1
+	
+	enabled = e != 0
+
 func _ready() -> void:
 	tick.connect(_on_tick)
 	
@@ -232,7 +279,7 @@ func _ready() -> void:
 			water_ranges.push_back(Rect2i(Vector2i(10 * x, 12 * y), Vector2i(1, 4)))
 		
 		waterfall_ranges.push_back(Rect2i(Vector2i(2, 8 + 12 * y),Vector2i(17,3)))
-
+	
 	for coords in get_used_cells():
 		if water_surface.find_custom(func(cd: CellData): return cd.coords == coords) != -1: continue
 		var src := get_cell_source_id(coords)
@@ -283,14 +330,47 @@ func _ready() -> void:
 			smoke.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
 		elif src == 1 and (atlas_coords.x == 0 and atlas_coords.y <= 3):
 			more_smoke.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
+		elif src == 1 and (atlas_coords.x >= 0 and atlas_coords.x <= 7 and atlas_coords.y >= 6):
+			var rt := _ReplacedTile.new()
+			rt.type = _ReplacedTile.Type.SWITCH_BLOCK
+			if atlas_coords.y < 7:
+				if atlas_coords.x < 4:
+					rt.col = rt.Colour.GREEN
+				else:
+					rt.col = rt.Colour.YELLOW
+			elif atlas_coords.y < 8:
+				if atlas_coords.x < 4:
+					rt.col = rt.Colour.BLUE
+				else:
+					rt.col = rt.Colour.GREY
+			elif atlas_coords.y < 9:
+				if atlas_coords.x < 4:
+					rt.col = rt.Colour.PURPLE
+				else:
+					rt.col = rt.Colour.ORANGE
+			else:
+				rt.col = rt.Colour.RED
+			if atlas_coords.x == 2 or atlas_coords.x == 3 or atlas_coords.x == 6 or atlas_coords.x == 7:
+				rt.variant = 1
+			rt.coords = coords
+			if atlas_coords.x == 11:
+				rt.dir = Global.Direction.LEFT
+			else:
+				rt.dir = Global.Direction.RIGHT
+			_replacements.push_back(rt)
+			
+			erase_cell(coords)
 		elif src == 5 and _t(atlas_coords, _sawblade_ranges):
 			sawblades.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
 		elif src == 6 and _t(atlas_coords, [Rect2i(Vector2i(20, 7), Vector2i(2, 7)), Rect2i(Vector2i(20, 15), Vector2i(1, 7))]):
 			seaweed.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
 		elif src == 6 and (_t(atlas_coords, waterfall_ranges)):
+			# Skip if tile already exists in waterfall
 			if waterfall.find_custom(func(cd: CellData): return cd.coords == coords) != -1: continue
+			# Add to waterfall cell data array
 			waterfall.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
 			
+			# Loop to add the waterfall tiles below that one to waterfall array
 			while true:
 				coords.y += 1
 				src = get_cell_source_id(coords)
@@ -300,10 +380,14 @@ func _ready() -> void:
 						atlas_coords.x += 2
 					else:
 						atlas_coords.x -= 2
-					new_atlas_coords.x = atlas_coords.x
+					var displacement = 2 if ((atlas_coords.x - 2) % 4) / 2.0 >= 0.5 else 0
+					if new_atlas_coords.x >= 10:
+						new_atlas_coords.x = new_atlas_coords.x % 10
+						displacement += 10
+					new_atlas_coords.x = 2 + floori((new_atlas_coords.x - 2) / 4.0) * 4 + displacement
 					
 					set_cell(coords, src, new_atlas_coords)
-					waterfall.push_back(CellData.new(src, coords, new_atlas_coords))
+					waterfall.push_back(CellData.new(src, coords, new_atlas_coords, is_cell_flipped_h(coords)))
 				else:
 					break
 		elif src == 6 and (_t(atlas_coords, [Rect2i(Vector2i(21,19), Vector2i(1,3))])):
@@ -337,8 +421,33 @@ func _ready() -> void:
 				ub.position.x += 4
 				ub.position.y += 4
 				add_child(ub)
+			_ReplacedTile.Type.SWITCH_BLOCK:
+				var sb: Node2D
+				match r.col:
+					r.Colour.GREEN:
+						sb = (GREEN_SOLID if r.variant == 0 else GREEN_SEMISOLID).instantiate()
+					r.Colour.YELLOW:
+						sb = (YELLOW_SOLID if r.variant == 0 else YELLOW_SEMISOLID).instantiate()
+					r.Colour.BLUE:
+						sb = (BLUE_SOLID if r.variant == 0 else BLUE_SEMISOLID).instantiate()
+					r.Colour.GREY:
+						sb = (GREY_SOLID if r.variant == 0 else GREY_SEMISOLID).instantiate()
+					r.Colour.PURPLE:
+						sb = (PURPLE_SOLID if r.variant == 0 else PURPLE_SEMISOLID).instantiate()
+					r.Colour.ORANGE:
+						sb = (ORANGE_SOLID if r.variant == 0 else ORANGE_SEMISOLID).instantiate()
+					_:
+						sb = (RED_SOLID if r.variant == 0 else RED_SEMISOLID).instantiate()
+				sb.position = r.coords * 8
+				sb.position.x += 4
+				sb.position.y += 4
+				add_child(sb)
+	
+	_handle_triggers()
 
 func _physics_process(delta: float) -> void:
+	_handle_triggers()
+	
 	_should_do_tilemap_update = false
 	if shake.countdown <= 0 and shake.offset > 0:
 		shake.offset = 0

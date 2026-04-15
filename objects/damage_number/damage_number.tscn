@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dmig0d05okjv7"]
+
+[ext_resource type="Script" uid="uid://cecrq5a5wmlrg" path="res://objects/damage_number/damage_number.gd" id="1_6leq8"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_2hnc5"]
+
+[sub_resource type="Curve" id="Curve_6leq8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25185186, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="DamageNumber" type="Node2D" unique_id=1638369087]
+script = ExtResource("1_6leq8")
+opacity_curve = SubResource("Curve_6leq8")
+
+[node name="Shake" type="Node2D" parent="." unique_id=1004796838]
+unique_name_in_owner = true
+
+[node name="Label" type="Label" parent="Shake" unique_id=1939056750]
+unique_name_in_owner = true
+material = ExtResource("2_2hnc5")
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -12.0
+offset_right = 6.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "-1"

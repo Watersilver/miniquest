@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c8ka6u3ohu54g"]
+
+[ext_resource type="Script" uid="uid://dtvu4jhf66l8j" path="res://components/illusion/illusion.gd" id="1_qucmh"]
+
+[node name="Illusion" type="Node2D" unique_id=1438224852]
+modulate = Color(1, 1, 1, 0.7490196)
+script = ExtResource("1_qucmh")

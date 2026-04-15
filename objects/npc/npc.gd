@@ -2,17 +2,54 @@ extends Area2D
 
 
 @export_multiline var text: Array[String] = ["I greet you and it's great to meet you"]
+@export_multiline var last_item_override: Array[String] = []
 @export_multiline var no_shop_items_override: Array[String] = []
 ## Default facing should be right
 @export var face_player := true
 
+@export var enabled_trigger := ""
+@export var disabled_trigger := ""
+
+func _handle_triggers():
+	var e := 0
+	
+	if enabled_trigger != "":
+		if Global.session.saved_data.object_flags.has(enabled_trigger) and Global.session.saved_data.object_flags[enabled_trigger]:
+			e += 1
+		else:
+			e -= 1
+	else:
+		e += 1
+	
+	if disabled_trigger != "":
+		if Global.session.saved_data.object_flags.has(disabled_trigger) and Global.session.saved_data.object_flags[disabled_trigger]:
+			e -= 1
+		else:
+			e += 1
+	else:
+		e += 1
+	
+	if e == 0:
+		queue_free()
+
 
 ## Override for conditional text checks
 func get_text():
-	if no_shop_items_override.size() > 0:
-		if get_tree().get_nodes_in_group("shop_items").size() == 0:
-			return no_shop_items_override
+	var si = get_tree().get_nodes_in_group("shop_items").size()
+	if si == 1 and last_item_override.size() > 0:
+		return last_item_override
+	elif si == 0 and no_shop_items_override.size() > 0:
+		return no_shop_items_override
 	return text
+
+
+func _ready() -> void:
+	if Refs.level_manager:
+		_handle_triggers()
+		
+		if Global.session.saved_data.object_flags.has(Refs.level_manager.get_unique_name(self)):
+			visible = false
+			queue_free()
 
 
 func _physics_process(_delta: float) -> void:
@@ -22,4 +59,10 @@ func _physics_process(_delta: float) -> void:
 		if scale.x == 0: scale.x = 1
 	
 	if has_overlapping_areas() and Input.is_action_just_pressed("ui_accept"):
-		MessageDisplayer.display(get_text())
+		var display := true
+		for c in get_children():
+			if c is DlgTree:
+				c.activate()
+				display = false
+		if display:
+			MessageDisplayer.display(get_text())

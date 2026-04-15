@@ -12,11 +12,64 @@ class_name Room
 @export var st_up_crit := 0
 @export var st_up_enhancement := 0
 
+enum Req {
+	CONTROLLED_FALL,
+	JUMP,
+	DOUBLE_JUMP,
+	BACKDASH,
+	RUN,
+	BAT,
+	GRIFFON,
+	SWIM,
+	WATER_WALK,
+	ELEMENT_FIRE,
+	ELEMENT_ICE,
+	SWORD,
+	HALBERD,
+	BOW,
+	STAFF
+}
+func req_to_str(r: Req) -> String:
+	match r:
+		Req.CONTROLLED_FALL: return "controlled fall"
+		Req.JUMP: return "jump"
+		Req.DOUBLE_JUMP: return "double jump"
+		Req.BACKDASH: return "backdash"
+		Req.RUN: return "run"
+		Req.BAT: return "bat"
+		Req.GRIFFON: return "griffon"
+		Req.SWIM: return "swim"
+		Req.WATER_WALK: return "water walk"
+		Req.ELEMENT_FIRE: return "element fire"
+		Req.ELEMENT_ICE: return "element ice"
+		Req.SWORD: return "sword"
+		Req.HALBERD: return "halberd"
+		Req.BOW: return "bow"
+		Req.STAFF: return "staff"
+	return "what"
+
+@export_group("")
+@export var reqs: Array[Req] = []:
+	set(r):
+		reqs = r
+		if not is_node_ready():
+			await ready
+		_reqs.text = ", ".join(PackedStringArray(r.map(func(req): return req_to_str(req))))
+@export var soft_reqs: Array[Req] = []:
+	set(r):
+		soft_reqs = r
+		if not is_node_ready():
+			await ready
+		_soft_reqs.text = ", ".join(PackedStringArray(r.map(func(req): return req_to_str(req))))
+
 const BLOCK_WIDTH := 160
 const BLOCK_HEIGHT := 120 - 16 #(Screen size - 16 to allow for hud on the bottom)
 
 @onready var room_shape: CollisionShape2D = %RoomShape
 var room_shape_rect: RectangleShape2D
+
+@onready var _reqs: Label = %Reqs
+@onready var _soft_reqs: Label = %SoftReqs
 
 const MAIN_TILESET_GD = preload("res://main_tileset.gd")
 const MAIN_TILESET_TRES = preload("res://main_tileset.tres")
@@ -81,6 +134,10 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 func _ready() -> void:
 	room_shape_rect = room_shape.shape
+	
+	if not Engine.is_editor_hint():
+		_reqs.visible = false
+		_soft_reqs.visible = false
 
 
 func _physics_process(delta: float) -> void:
@@ -96,7 +153,7 @@ func _physics_process(delta: float) -> void:
 		_redraw_timer += delta
 		
 		var prev := _incomplete
-		if not is_empty and get_children().size() < 2:
+		if not is_empty and get_children().size() < 4:
 			_incomplete = true
 		else:
 			_incomplete = false

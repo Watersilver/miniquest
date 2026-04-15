@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ce57hnlhile40"]
+
+[ext_resource type="Texture2D" uid="uid://dl0rrsph8sf8u" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Patterns-and-Symbols.png" id="1_n4lel"]
+[ext_resource type="Script" uid="uid://2tfmlbj1jpox" path="res://objects/enemies/bat_spawner/bat_spawner.gd" id="2_k0pc8"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="3_imwn7"]
+
+[node name="BatSpawner" type="Sprite2D" unique_id=1847855040]
+texture = ExtResource("1_n4lel")
+region_enabled = true
+region_rect = Rect2(56, 0, 8, 8)
+script = ExtResource("2_k0pc8")
+
+[node name="Batimg" type="Sprite2D" parent="." unique_id=38962306]
+unique_name_in_owner = true
+position = Vector2(0, -5)
+texture = ExtResource("3_imwn7")
+region_enabled = true
+region_rect = Rect2(8, 576, 8, 8)

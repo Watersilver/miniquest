@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cj25b2mpqu35s"]
+[gd_scene format=3 uid="uid://cj25b2mpqu35s"]
 
 [ext_resource type="Script" uid="uid://d1di5awybi227" path="res://objects/enemies/jumper/jumper.gd" id="1_58ogx"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_ip3ub"]
@@ -7,22 +7,24 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_58ogx"]
 size = Vector2(4, 4)
 
-[node name="Jumper" type="CharacterBody2D"]
+[node name="Jumper" type="CharacterBody2D" unique_id=1449567464]
 collision_layer = 0
+collision_mask = 8195
 script = ExtResource("1_58ogx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=128335633]
 unique_name_in_owner = true
 texture = ExtResource("1_ip3ub")
+flip_h = true
 hframes = 12
 vframes = 86
 frame = 72
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1694793803]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_58ogx")
 
-[node name="CommonEnemy" parent="." instance=ExtResource("4_gyyvl")]
+[node name="CommonEnemy" parent="." unique_id=2040644512 instance=ExtResource("4_gyyvl")]
 unique_name_in_owner = true
 haz_shape = Rect2(0, 1, 6, 6)
 hitbox_shape = Rect2(0, 1, 6, 6)

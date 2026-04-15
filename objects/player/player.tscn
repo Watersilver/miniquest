@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://it1cyyrgkatr"]
+[gd_scene format=3 uid="uid://it1cyyrgkatr"]
 
 [ext_resource type="Script" uid="uid://8yu8573n01nd" path="res://objects/player/player.gd" id="1_g7ett"]
 [ext_resource type="PackedScene" uid="uid://dy08oreqdktro" path="res://components/character_animations/character_animations.tscn" id="2_g7ett"]
@@ -6,6 +6,12 @@
 [ext_resource type="Script" uid="uid://w6extbk40gde" path="res://objects/player/bat_mana_center.gd" id="3_jnjyq"]
 [ext_resource type="PackedScene" uid="uid://df6jrg7bwgpii" path="res://components/health/health.tscn" id="3_ssrue"]
 [ext_resource type="PackedScene" uid="uid://bot7kb0vk3nld" path="res://components/press_button_prompt/press_button_prompt.tscn" id="5_xkryw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgwla"]
+size = Vector2(4, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bi5m7"]
+size = Vector2(4, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ssrue"]
 size = Vector2(4, 6)
@@ -34,26 +40,42 @@ size = Vector2(1, 2)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xkryw"]
 size = Vector2(3.9, 5.9)
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" unique_id=1130727787]
 script = ExtResource("1_g7ett")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1906540834]
 unique_name_in_owner = true
 collision_layer = 256
 collision_mask = 3
+floor_snap_length = 3.0
+platform_on_leave = 2
 
-[node name="NormalShape" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="TransArea" type="Area2D" parent="CharacterBody2D" unique_id=1252631861]
+collision_layer = 16384
+collision_mask = 0
+
+[node name="ClimbShape" type="CollisionShape2D" parent="CharacterBody2D/TransArea" unique_id=887174707]
+unique_name_in_owner = true
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_xgwla")
+disabled = true
+
+[node name="NormalShape" type="CollisionShape2D" parent="CharacterBody2D/TransArea" unique_id=2017013396]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_bi5m7")
+
+[node name="NormalShape" type="CollisionShape2D" parent="CharacterBody2D" unique_id=2129436947]
 unique_name_in_owner = true
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_ssrue")
 
-[node name="BatShape" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="BatShape" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1466531091]
 unique_name_in_owner = true
 visible = false
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_jnjyq")
 
-[node name="OutlineAdder" type="SubViewportContainer" parent="CharacterBody2D"]
+[node name="OutlineAdder" type="SubViewportContainer" parent="CharacterBody2D" unique_id=179589267]
 editor_description = "Using this subviewport container to add outline because using the shader directly on the sprite causes the outline to appear for out of bounds pixels. Rendering the sprite region on a subviewport makes it its own texture, so there are no out of bounds pixels. It can also allow for outline to be placed outside of the normal sprite size."
 material = SubResource("ShaderMaterial_xkryw")
 offset_left = -6.0
@@ -61,7 +83,7 @@ offset_top = -9.0
 offset_right = 6.0
 offset_bottom = 1.0
 
-[node name="SubViewport" type="SubViewport" parent="CharacterBody2D/OutlineAdder"]
+[node name="SubViewport" type="SubViewport" parent="CharacterBody2D/OutlineAdder" unique_id=1215697488]
 transparent_bg = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
@@ -69,89 +91,88 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(12, 10)
 render_target_update_mode = 4
 
-[node name="Positioner" type="Node2D" parent="CharacterBody2D/OutlineAdder/SubViewport"]
+[node name="Positioner" type="Node2D" parent="CharacterBody2D/OutlineAdder/SubViewport" unique_id=1251762868]
 position = Vector2(6, 9)
 
-[node name="CharacterAnimations" parent="CharacterBody2D/OutlineAdder/SubViewport/Positioner" instance=ExtResource("2_g7ett")]
+[node name="CharacterAnimations" parent="CharacterBody2D/OutlineAdder/SubViewport/Positioner" unique_id=585753885 instance=ExtResource("2_g7ett")]
 unique_name_in_owner = true
-npc_fallback_skin = 0
 
-[node name="LadderDetector" type="Area2D" parent="CharacterBody2D"]
+[node name="LadderDetector" type="Area2D" parent="CharacterBody2D" unique_id=1906349785]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/LadderDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/LadderDetector" unique_id=1136994357]
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_g7ett")
 debug_color = Color(0.697941, 0.487454, 0.215366, 0.42)
 
-[node name="WaterDetector" type="Area2D" parent="CharacterBody2D"]
+[node name="WaterDetector" type="Area2D" parent="CharacterBody2D" unique_id=104597046]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 128
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/WaterDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/WaterDetector" unique_id=74834586]
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_g7ett")
 debug_color = Color(0.202461, 0.554576, 0.857374, 0.42)
 
-[node name="WaterBubblePossibleDetector" type="Area2D" parent="CharacterBody2D"]
+[node name="WaterBubblePossibleDetector" type="Area2D" parent="CharacterBody2D" unique_id=1221496852]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 128
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/WaterBubblePossibleDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/WaterBubblePossibleDetector" unique_id=1253699227]
 position = Vector2(0, -8.5)
 shape = SubResource("RectangleShape2D_ow0dq")
 debug_color = Color(0.202461, 0.554576, 0.857374, 0.42)
 
-[node name="WaterSurfaceDetector" type="RayCast2D" parent="CharacterBody2D"]
+[node name="WaterSurfaceDetector" type="RayCast2D" parent="CharacterBody2D" unique_id=296986739]
 unique_name_in_owner = true
 position = Vector2(0, -8)
 target_position = Vector2(0, 8)
 collision_mask = 128
 collide_with_areas = true
 
-[node name="Hitbox" type="Area2D" parent="CharacterBody2D"]
+[node name="Hitbox" type="Area2D" parent="CharacterBody2D" unique_id=1387930489]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox" unique_id=1191971506]
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_g7ett")
 debug_color = Color(0.931882, 0.261252, 1.92523e-07, 0.42)
 
-[node name="InteractionChecker" type="Area2D" parent="CharacterBody2D"]
+[node name="InteractionChecker" type="Area2D" parent="CharacterBody2D" unique_id=603766720]
 unique_name_in_owner = true
 visible = false
 collision_layer = 4096
 collision_mask = 2048
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/InteractionChecker"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/InteractionChecker" unique_id=1289684552]
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_m4kly")
 debug_color = Color(0.647721, 0.521018, 1.92523e-07, 0.42)
 
-[node name="PressButtonPrompt" parent="CharacterBody2D/InteractionChecker" instance=ExtResource("5_xkryw")]
+[node name="PressButtonPrompt" parent="CharacterBody2D/InteractionChecker" unique_id=481333935 instance=ExtResource("5_xkryw")]
 position = Vector2(0, -16)
 
-[node name="SwimJumpDetector" type="Area2D" parent="CharacterBody2D"]
+[node name="SwimJumpDetector" type="Area2D" parent="CharacterBody2D" unique_id=751518900]
 unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 129
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/SwimJumpDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/SwimJumpDetector" unique_id=2055474975]
 position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_gnkmh")
 
-[node name="BatManaCenter" type="Node2D" parent="CharacterBody2D"]
+[node name="BatManaCenter" type="Node2D" parent="CharacterBody2D" unique_id=1770182076]
 unique_name_in_owner = true
 position = Vector2(0, -4)
 script = ExtResource("3_jnjyq")
 
-[node name="StateDebugLabel" type="Label" parent="CharacterBody2D"]
+[node name="StateDebugLabel" type="Label" parent="CharacterBody2D" unique_id=1312387705]
 unique_name_in_owner = true
 visible = false
 offset_left = -19.0
@@ -161,19 +182,17 @@ offset_bottom = -8.0
 text = "Ass"
 horizontal_alignment = 1
 
-[node name="IsInWallDetector" type="Area2D" parent="CharacterBody2D"]
+[node name="IsInWallDetector" type="Area2D" parent="CharacterBody2D" unique_id=891764138]
 unique_name_in_owner = true
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/IsInWallDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/IsInWallDetector" unique_id=1272383797]
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_xkryw")
 
-[node name="Health" parent="." instance=ExtResource("3_ssrue")]
+[node name="Health" parent="." unique_id=1276494282 instance=ExtResource("3_ssrue")]
 unique_name_in_owner = true
 maximum = 2.0
 value = 2.0
 
 [connection signal="griffon_ceiling_smash" from="." to="." method="_on_griffon_ceiling_smash"]
-[connection signal="area_entered" from="CharacterBody2D/Hitbox" to="." method="_on_hitbox_area_entered"]
-[connection signal="body_entered" from="CharacterBody2D/Hitbox" to="." method="_on_hitbox_body_entered"]

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://i4fbxrfgvhe0"]
+
+[ext_resource type="Script" uid="uid://bd815lyowfd2n" path="res://objects/enemy_clear_enabler/enemy_clear_enabler.gd" id="1_xtmfr"]
+
+[node name="EnemyClearEnabler" type="Node2D" unique_id=2018160094]
+script = ExtResource("1_xtmfr")

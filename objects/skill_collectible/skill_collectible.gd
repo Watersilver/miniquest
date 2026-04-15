@@ -91,7 +91,8 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 			u.water_walk = true
 	
 	var form_dict := {
-		"jump": _to_str(InputMap.action_get_events("jump"))
+		"jump": _to_str(InputMap.action_get_events("jump")),
+		"dash": _to_str(InputMap.action_get_events("dash"))
 	}
 	var at := acquisition_text.format(form_dict)
 	var eat := extra_acquisition_text

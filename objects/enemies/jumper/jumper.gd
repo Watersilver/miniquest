@@ -1,3 +1,4 @@
+@tool
 extends CharacterBody2D
 
 @onready var sprite_2d: Sprite2D = %Sprite2D
@@ -6,9 +7,18 @@ extends CharacterBody2D
 
 const JUMP_VELOCITY = -100.0
 
+enum Type {
+	STATIC,
+	RANDOM,
+	FORWARD,
+	FOLLOW
+}
+@export var type := Type.STATIC
 
 const _PERIOD := 2.0
 @export var secs_till_jump := _PERIOD
+
+@export var direction := Global.Direction.LEFT
 
 var _recovery_timer := 0.01
 
@@ -23,10 +33,21 @@ func _on_died():
 
 
 func _ready() -> void:
+	sprite_2d.flip_h = direction == Global.Direction.LEFT
+	
+	if Engine.is_editor_hint():
+		return
+	
 	common_enemy.died.connect(_on_died)
 
 
 func _physics_process(delta: float) -> void:
+	var frame_adjustment := type * 3
+	
+	if Engine.is_editor_hint():
+		sprite_2d.frame_coords.y = 6 + frame_adjustment
+		sprite_2d.flip_h = direction == Global.Direction.LEFT
+		return
 	
 	if common_enemy.is_dead():
 		if _death_timer < _DEATH_TIMER_MAX * 0.5:
@@ -55,20 +76,22 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	if is_on_floor():
+		velocity.x = 0
+		
 		if not prev_floor:
 			_recovery_timer = 0.1
 		
 		if _recovery_timer > 0:
-			sprite_2d.frame_coords.y = 8
+			sprite_2d.frame_coords.y = 8 + frame_adjustment
 		elif _PERIOD - secs_till_jump > 1.5:
-			sprite_2d.frame_coords.y = 8
+			sprite_2d.frame_coords.y = 8 + frame_adjustment
 		else:
-			sprite_2d.frame_coords.y = 6
+			sprite_2d.frame_coords.y = 6 + frame_adjustment
 		
 		secs_till_jump -= delta
 		_recovery_timer -= delta
 	else:
-		sprite_2d.frame_coords.y = 7
+		sprite_2d.frame_coords.y = 7 + frame_adjustment
 		
 		if velocity.y < 0:
 			sprite_2d.flip_v = true
@@ -76,4 +99,18 @@ func _physics_process(delta: float) -> void:
 			sprite_2d.flip_v = false
 		
 		if common_enemy.can_see_target():
-			sprite_2d.flip_h = common_enemy.get_sight_target_relative_direction().x < 0
+			match type:
+				Type.STATIC:
+					direction = Global.Direction.LEFT if common_enemy.get_sight_target_relative_direction().x < 0 else Global.Direction.RIGHT
+				Type.FOLLOW:
+					if prev_floor:
+						direction = Global.Direction.LEFT if common_enemy.get_sight_target_relative_direction().x < 0 else Global.Direction.RIGHT
+		if type == Type.RANDOM and prev_floor:
+			direction = [Global.Direction.LEFT, Global.Direction.RIGHT].pick_random()
+		
+		if type != Type.STATIC:
+			if is_on_wall():
+				direction = Global.Direction.LEFT if get_wall_normal().x < 0 else Global.Direction.RIGHT
+			velocity.x = direction * 25
+		
+		sprite_2d.flip_h = direction == Global.Direction.LEFT

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://67jyllgv0fvt"]
+
+[ext_resource type="Script" uid="uid://ctc5jonfko27y" path="res://objects/moving_platform/moving_platform.gd" id="1_a1qff"]
+
+[node name="MovingPlatform" type="Node2D" unique_id=1050394463 groups=["moving_platforms"]]
+script = ExtResource("1_a1qff")

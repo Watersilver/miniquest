@@ -8,18 +8,18 @@ class_name PlayerAttack
 var weapon := Global.Weapon.NONE:
 	set(w):
 		weapon = w
-		if _life == -INF:
+		if _duration == -INF:
 			match weapon:
 				Global.Weapon.NONE:
-					_life = -INF
+					_duration = -INF
 				Global.Weapon.SWORD:
-					_life = 0.1
+					_duration = 0.1
 				Global.Weapon.HALBERD:
-					_life = 0.15
+					_duration = 0.15
 				Global.Weapon.BOW:
-					_life = INF
+					_duration = INF
 				Global.Weapon.STAFF:
-					_life = INF
+					_duration = INF
 var damage := Global.Damage.ROLL_1D2
 var enhancement := 0
  ## % percentage
@@ -29,7 +29,7 @@ var direction := Global.Direction.RIGHT
 var push := true
 var pos_start := Vector2(0,0)
 
-var _life := -INF
+var _duration := -INF
 
 
 func init_from_global():
@@ -59,6 +59,7 @@ func roll_attack_hit() -> AttackHit:
 	var is_crit := (randi() % 100) < crit_chance
 	while is_crit and mult < 100:
 		mult += 1
+		crit_chance = floori(crit_chance / 2.0)
 		is_crit = (randi() % 100) < crit_chance
 	
 	var dmg := enhancement
@@ -68,6 +69,8 @@ func roll_attack_hit() -> AttackHit:
 
 
 func _ready() -> void:
+	init_from_global()
+	
 	body_shape_entered.connect(_on_body_shape_entered)
 	area_entered.connect(_on_area_entered)
 	visible_on_screen_notifier_2d.screen_exited.connect(destroy)
@@ -105,18 +108,18 @@ func _physics_process(delta: float) -> void:
 			destroy()
 		Global.Weapon.SWORD:
 			position.x += delta * 25 * direction
-			if _life < 0:
+			if _duration < 0:
 				destroy()
 		Global.Weapon.HALBERD:
 			position.x += delta * 33 * direction
-			if _life < 0:
+			if _duration < 0:
 				destroy()
 		Global.Weapon.BOW:
 			position.x += delta * 66 * direction
 		Global.Weapon.STAFF:
 			position.x += delta * 100 * direction
 	
-	_life -= delta
+	_duration -= delta
 
 
 
@@ -125,6 +128,8 @@ func _on_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int,
 	if (l & 1) == 1:
 		if weapon != Global.Weapon.STAFF:
 			if body is TileMapLayer and body is MainTileset:
+				destroy()
+			elif body.get_parent() is SwitchBlock:
 				destroy()
 	if (l & 1024) == 1024:
 		destroy()

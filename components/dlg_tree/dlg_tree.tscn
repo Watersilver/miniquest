@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://rjy7o54jv6th"]
+
+[ext_resource type="Script" uid="uid://bfw1fuclldhdh" path="res://components/dlg_tree/dlg_tree.gd" id="1_yreea"]
+
+[node name="DlgTree" type="Node" unique_id=260602087]
+script = ExtResource("1_yreea")

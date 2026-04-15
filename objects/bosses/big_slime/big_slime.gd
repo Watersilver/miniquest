@@ -155,7 +155,9 @@ func _ready() -> void:
 			if _iframes > 0.0: return
 			var dmg := 1
 			if area is PlayerAttack:
-				dmg = area.roll_attack_hit().dmg
+				var hit: PlayerAttack.AttackHit = area.roll_attack_hit()
+				dmg = hit.dmg
+				DamageNumber.spawn_from_attack(hit, hitbox)
 			_hitpoints -= dmg
 			_hurt = 1
 	)

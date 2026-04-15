@@ -4,6 +4,7 @@ class_name LevelManager
 @onready var room_name: Label = %RoomName
 @onready var health_hud: HealthHud = %HealthHud
 @onready var money_lbl: Label = %MoneyLbl
+@onready var key_display: Sprite2D = %KeyDisplay
 
 @onready var top_exit_shape: CollisionShape2D = %TopExitShape
 @onready var right_exit_shape: CollisionShape2D = %RightExitShape
@@ -50,7 +51,6 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	current_room = room_scene.instantiate()
 	if old_room: old_room.name = "to." + current_room.name # Ensure there won't be a name collision
 	_room_coordinates = level.get_room_origin_at(destination)
-	add_child(current_room)
 	
 	room_name.text = current_room.name
 	
@@ -85,10 +85,34 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	new_player_pos.y += room_size_offset.y * Room.BLOCK_HEIGHT
 	#new_player_pos.y -= player_room_position_offset.y * Room.BLOCK_HEIGHT
 	player.body.global_position = new_player_pos
+	
+	# Add new room
+	# God damn it.
+	# Ok, so there's a bug.
+	# Can be seen when entering the room to the right of "Its own reward"
+	# The one with the illusory wall.
+	# If I just add new child, the illusion area collides with the player
+	# because apparently physics position doesn't get updated in time
+	# Weirdly, if I make the area hostile, player doesn't get damaged
+	# so the weirdness happens only from the perspective of the added room
+	add_child(current_room)
 
-
+## Use only for objects with consistent names
 func get_unique_name(node: Node) -> String:
 	var u := ""
+	while (node):
+		u += node.name + "/"
+		node = node.get_parent()
+		if node == self:
+			u += node.name + "/"
+			break
+	return u
+
+## Some objects added programmatically don't have consistent names.
+## For static objects, their position can be used.
+func get_position_name(node: Node2D) -> String:
+	var u := str(node.global_position)
+	node = node.get_parent()
 	while (node):
 		u += node.name + "/"
 		node = node.get_parent()
@@ -142,6 +166,9 @@ func _spawn_to_level():
 	Global.session.saved_data.money = current_room.st_up_gold
 	Global.session.upgrades.max_health = current_room.st_up_health
 	Global.session.upgrades.weapon = current_room.st_up_weapon
+	Global.session.upgrades.damage = current_room.st_up_damage
+	Global.session.upgrades.crit_chance = current_room.st_up_crit
+	Global.session.upgrades.enhancement = current_room.st_up_enhancement
 	
 	Checkpoint.mark()
 
@@ -154,11 +181,21 @@ func _ready() -> void:
 	call_deferred("_spawn_to_level")
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	money_lbl.text = str(Global.session.saved_data.money)
 	if money_lbl.text.length() == 1:
 		money_lbl.text = "0" + money_lbl.text
 	money_lbl.text = ":" + money_lbl.text
+	
+	var _tc := _transition_cooldown
+	_transition_cooldown -= delta
+	if _tc > 0 and _transition_cooldown <= 0:
+		_transition_cooldown_end.emit()
+	
+	if Global.session.saved_data.keys > 0:
+		key_display.visible = true
+	else:
+		key_display.visible = false
 
 
 func _notification(what: int) -> void:
@@ -171,8 +208,16 @@ func _notification(what: int) -> void:
 
 var scroll_displacement := 8
 
+var _transition_cooldown := 0.0
+signal _transition_cooldown_end
 
-func _on_top_exit_body_entered(_body: Node2D) -> void:
+func _transition_ready() -> void:
+	if _transition_cooldown > 0:
+		await _transition_cooldown_end
+	_transition_cooldown = 0.1
+
+func _on_top_exit_area_entered(_a: Node2D) -> void:
+	await _transition_ready()
 	var new_player_pos := global_position
 	new_player_pos.x = player.body.global_position.x
 	new_player_pos.y += current_room.get_height() - scroll_displacement
@@ -191,7 +236,8 @@ func _on_top_exit_body_entered(_body: Node2D) -> void:
 	call_deferred("go_to_room", dest, new_player_pos)
 
 
-func _on_right_exit_body_entered(_body: Node2D) -> void:
+func _on_right_exit_area_entered(_a: Node2D) -> void:
+	await _transition_ready()
 	var new_player_pos := global_position
 	new_player_pos.x += scroll_displacement
 	new_player_pos.y = player.body.global_position.y
@@ -210,7 +256,8 @@ func _on_right_exit_body_entered(_body: Node2D) -> void:
 	call_deferred("go_to_room", dest, new_player_pos)
 
 
-func _on_bottom_exit_body_entered(_body: Node2D) -> void:
+func _on_bottom_exit_area_entered(_a: Node2D) -> void:
+	await _transition_ready()
 	var new_player_pos := global_position
 	new_player_pos.x = player.body.global_position.x
 	new_player_pos.y += scroll_displacement
@@ -229,7 +276,8 @@ func _on_bottom_exit_body_entered(_body: Node2D) -> void:
 	call_deferred("go_to_room", dest, new_player_pos)
 
 
-func _on_left_exit_body_entered(_body: Node2D) -> void:
+func _on_left_exit_area_entered(_a: Node2D) -> void:
+	await _transition_ready()
 	var new_player_pos := global_position
 	new_player_pos.x += current_room.get_width() - scroll_displacement
 	new_player_pos.y = player.body.global_position.y

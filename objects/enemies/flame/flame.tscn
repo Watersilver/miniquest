@@ -1,0 +1,149 @@
+[gd_scene format=3 uid="uid://bq6myq6icny5i"]
+
+[ext_resource type="Script" uid="uid://cqfb0wn00qmij" path="res://objects/enemies/flame/flame.gd" id="1_mqgbg"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_2brev"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_sej6q"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_sej6q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvh2f"]
+atlas = ExtResource("2_2brev")
+region = Rect2(0, 32, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yemug"]
+atlas = ExtResource("2_2brev")
+region = Rect2(0, 24, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcu8y"]
+atlas = ExtResource("2_2brev")
+region = Rect2(0, 8, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yulud"]
+atlas = ExtResource("2_2brev")
+region = Rect2(8, 8, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhvkr"]
+atlas = ExtResource("2_2brev")
+region = Rect2(16, 8, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ox5au"]
+atlas = ExtResource("2_2brev")
+region = Rect2(24, 8, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brmjf"]
+atlas = ExtResource("2_2brev")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wo6ad"]
+atlas = ExtResource("2_2brev")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oaxvd"]
+atlas = ExtResource("2_2brev")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hfs3"]
+atlas = ExtResource("2_2brev")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lnsg"]
+atlas = ExtResource("2_2brev")
+region = Rect2(0, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn5xx"]
+atlas = ExtResource("2_2brev")
+region = Rect2(8, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wq30"]
+atlas = ExtResource("2_2brev")
+region = Rect2(16, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fptl2"]
+atlas = ExtResource("2_2brev")
+region = Rect2(24, 16, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3kv3v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvh2f")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yemug")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcu8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yulud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhvkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ox5au")
+}],
+"loop": true,
+"name": &"orange",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brmjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wo6ad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oaxvd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5hfs3")
+}],
+"loop": true,
+"name": &"red",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lnsg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn5xx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wq30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fptl2")
+}],
+"loop": true,
+"name": &"yellow",
+"speed": 5.0
+}]
+
+[node name="Flame" type="Node2D" unique_id=979390629]
+script = ExtResource("1_mqgbg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1692262562]
+unique_name_in_owner = true
+material = ExtResource("2_sej6q")
+sprite_frames = SubResource("SpriteFrames_3kv3v")
+animation = &"red"
+
+[node name="CommonEnemy" parent="." unique_id=809384789 instance=ExtResource("3_sej6q")]
+unique_name_in_owner = true
+requires_ice = true
+dmg_dice = 2
+haz_shape = Rect2(0, 0, 4, 8)
+hitpoints = 3
+hitbox_shape = Rect2(0, 0, 4, 8)

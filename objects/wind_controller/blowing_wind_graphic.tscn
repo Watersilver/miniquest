@@ -1,0 +1,182 @@
+[gd_scene format=3 uid="uid://dvj1d31c8qim8"]
+
+[ext_resource type="Texture2D" uid="uid://b8hxju5yr80bo" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Sky.png" id="1_760vg"]
+[ext_resource type="Script" uid="uid://beknrde6bqjc1" path="res://objects/wind_controller/blowing_wind_graphic.gd" id="1_jekng"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_23s81"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oym3v"]
+atlas = ExtResource("1_760vg")
+region = Rect2(72, 176, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jekng"]
+atlas = ExtResource("1_760vg")
+region = Rect2(72, 184, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23s81"]
+atlas = ExtResource("1_760vg")
+region = Rect2(72, 200, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4po4"]
+atlas = ExtResource("1_760vg")
+region = Rect2(72, 208, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bob30"]
+atlas = ExtResource("1_760vg")
+region = Rect2(0, 176, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qptia"]
+atlas = ExtResource("1_760vg")
+region = Rect2(24, 176, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpwk2"]
+atlas = ExtResource("1_760vg")
+region = Rect2(48, 176, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rq6l"]
+atlas = ExtResource("1_760vg")
+region = Rect2(0, 184, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8aqf"]
+atlas = ExtResource("1_760vg")
+region = Rect2(24, 184, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wuoqu"]
+atlas = ExtResource("1_760vg")
+region = Rect2(48, 184, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egtf3"]
+atlas = ExtResource("1_760vg")
+region = Rect2(0, 200, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bb0pc"]
+atlas = ExtResource("1_760vg")
+region = Rect2(24, 200, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_resbq"]
+atlas = ExtResource("1_760vg")
+region = Rect2(48, 200, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15vha"]
+atlas = ExtResource("1_760vg")
+region = Rect2(0, 208, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p404"]
+atlas = ExtResource("1_760vg")
+region = Rect2(24, 208, 24, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ty7mr"]
+atlas = ExtResource("1_760vg")
+region = Rect2(48, 208, 24, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6adx8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oym3v")
+}],
+"loop": true,
+"name": &"bigcircle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jekng")
+}],
+"loop": true,
+"name": &"bigcirclefaded",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23s81")
+}],
+"loop": true,
+"name": &"bigsquare",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4po4")
+}],
+"loop": true,
+"name": &"bigsquarefaded",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bob30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qptia")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpwk2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qptia")
+}],
+"loop": true,
+"name": &"circle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8rq6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8aqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wuoqu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8aqf")
+}],
+"loop": true,
+"name": &"circlefaded",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_egtf3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bb0pc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_resbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bb0pc")
+}],
+"loop": true,
+"name": &"square",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15vha")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p404")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ty7mr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p404")
+}],
+"loop": true,
+"name": &"squarefaded",
+"speed": 5.0
+}]
+
+[node name="BlowingWindGraphic" type="Node2D" unique_id=1792204921]
+script = ExtResource("1_jekng")
+
+[node name="Spr" type="AnimatedSprite2D" parent="." unique_id=1652629556]
+unique_name_in_owner = true
+material = ExtResource("2_23s81")
+sprite_frames = SubResource("SpriteFrames_6adx8")
+animation = &"squarefaded"
+autoplay = "circle"

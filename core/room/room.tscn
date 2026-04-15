@@ -1,23 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsyecybk5srlr"]
+[gd_scene format=3 uid="uid://bsyecybk5srlr"]
 
 [ext_resource type="Script" uid="uid://c8olu2g7ognry" path="res://core/room/room.gd" id="1_1r8uc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wvwfu"]
 size = Vector2(160, 104)
 
-[node name="Room" type="Node2D"]
-script = ExtResource("1_1r8uc")
-st_up_gold = null
-st_up_health = null
+[sub_resource type="LabelSettings" id="LabelSettings_nuatu"]
+font_size = 3
 
-[node name="RoomArea" type="Area2D" parent="."]
+[sub_resource type="LabelSettings" id="LabelSettings_f4tjq"]
+font_size = 3
+
+[node name="Room" type="Node2D" unique_id=1377017762]
+script = ExtResource("1_1r8uc")
+
+[node name="RoomArea" type="Area2D" parent="." unique_id=1379272518]
 visible = false
 collision_layer = 1073741824
 collision_mask = 0
 monitoring = false
 
-[node name="RoomShape" type="CollisionShape2D" parent="RoomArea"]
+[node name="RoomShape" type="CollisionShape2D" parent="RoomArea" unique_id=1022472636]
 unique_name_in_owner = true
 position = Vector2(80, 52)
 shape = SubResource("RectangleShape2D_wvwfu")
 debug_color = Color(7.12335e-06, 0.579239, 0.807922, 0.156863)
+
+[node name="Reqs" type="Label" parent="." unique_id=1042107257]
+unique_name_in_owner = true
+offset_right = 160.0
+offset_bottom = 12.0
+label_settings = SubResource("LabelSettings_nuatu")
+autowrap_mode = 2
+
+[node name="SoftReqs" type="Label" parent="." unique_id=1975519190]
+unique_name_in_owner = true
+offset_top = 92.0
+offset_right = 160.0
+offset_bottom = 104.0
+label_settings = SubResource("LabelSettings_f4tjq")
+autowrap_mode = 2

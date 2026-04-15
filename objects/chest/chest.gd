@@ -11,8 +11,9 @@ class_name Chest
 @onready var good_money: AnimatedSprite2D = %GoodMoney
 @onready var great_money: AnimatedSprite2D = %GreatMoney
 @onready var life: AnimatedSprite2D = %Life
+@onready var crit: Node2D = %Crit
 
-var _item: AnimatedSprite2D = null
+var _item: Node2D = null
 
 enum Col {
 	BROWN,
@@ -23,7 +24,8 @@ enum Col {
 
 enum Content {
 	LIFE,
-	GOLD
+	GOLD,
+	CRIT
 }
 
 @export var color := Col.BROWN
@@ -31,6 +33,8 @@ enum Content {
 @export var amount := 1
 
 var _open_anim_timer := -1.0
+
+var touching: CharacterBody2D
 
 func _is_opened() -> bool:
 	if not Refs.level_manager: return true
@@ -43,10 +47,14 @@ func _ready() -> void:
 			sprite.region_rect.position.y += 16
 			collision_shape_2d.disabled = true
 		
-		body_entered.connect(_open)
+		body_entered.connect(_on_body_entered)
+		body_exited.connect(_on_body_exited)
 
 
 func _process(delta: float) -> void:
+	if touching and touching.is_on_floor():
+		_open()
+	
 	match color:
 		Col.BROWN:
 			sprite.region_rect.position.x = 16
@@ -68,16 +76,19 @@ func _process(delta: float) -> void:
 			if item_timer > 0:
 				if content_type == Content.LIFE:
 					_item = life
+				elif content_type == Content.CRIT:
+					_item = crit
 				else:
 					if amount <= 5:
 						_item = little_money
 					elif amount <= 15:
 						_item = decent_money
-					elif amount <= 40:
+					elif amount <= 25:
 						_item = good_money
 					else:
 						_item = great_money
-				_item.play(&"default")
+				if _item is AnimatedSprite2D:
+					_item.play(&"default")
 				
 				_item.visible = true
 				_item.position = Vector2(5,4 + 8 * (((4 / (item_timer * 5 + 1)) - 4) / 4))
@@ -85,7 +96,17 @@ func _process(delta: float) -> void:
 			_open_anim_timer += delta
 
 
-func _open(_fuckyou) -> void:
+func _on_body_entered(body: Node2D) -> void:
+	if body is CharacterBody2D:
+		touching = body
+
+
+func _on_body_exited(body: Node2D) -> void:
+	if body == touching:
+		touching = null
+
+
+func _open() -> void:
 	if _is_opened(): return
 	Global.session.saved_data.object_flags[Refs.level_manager.get_unique_name(self)] = true
 	collision_shape_2d.set_deferred("disabled", true)
@@ -98,3 +119,5 @@ func _open(_fuckyou) -> void:
 		Refs.level_manager.player.health.value = Refs.level_manager.player.health.maximum
 	elif content_type == Content.GOLD:
 		Global.session.saved_data.money += amount
+	elif content_type == Content.CRIT:
+		Global.session.upgrades.crit_chance += amount

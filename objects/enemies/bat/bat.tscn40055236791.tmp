@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bei8vy7qg6bbd"]
+
+[ext_resource type="Script" uid="uid://c33rvpkgjmu2h" path="res://objects/enemies/bat/bat.gd" id="1_27n5p"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_8ukhs"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_hsrxo"]
+
+[node name="Bat" type="Node2D" unique_id=940229158]
+script = ExtResource("1_27n5p")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=242494018]
+unique_name_in_owner = true
+texture = ExtResource("2_8ukhs")
+hframes = 12
+vframes = 86
+frame = 864
+region_rect = Rect2(0, 576, 8, 8)
+
+[node name="CommonEnemy" parent="." unique_id=2040644512 instance=ExtResource("3_hsrxo")]
+unique_name_in_owner = true
+haz_shape = Rect2(0, 0, 6, 6)
+hitbox_shape = Rect2(0, 0, 6, 6)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=230717567]
+unique_name_in_owner = true
+rect = Rect2(-4, -4, 8, 8)
+show_rect = false

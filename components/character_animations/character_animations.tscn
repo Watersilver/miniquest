@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dy08oreqdktro"]
+[gd_scene format=3 uid="uid://dy08oreqdktro"]
 
 [ext_resource type="Texture2D" uid="uid://i5w1oc0tu535" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Hero.png" id="1_1hp11"]
 [ext_resource type="Script" uid="uid://brcfcr385qui3" path="res://components/character_animations/character_animations.gd" id="2_4t2h4"]
@@ -243,7 +243,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_gvyp3"]
 resource_name = "hurt"
 length = 0.0333367
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -424,19 +423,16 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="CharacterAnimations" type="Node2D"]
+[node name="CharacterAnimations" type="Node2D" unique_id=945450528]
 script = ExtResource("2_4t2h4")
-npc_fallback_skin = null
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1645311155]
 unique_name_in_owner = true
 process_priority = -1
 process_physics_priority = -1
-libraries = {
-&"": SubResource("AnimationLibrary_uj44d")
-}
+libraries/ = SubResource("AnimationLibrary_uj44d")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=576409354]
 visible = false
 offset_left = -20.0
 offset_top = -19.0
@@ -444,24 +440,28 @@ offset_right = 20.0
 offset_bottom = 21.0
 color = Color(0.212203, 0.264629, 0.29569, 1)
 
-[node name="FacingScaler" type="Node2D" parent="."]
+[node name="FacingScaler" type="Node2D" parent="." unique_id=1759742063]
 unique_name_in_owner = true
+use_parent_material = true
 
-[node name="Center" type="Node2D" parent="FacingScaler"]
+[node name="Center" type="Node2D" parent="FacingScaler" unique_id=2105375975]
 unique_name_in_owner = true
+use_parent_material = true
 position = Vector2(0, -4)
 
-[node name="Sprite" type="Sprite2D" parent="FacingScaler/Center"]
+[node name="Sprite" type="Sprite2D" parent="FacingScaler/Center" unique_id=1499940397]
 unique_name_in_owner = true
+use_parent_material = true
 texture = ExtResource("1_1hp11")
 offset = Vector2(1, 0)
 region_enabled = true
 region_rect = Rect2(0, 0, 8, 8)
 region_filter_clip_enabled = true
 
-[node name="FairyTransform" type="AnimatedSprite2D" parent="FacingScaler/Center"]
+[node name="FairyTransform" type="AnimatedSprite2D" parent="FacingScaler/Center" unique_id=708477240]
 unique_name_in_owner = true
 visible = false
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_bk2sw")
 animation = &"disappear"
 frame = 2

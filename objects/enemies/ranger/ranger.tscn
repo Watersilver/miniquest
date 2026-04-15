@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dcfwu8mbjjah4"]
+
+[ext_resource type="Script" uid="uid://c7pjdmxs8afhc" path="res://objects/enemies/ranger/ranger.gd" id="1_gnj80"]
+[ext_resource type="PackedScene" uid="uid://dy08oreqdktro" path="res://components/character_animations/character_animations.tscn" id="3_gnj80"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_sxbui"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="4_eixee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_58ogx"]
+size = Vector2(4, 4)
+
+[node name="Ranger" type="CharacterBody2D" unique_id=1449567464]
+modulate = Color(1, 1, 0, 1)
+collision_layer = 0
+collision_mask = 8195
+script = ExtResource("1_gnj80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1694793803]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_58ogx")
+
+[node name="CommonEnemy" parent="." unique_id=2040644512 instance=ExtResource("3_sxbui")]
+unique_name_in_owner = true
+position = Vector2(0, -4)
+haz_shape = Rect2(0, 1, 6, 6)
+hitpoints = 2
+hitbox_shape = Rect2(0, 1, 6, 6)
+
+[node name="CharacterAnimations" parent="." unique_id=2020212353 instance=ExtResource("3_gnj80")]
+unique_name_in_owner = true
+material = ExtResource("4_eixee")
+skin = 1
+weapon = 3
