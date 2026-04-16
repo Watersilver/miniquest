@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b08drg427wshb" path="res://objects/switch/switch.gd" id="1_7oapj"]
 [ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="1_umaeg"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_sf65d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7oapj"]
 size = Vector2(8, 8)
@@ -17,5 +18,6 @@ shape = SubResource("RectangleShape2D_7oapj")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=415116062]
 unique_name_in_owner = true
+material = ExtResource("2_sf65d")
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 46, 0, 0, 0)
 tile_set = ExtResource("1_umaeg")

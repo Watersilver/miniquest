@@ -897,12 +897,10 @@ func _physics_process(delta: float) -> void:
 	
 	# MISC
 	for area in hitbox.get_overlapping_areas():
-		var dmg = 1
-		if area is Hazard:
-			dmg = area.roll_damage()
+		var dmg = _calculate_taken_damage(area)
 		_take_damage(dmg)
-	for _body in hitbox.get_overlapping_bodies():
-		_take_damage(floor(randf() * health.maximum) + 1)
+	for bod in hitbox.get_overlapping_bodies():
+		_take_damage(_calculate_taken_damage(bod))
 	
 	#var state_names := [
 		#"NONE",
@@ -987,15 +985,31 @@ func _take_damage(dmg: int = 1):
 		_state = State.HURT
 
 
+func _calculate_taken_damage(damager: Object) -> int:
+	if damager is Area2D:
+		var dmg := 1
+		if damager is Hazard:
+			dmg = damager.roll_damage()
+		if Global.session.upgrades.advantage:
+			var dmg2 := 1
+			if damager is Hazard:
+				dmg2 = damager.roll_damage()
+			dmg = mini(dmg, dmg2)
+		return dmg
+	else:
+		if Global.session.upgrades.advantage:
+			return mini(floori(randf() * health.maximum) + 1, floori(randf() * health.maximum) + 1)
+		return floori(randf() * health.maximum) + 1
+
+
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	var dmg = 1
-	if area is Hazard:
-		dmg = area.roll_damage()
+	var dmg := _calculate_taken_damage(area)
 	_take_damage(dmg)
 
 
-func _on_hitbox_body_entered(_body: Node2D) -> void:
-	_take_damage(floor(randf() * health.maximum) + 1)
+func _on_hitbox_body_entered(bod: Node2D) -> void:
+	var dmg := _calculate_taken_damage(bod)
+	_take_damage(dmg)
 
 
 func _on_character_animations_animation_finished() -> void:

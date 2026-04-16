@@ -8,16 +8,22 @@ extends Area2D
 @export_multiline var description: Array[String] = []
 @export var offset := -12.0
 @export var offset_x := 0
+@export var amount := 1
 
 #@export var spawn_on_buy: PackedScene = null
 
 enum Item {
 	NULL,
 	AIR_CONTROL,
+	ADVANTAGE,
+	ENHANCEMENT,
+	CRIT_CHANCE,
 	LIFE_UP,
 	WEAPON,
+	BOW,
 	FIRE,
-	ICE
+	ICE,
+	DOUBLE_JUMP
 }
 
 @export var item := Item.NULL
@@ -69,14 +75,24 @@ func _on_buy_attempt():
 			Item.AIR_CONTROL:
 				Global.session.upgrades.controlled_fall = true
 			Item.LIFE_UP:
-				Global.session.upgrades.max_health += 1
+				Global.session.upgrades.max_health += amount
+			Item.ENHANCEMENT:
+				Global.session.upgrades.enhancement += amount
+			Item.CRIT_CHANCE:
+				Global.session.upgrades.crit_chance += amount
+			Item.ADVANTAGE:
+				Global.session.upgrades.advantage = true
 			Item.FIRE:
 				Global.session.upgrades.element_fire = true
 			Item.ICE:
 				Global.session.upgrades.element_ice = true
 			Item.WEAPON:
-				@warning_ignore("int_as_enum_without_cast")
-				Global.session.upgrades.weapon += 1
+				Global.session.upgrades.set_weapon_upgrade(Global.Weapon.SWORD)
+			Item.BOW:
+				Global.session.upgrades.set_weapon_upgrade(Global.Weapon.BOW)
+				Global.session.upgrades.raise_dmg_die(1)
+			Item.DOUBLE_JUMP:
+				Global.session.upgrades.double_jump = true
 		Global.session.saved_data.object_flags[Refs.level_manager.get_unique_name(self)] = true
 		queue_free()
 	else:

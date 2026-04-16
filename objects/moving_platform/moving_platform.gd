@@ -13,6 +13,7 @@ extends Node2D
 		if Engine.is_editor_hint():
 			inverse = init_inverse
 @export var active := true
+@export var active_in_editor := false
 
 @export var activation_trigger := ""
 
@@ -32,12 +33,16 @@ func _process(delta: float) -> void:
 	if activation_trigger == null:
 		activation_trigger = ""
 	
-	if not Engine.is_editor_hint():
+	var a := active
+	
+	if Engine.is_editor_hint():
+		a = active_in_editor and active
+	else:
 		if not active and activation_trigger != "":
 			if Global.session.saved_data.object_flags.has(activation_trigger) and Global.session.saved_data.object_flags[activation_trigger]:
 				active = true
 	
-	if active and path_follow_2d:
+	if a and path_follow_2d:
 		var velocity := speed * (-1 if inverse else 1)
 		path_follow_2d.progress += delta * velocity
 		

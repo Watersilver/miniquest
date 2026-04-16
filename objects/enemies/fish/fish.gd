@@ -153,6 +153,7 @@ var _velocity := Vector2(0, 0)
 var _updated_once := false
 var _death_timer := _DEATH_TIMER_MAX
 var _patrol_dir_i := 0
+var _offscreen_counter := 0.0
 
 func _get_wd2pos() -> Vector2:
 	return direction.normalized() * detection_radius
@@ -218,8 +219,12 @@ func _physics_process(delta: float) -> void:
 		
 		body.position += _velocity * delta
 		
-		#if not visible_on_screen_notifier_2d.is_on_screen():
-			#queue_free()
+		if _offscreen_counter >= 1:
+			queue_free()
+		if not visible_on_screen_notifier_2d.is_on_screen():
+			_offscreen_counter += delta
+		else:
+			_offscreen_counter -= delta
 	
 	if patrol_directions.size() > 0:
 		_patrol_dir_i = _patrol_dir_i % patrol_directions.size()

@@ -170,6 +170,16 @@ func _spawn_to_level():
 	Global.session.upgrades.crit_chance = current_room.st_up_crit
 	Global.session.upgrades.enhancement = current_room.st_up_enhancement
 	
+	Global.session.saved_data.slime_boss = current_room.st_st_boss_slime_dead
+	Global.session.saved_data.tower_boss = current_room.st_st_boss_tower_dead
+	Global.session.saved_data.knight_boss = current_room.st_st_boss_knight_dead
+	Global.session.saved_data.mage_boss = current_room.st_st_boss_mage_dead
+	
+	for t in current_room.st_st_enabled_triggers:
+		if t == "green_switch":
+			Global.session.saved_data.pressed_switches[Global.Switch.GREEN] = true
+		Global.session.saved_data.object_flags[t] = true
+	
 	Checkpoint.mark()
 
 

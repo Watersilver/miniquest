@@ -11,6 +11,12 @@ class_name Room
 @export var st_up_damage := Global.Damage.ROLL_1D2
 @export var st_up_crit := 0
 @export var st_up_enhancement := 0
+@export_group("Starting World State", "st_st_")
+@export var st_st_boss_slime_dead := false
+@export var st_st_boss_tower_dead := false
+@export var st_st_boss_knight_dead := false
+@export var st_st_boss_mage_dead := false
+@export var st_st_enabled_triggers: Array[String]
 
 enum Req {
 	CONTROLLED_FALL,

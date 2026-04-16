@@ -108,10 +108,10 @@ unique_name_in_owner = true
 position = Vector2(-2, 0)
 sprite_frames = SubResource("SpriteFrames_pa7lr")
 animation = &"yellow"
-frame_progress = 0.7828969
+frame_progress = 0.795792
 
 [node name="CommonEnemy" parent="." unique_id=809384789 instance=ExtResource("3_bavem")]
 unique_name_in_owner = true
-position = Vector2(0, 1)
+position = Vector2(0, 2)
 haz_shape = Rect2(0, 0, 4, 4)
 hitbox_shape = Rect2(0, 0, 4, 4)

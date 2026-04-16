@@ -63,6 +63,30 @@ class _SavedData extends Resource:
 	@export var object_flags: Dictionary[String, bool] = {}
 	@export var keys := 0
 	@export var pressed_switches: Dictionary[Switch, bool] = {}
+	@export var slime_boss := false:
+		set(b):
+			slime_boss = b
+			object_flags['slime_dead'] = b
+			_check_if_all_bosses_dead()
+	@export var tower_boss := false:
+		set(b):
+			tower_boss = b
+			object_flags['tower_dead'] = b
+			_check_if_all_bosses_dead()
+	@export var knight_boss := false:
+		set(b):
+			knight_boss = b
+			object_flags['knight_dead'] = b
+			_check_if_all_bosses_dead()
+	@export var mage_boss := false:
+		set(b):
+			mage_boss = b
+			object_flags['mage_dead'] = b
+			_check_if_all_bosses_dead()
+	
+	func _check_if_all_bosses_dead():
+		if slime_boss and tower_boss and knight_boss and mage_boss:
+			object_flags['bosses_dead'] = true
 
 class _Upgrades extends Resource:
 	@export var controlled_fall := false
@@ -74,6 +98,7 @@ class _Upgrades extends Resource:
 	@export var griffon := false
 	@export var swim := false
 	@export var water_walk := false
+	@export var advantage := false
 	
 	#@export var extra_lung_capacity := 0.0
 	@export var max_health := 1.0
