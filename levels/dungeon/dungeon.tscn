@@ -279,7 +279,7 @@ script = ExtResource("2_eu48m")
 spawn_point = NodePath("SpawnPoint")
 
 [node name="SpawnPoint" type="Marker2D" parent="." index="0" unique_id=1551430169]
-position = Vector2(-312, -59)
+position = Vector2(352, 272)
 
 [node name="Welcome to DIE!" parent="." index="1" unique_id=1555630947 instance=ExtResource("3_l1p8w")]
 exit_markers_up = Array[int]([0])

@@ -261,8 +261,11 @@ func _on_right_exit_area_entered(_a: Node2D) -> void:
 	var dest := get_player_coordinates() + Vector2i(1,0)
 	var target_room := level.get_room_at(dest)
 	if not target_room:
-		player.handle_out_of_bounds()
-		return
+		var wraparound_dest := level.get_leftmost_room_pos_at(dest.y)
+		if wraparound_dest.y != dest.y:
+			player.handle_out_of_bounds()
+			return
+		dest = wraparound_dest
 	call_deferred("go_to_room", dest, new_player_pos)
 
 
@@ -301,6 +304,9 @@ func _on_left_exit_area_entered(_a: Node2D) -> void:
 	var dest := get_player_coordinates() + Vector2i(-1,0)
 	var target_room := level.get_room_at(dest)
 	if not target_room:
-		player.handle_out_of_bounds()
-		return
+		var wraparound_dest := level.get_rightmost_room_pos_at(dest.y)
+		if wraparound_dest.y != dest.y:
+			player.handle_out_of_bounds()
+			return
+		dest = wraparound_dest
 	call_deferred("go_to_room", dest, new_player_pos)

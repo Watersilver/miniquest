@@ -29,6 +29,34 @@ func get_room_at(grid_pos: Vector2i) -> PackedScene:
 	if room: return room
 	return null
 
+
+## Returns dict of rooms at given elevation with their x position as the dic keys
+func _get_rooms_x_coords_at_elevation(elevation: int) -> Array[int]:
+	var xs: Array[int] = []
+	for pos in _scene_layout:
+		if pos.y == elevation:
+			xs.push_back(pos.x)
+	return xs
+
+
+## If there is no room, returned Vector has different elevation from given
+func get_leftmost_room_pos_at(elevation: int) -> Vector2i:
+	var xs := _get_rooms_x_coords_at_elevation(elevation)
+	if xs.size() == 0:
+		return Vector2i(0, elevation + 1)
+	xs.sort()
+	return Vector2i(xs[0], elevation)
+
+
+## If there is no room, returned Vector has different elevation from given
+func get_rightmost_room_pos_at(elevation: int) -> Vector2i:
+	var xs := _get_rooms_x_coords_at_elevation(elevation)
+	if xs.size() == 0:
+		return Vector2i(0, elevation + 1)
+	xs.sort()
+	return Vector2i(xs.pop_back(), elevation)
+
+
 func get_room_origin_at(grid_pos: Vector2i) -> Vector2i:
 	var r := get_room_at(grid_pos)
 	var o = _room_origin.get(r)
