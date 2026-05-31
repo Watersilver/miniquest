@@ -897,7 +897,7 @@ move_flag_relative_target = Vector2(-36, 0)
 hints = Array[ExtResource("11_lcler")]([SubResource("Resource_8gipd"), SubResource("Resource_45rdo"), SubResource("Resource_j07vi"), SubResource("Resource_ltbnm"), SubResource("Resource_y1st8"), SubResource("Resource_8dxlx"), SubResource("Resource_816ma"), SubResource("Resource_5150b"), SubResource("Resource_lb4on"), SubResource("Resource_j5xha"), SubResource("Resource_8muwk"), SubResource("Resource_xim1i"), SubResource("Resource_r765m"), SubResource("Resource_8rylj"), SubResource("Resource_rosrk"), SubResource("Resource_unoni"), SubResource("Resource_qojhe"), SubResource("Resource_q48rh"), SubResource("Resource_tf0x8"), SubResource("Resource_6mcr3"), SubResource("Resource_kwc3y")])
 
 [node name="StartingTutorial" parent="Which way?" index="7" unique_id=1204220795 instance=ExtResource("13_45rdo")]
-text = Array[String](["Welcome! You must be here to destroy the evil in this place!", "Many have tried many have died!", "But I'm sure you're built different!", "Even though you are strong as a wet noodle!", "And without any abilities whatsoever!", "You don't even have a weapon!", "Worry not! You can find magical abilities in here!", "Other stuff too, including money and shops!", "First things first though!", "Look for the jump skill!", "It should help you navigate this place better!", "And gather money to buy a sword!", "Then nobody can stop you!", "At any point press 'P' (or 'Start' on a controller) to pause the game.", "On the pause screen you can review the controls, your status, your upgrades.", "And kill yourself! Most useful!", "Feel free to ask me for any more tips!", "Who am I?", "Why, I'm the friendly floating mask to your left!", "Good luck! I'm sure you'll do great!"])
+text = Array[String](["Welcome! You must be here to destroy the evil in this place!", "Many have tried many have died!", "But I'm sure you're built different!", "Even though you are strong as a wet noodle!", "And without any abilities whatsoever!", "You don't even have a weapon!", "Worry not! You can find magical abilities in here!", "Other stuff too, including money and shops!", "First things first though!", "Look for the jump skill!", "It should help you navigate this place better!", "And gather money to buy a sword!", "Then nobody can stop you!", "Also fwi press 'P' (or 'Start' on a controller) to pause.", "On the pause screen you can review the controls.", "You can also see your status, your upgrades...", "And kill yourself! Most useful!", "Feel free to ask me for any more tips!", "Who am I?", "Why, I'm the friendly floating mask to your left!", "Good luck! I'm sure you'll do great!"])
 
 [node name="Careful now" parent="." index="4" unique_id=315870952 instance=ExtResource("3_l1p8w")]
 position = Vector2(-160, 208)
@@ -976,7 +976,7 @@ text = Array[String](["You can drop though semisolid floors by pressing down + j
 
 [node name="Windy, not windy" parent="." index="7" unique_id=1851154163 instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 312)
-soft_reqs = Array[int]([1, 11])
+soft_reqs = [1, 11]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -990,7 +990,7 @@ script = ExtResource("5_l1p8w")
 position = Vector2(-320, 312)
 st_up_skills = 2
 st_up_weapon = 1
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_left = Array[int]([0])
 
 [node name="TileLayer1" type="TileMapLayer" parent="Crate stacking" index="1" unique_id=872279580]
@@ -1009,7 +1009,7 @@ st_up_skills = 2
 st_up_health = 3
 st_up_weapon = 1
 st_st_enabled_triggers = Array[String](["green_switch"])
-reqs = Array[int]([8])
+reqs = [8]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 
@@ -1047,7 +1047,7 @@ text = Array[String](["Grab climbables by holding up"])
 
 [node name="Sunken Treasure" parent="." index="10" unique_id=22174259 instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 520)
-reqs = Array[int]([8])
+reqs = [8]
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1128,7 +1128,7 @@ position = Vector2(-640, 312)
 st_up_skills = 514
 st_up_weapon = 2
 st_up_enhancement = 3
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -1155,7 +1155,7 @@ script = ExtResource("5_l1p8w")
 
 [node name="A shortcut" parent="." index="14" unique_id=903715635 instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 208)
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1183,7 +1183,7 @@ amount = 14
 
 [node name="My magical realm" parent="." index="15" unique_id=864327277 instance=ExtResource("3_l1p8w")]
 position = Vector2(-960, 312)
-reqs = Array[int]([1, 7, 8])
+reqs = [1, 7, 8]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -1256,7 +1256,7 @@ st_up_skills = 2
 st_up_gold = 33
 st_up_health = 7
 st_up_weapon = 1
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1335,7 +1335,7 @@ st_up_skills = 2
 st_up_health = 2
 st_up_weapon = 1
 st_st_enabled_triggers = Array[String](["green_switch"])
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
@@ -1352,7 +1352,7 @@ position = Vector2(-800, 208)
 st_up_skills = 2
 st_up_health = 2
 st_st_enabled_triggers = Array[String](["green_switch"])
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1374,7 +1374,7 @@ amount = 13
 position = Vector2(-800, 104)
 st_up_skills = 2
 st_up_weapon = 1
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_down = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
@@ -1420,7 +1420,7 @@ addition = 10.0
 
 [node name="Dead end?" parent="." index="22" unique_id=445057958 instance=ExtResource("3_l1p8w")]
 position = Vector2(-640, 104)
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1477,7 +1477,7 @@ st_up_skills = 2
 st_up_health = 2
 st_up_weapon = 3
 st_up_damage = 4
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_up = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1500,7 +1500,7 @@ position = Vector2(136, 72)
 
 [node name="Intangible Bridge" parent="." index="24" unique_id=858987702 instance=ExtResource("3_l1p8w")]
 position = Vector2(-480, 0)
-reqs = Array[int]([1])
+reqs = [1]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -1518,7 +1518,7 @@ st_up_health = 9
 st_up_weapon = 2
 st_up_damage = 1
 st_st_enabled_triggers = Array[String](["green_switch"])
-reqs = Array[int]([1, 4])
+reqs = [1, 4]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -1562,7 +1562,7 @@ enable_trigger = "slime_dead"
 [node name="Dare you enter" parent="." index="27" unique_id=841176252 instance=ExtResource("3_l1p8w")]
 position = Vector2(-800, 312)
 st_up_skills = 256
-reqs = Array[int]([1, 7, 8])
+reqs = [1, 7, 8]
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])
@@ -1600,7 +1600,7 @@ position = Vector2(-640, 0)
 st_up_skills = 7
 st_up_health = 4
 st_up_weapon = 4
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_up = Array[int]([0])
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
@@ -1616,7 +1616,7 @@ position = Vector2(16, 56)
 
 [node name="Can\'t touch grass" parent="." index="29" unique_id=1223797762 instance=ExtResource("3_l1p8w")]
 position = Vector2(-800, 0)
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_up = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
@@ -1655,7 +1655,7 @@ position = Vector2(-800, -104)
 st_up_skills = 2
 st_up_health = 15
 st_up_weapon = 1
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_down = Array[int]([0])
 exit_markers_right = Array[int]([0])
 
@@ -1705,7 +1705,7 @@ position = Vector2(-640, -104)
 st_up_skills = 6
 st_up_health = 5
 st_up_weapon = 1
-reqs = Array[int]([1, 11])
+reqs = [1, 11]
 exit_markers_down = Array[int]([0])
 exit_markers_left = Array[int]([0])
 exit_markers_right = Array[int]([0])

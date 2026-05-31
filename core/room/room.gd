@@ -23,7 +23,7 @@ class_name Room
 @export var st_st_boss_tower_dead := false
 @export var st_st_boss_knight_dead := false
 @export var st_st_boss_mage_dead := false
-@export var st_st_enabled_triggers: Array[String]
+@export var st_st_enabled_triggers: Array
 
 enum Req {
 	CONTROLLED_FALL,
@@ -62,13 +62,13 @@ func req_to_str(r: Req) -> String:
 	return "what"
 
 @export_group("")
-@export var reqs: Array[Req] = []:
+@export var reqs: Array:
 	set(r):
 		reqs = r
 		if not is_node_ready():
 			await ready
 		_reqs.text = ", ".join(PackedStringArray(r.map(func(req): return req_to_str(req))))
-@export var soft_reqs: Array[Req] = []:
+@export var soft_reqs: Array:
 	set(r):
 		soft_reqs = r
 		if not is_node_ready():
@@ -112,15 +112,15 @@ const MAIN_TILESET_TRES = preload("res://main_tileset.tres")
 @export var on_exit_flag: String
 
 @export_group("Exits")
-@export var exit_markers_up: Array[int] = []
-@export var exit_markers_down: Array[int] = []
-@export var exit_markers_left: Array[int] = []
-@export var exit_markers_right: Array[int] = []
+@export var exit_markers_up: Array[int]
+@export var exit_markers_down: Array[int]
+@export var exit_markers_left: Array[int]
+@export var exit_markers_right: Array[int]
 @export_subgroup("Hide Exits")
-@export var hide_exits_up: Array[int] = []
-@export var hide_exits_down: Array[int] = []
-@export var hide_exits_left: Array[int] = []
-@export var hide_exits_right: Array[int] = []
+@export var hide_exits_up: Array[int]
+@export var hide_exits_down: Array[int]
+@export var hide_exits_left: Array[int]
+@export var hide_exits_right: Array[int]
 
 const _REDRAW_PERIOD := 0.2
 var _redraw_timer := randf() * _REDRAW_PERIOD

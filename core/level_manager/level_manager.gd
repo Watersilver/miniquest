@@ -44,23 +44,24 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	if not room_scene: return
 	
 	
-	# Clear old room
-	if is_instance_valid(current_room) and current_room.is_inside_tree():
-		if current_room.on_exit_flag != "":
-			Global.session.saved_data.object_flags[current_room.on_exit_flag] = true
-		current_room.queue_free()
-		current_room = null
-	
-	
 	# Load new room
 	var old_room := current_room
+	print('Instantiating new room...')
 	current_room = room_scene.instantiate()
+	print('New room instantiated!')
 	if old_room:
 		# Ensure there won't be a name collision
 		old_room.name = "to." + current_room.name
 	_room_coordinates = level.get_room_origin_at(destination)
 	
 	room_name.text = current_room.name
+	
+	
+	# Clear old room
+	if is_instance_valid(old_room) and old_room.is_inside_tree():
+		if old_room.on_exit_flag != "":
+			Global.session.saved_data.object_flags[old_room.on_exit_flag] = true
+		old_room.queue_free()
 	
 	
 	# Adjust camera limits
