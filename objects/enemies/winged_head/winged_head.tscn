@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b5ak85mb0naba"]
 
 [ext_resource type="Script" uid="uid://c886bmkidmimv" path="res://objects/enemies/winged_head/winged_head.gd" id="1_hx16w"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_bavem"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_vybkf"]
 [ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_bavem"]
 
@@ -105,10 +106,11 @@ unique_name_in_owner = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D" unique_id=1593307867]
 unique_name_in_owner = true
+material = ExtResource("2_bavem")
 position = Vector2(-2, 0)
 sprite_frames = SubResource("SpriteFrames_pa7lr")
 animation = &"yellow"
-frame_progress = 0.795792
+frame_progress = 0.1406018
 
 [node name="CommonEnemy" parent="." unique_id=809384789 instance=ExtResource("3_bavem")]
 unique_name_in_owner = true

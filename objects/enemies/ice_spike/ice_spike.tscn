@@ -2,13 +2,52 @@
 
 [ext_resource type="Script" uid="uid://cbvn8drpv7rso" path="res://objects/enemies/ice_spike/ice_spike.gd" id="1_hn3ds"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_dayxl"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_txivn"]
 [ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_m4dn5"]
 
-[node name="IceSpike" type="Node2D" unique_id=1907473795]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i8x1j"]
+size = Vector2(4, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i8x1j"]
+radius = 48.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pq8lu"]
+size = Vector2(2, 197)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_txivn"]
+size = Vector2(4, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbtgr"]
+size = Vector2(4, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ffnj7"]
+size = Vector2(6, 6)
+
+[node name="IceSpike" type="CharacterBody2D" unique_id=1183334062]
+collision_layer = 0
+collision_mask = 8193
 script = ExtResource("1_hn3ds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1903493269]
+shape = SubResource("RectangleShape2D_i8x1j")
+
+[node name="PlayerDetector" type="Area2D" parent="." unique_id=1282577713]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="ProwlingShape" type="CollisionShape2D" parent="PlayerDetector" unique_id=1116779878]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_i8x1j")
+
+[node name="CeilingShape" type="CollisionShape2D" parent="PlayerDetector" unique_id=273271832]
+unique_name_in_owner = true
+position = Vector2(0, 94.5)
+shape = SubResource("RectangleShape2D_pq8lu")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=128335633]
 unique_name_in_owner = true
+material = ExtResource("2_txivn")
 texture = ExtResource("2_dayxl")
 flip_h = true
 hframes = 12
@@ -19,4 +58,44 @@ frame = 422
 unique_name_in_owner = true
 immune_to_ice = true
 haz_shape = Rect2(0, 1, 6, 6)
+harmless = true
+hitpoints = 3
 hitbox_shape = Rect2(0, 1, 6, 6)
+unhittable = true
+
+[node name="FloorChecker" type="Area2D" parent="." unique_id=1351724531]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8193
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FloorChecker" unique_id=539769450]
+position = Vector2(0, 4.5)
+shape = SubResource("RectangleShape2D_txivn")
+
+[node name="CeilChecker" type="Area2D" parent="." unique_id=1620718907]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8193
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CeilChecker" unique_id=546288235]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_tbtgr")
+
+[node name="PlayerSeer" type="RayCast2D" parent="." unique_id=1490177466]
+unique_name_in_owner = true
+target_position = Vector2(0, 0)
+collision_mask = 8193
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=137671257]
+unique_name_in_owner = true
+show_rect = false
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1914201475]
+collision_layer = 131072
+collision_mask = 0
+
+[node name="Frost" type="CollisionShape2D" parent="Area2D" unique_id=1553024931]
+unique_name_in_owner = true
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_ffnj7")
+disabled = true

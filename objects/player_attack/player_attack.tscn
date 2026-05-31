@@ -22,7 +22,7 @@ radius = 2.0
 
 [node name="PlayerAttack" type="Area2D" unique_id=1458583169]
 collision_layer = 576
-collision_mask = 9217
+collision_mask = 74753
 script = ExtResource("1_t4hjj")
 
 [node name="ArrowSpr" type="Sprite2D" parent="." unique_id=3687825]
@@ -36,12 +36,12 @@ region_rect = Rect2(88, 8, 8, 8)
 [node name="AttackSpr" type="Sprite2D" parent="." unique_id=665677697]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_5bt2j")
-position = Vector2(0, 2)
 texture = ExtResource("3_qw415")
 region_enabled = true
-region_rect = Rect2(16, 472, 8, 8)
+region_rect = Rect2(17, 471, 6, 7)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=582827293]
+unique_name_in_owner = true
 shape = SubResource("CircleShape2D_t4hjj")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=991882743]

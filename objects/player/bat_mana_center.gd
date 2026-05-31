@@ -10,6 +10,13 @@ var _visible_countdown := 0.0 # if > 0 _fade increases otherwise decreases
 var _fade := 0.0 # 0.0 is transparent, 1.0 is opaque
 
 
+func reset() -> void:
+	_visible_countdown = 0
+	_fade = 0
+	current = 0
+	modulate.a = round(_fade * 3) / 3.0
+
+
 func _ready() -> void:
 	var s := Sprite2D.new()
 	s.texture = CanvasTexture.new()

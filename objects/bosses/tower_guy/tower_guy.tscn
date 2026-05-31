@@ -112,7 +112,7 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="TowerGuy" type="Node2D" unique_id=1952431755]
+[node name="TowerGuy" type="Node2D" unique_id=1952431755 groups=["bosses"]]
 script = ExtResource("1_2ph5t")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=228876979]
@@ -131,6 +131,7 @@ autoplay = "idle"
 
 [node name="CommonEnemy" parent="." unique_id=809384789 instance=ExtResource("3_002at")]
 unique_name_in_owner = true
+immune_to_ice = true
 has_iframes = true
 extra_iframes = 1.0
 dmg_dice = 1

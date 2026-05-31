@@ -31,4 +31,7 @@ func _process(delta: float) -> void:
 
 func _break_illusion():
 	_broken = true
+	for c in get_children():
+		if c is TileMapLayer:
+			c.collision_enabled = false
 	Global.session.saved_data.object_flags[Refs.level_manager.get_unique_name(self)] = true

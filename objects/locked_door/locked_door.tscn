@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://cflpsw3dnsdhy"]
+
+[ext_resource type="Script" uid="uid://ysc78sbixhye" path="res://objects/locked_door/locked_door.gd" id="1_8hy68"]
+[ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="1_crrw5"]
+[ext_resource type="Script" uid="uid://dtf8mebdh3jfy" path="res://main_tileset.gd" id="2_8hy68"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="3_u7eof"]
+[ext_resource type="Texture2D" uid="uid://c5tax4uxysgtw" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Icons.png" id="4_myr82"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_klg0k"]
+size = Vector2(7, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8hy68"]
+size = Vector2(10, 24)
+
+[node name="LockedDoor" type="Node2D" unique_id=1593519721]
+script = ExtResource("1_8hy68")
+
+[node name="Closed" type="TileMapLayer" parent="." unique_id=800978290]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray(0, 0, 0, 0, 3, 0, 1, 0, 12, 0, 9, 0, 0, 80, 0, 0, 2, 0, 1, 0, 11, 0, 9, 0, 0, 80, 0, 0, 1, 0, 1, 0, 10, 0, 9, 0, 0, 80, 0, 0, 0, 0, 1, 0, 9, 0, 9, 0, 0, 80, 0, 0, 255, 255, 1, 0, 8, 0, 9, 0, 0, 80)
+tile_set = ExtResource("1_crrw5")
+script = ExtResource("2_8hy68")
+metadata/_custom_type_script = "uid://dtf8mebdh3jfy"
+
+[node name="Open" type="TileMapLayer" parent="." unique_id=723391244]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray(0, 0, 0, 0, 2, 0, 7, 0, 1, 0, 12, 0, 0, 0, 0, 0, 1, 0, 7, 0, 1, 0, 12, 0, 0, 0, 0, 0, 0, 0, 7, 0, 1, 0, 12, 0, 0, 0)
+enabled = false
+tile_set = ExtResource("1_crrw5")
+script = ExtResource("2_8hy68")
+metadata/_custom_type_script = "uid://dtf8mebdh3jfy"
+
+[node name="LockBody" type="RigidBody2D" parent="." unique_id=277404621]
+unique_name_in_owner = true
+collision_layer = 0
+mass = 2.0
+gravity_scale = 0.5
+inertia = 5.08
+freeze = true
+
+[node name="Lock" type="Sprite2D" parent="LockBody" unique_id=1128195257]
+unique_name_in_owner = true
+material = ExtResource("3_u7eof")
+position = Vector2(4, 12)
+texture = ExtResource("4_myr82")
+region_enabled = true
+region_rect = Rect2(0, 64, 8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LockBody" unique_id=2124359489]
+position = Vector2(3.5, 14)
+shape = SubResource("RectangleShape2D_klg0k")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LockBody" unique_id=649314848]
+position = Vector2(2, 12)
+polygon = PackedVector2Array(0, 0, -2, -1, -1, -3, 1, -2, 1, 0)
+
+[node name="PlayerDetector" type="Area2D" parent="." unique_id=56255425]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector" unique_id=912069718]
+position = Vector2(4, 12)
+shape = SubResource("RectangleShape2D_8hy68")

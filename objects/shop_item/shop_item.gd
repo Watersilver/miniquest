@@ -1,5 +1,6 @@
 @tool
 extends Area2D
+class_name ShopItem
 
 @onready var label_offset: Node2D = %LabelOffset
 @onready var label: Label = %Label
@@ -41,13 +42,13 @@ func _ready() -> void:
 		if _is_bought():
 			visible = false
 			var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-			collision_shape_2d.disabled = true
+			collision_shape_2d.set_deferred("disabled", true)
 			queue_free()
 		else:
 			visible = true
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		if has_overlapping_bodies() and Input.is_action_just_pressed("ui_accept") and _cooldown <= 0.0:
 			_cooldown = 0.2

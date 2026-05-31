@@ -9,7 +9,7 @@ extends Node2D
 @onready var next_graphic: NinePatchRect = %NextGraphic
 
 
-func has_text():
+func has_text() -> bool:
 	return _text.size() > 0
 
 func display(txt: Array[String], on_text_end := _empty, escapable := true):

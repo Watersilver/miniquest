@@ -23,10 +23,20 @@ const DAMAGE_NUMBER = preload("uid://dmig0d05okjv7")
 @export var dmg_dice := Global.Damage.ROLL_1D2
 @export var enhancement := 0
 @export var haz_shape := Rect2(0,0,8,8)
+@export var harmless := false
+@export var advantage := false:
+	set(a):
+		advantage = a
+		
+		if not is_node_ready():
+			await ready
+		
+		_hazard.advantage = a
 
 @export_group("Hit")
 @export var hitpoints := 1
 @export var hitbox_shape := Rect2(0,0,8,8)
+@export var unhittable := false
 
 var _iframes := 0.0
 
@@ -93,12 +103,36 @@ func _on_died():
 func _ready() -> void:
 	force_update_components()
 	
+	if Engine.is_editor_hint():
+		return
+	
+	if harmless:
+		if not _haz_shape_2d.disabled:
+			_haz_shape_2d.set_deferred("disabled", true)
+	else:
+		if _haz_shape_2d.disabled and not _dead:
+			_haz_shape_2d.set_deferred("disabled", false)
 	_hitbox.area_entered.connect(_on_hitbox_area_entered)
 	died.connect(_on_died)
 
 
 func _physics_process(delta: float) -> void:
 	force_update_components()
+	
+	if Engine.is_editor_hint():
+		return
+	
+	if harmless:
+		if not _haz_shape_2d.disabled:
+			_haz_shape_2d.set_deferred("disabled", true)
+	else:
+		if _haz_shape_2d.disabled and not _dead:
+			_haz_shape_2d.set_deferred("disabled", false)
+	
+	if unhittable:
+		_hit_shape_2d.set_deferred("disabled", true)
+	else:
+		_hit_shape_2d.set_deferred("disabled", false)
 	
 	if not _dead:
 		if hitpoints < 0:
@@ -119,6 +153,8 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	
 	var can_freeze := false
 	if area is PlayerAttack:
+		if is_frozen and area.shrapnel:
+			return
 		if requires_ice and not Global.session.upgrades.element_ice:
 			return
 		can_freeze = not immune_to_ice

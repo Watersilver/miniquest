@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpewkwdbvv7j4"]
+[gd_scene format=3 uid="uid://bpewkwdbvv7j4"]
 
 [ext_resource type="Script" uid="uid://bfoj68nlv7buj" path="res://objects/arrow_trap/arrow/arrow.gd" id="1_7nmev"]
 [ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="1_u38uc"]
@@ -19,12 +19,12 @@ shader_parameter/thickness = 1.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u38uc"]
 size = Vector2(3, 1)
 
-[node name="Arrow" type="RayCast2D"]
+[node name="Arrow" type="RayCast2D" unique_id=370305950]
 target_position = Vector2(3.5, 0)
 hit_from_inside = true
 script = ExtResource("1_7nmev")
 
-[node name="Arrowback" type="Sprite2D" parent="."]
+[node name="Arrowback" type="Sprite2D" parent="." unique_id=318292157]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_3iwcu")
 position = Vector2(-2, 0)
@@ -32,14 +32,14 @@ texture = ExtResource("1_u38uc")
 region_enabled = true
 region_rect = Rect2(88, 0, 4, 8)
 
-[node name="ArrowbackRay" type="RayCast2D" parent="Arrowback"]
+[node name="ArrowbackRay" type="RayCast2D" parent="Arrowback" unique_id=1249623006]
 unique_name_in_owner = true
 position = Vector2(2, 0)
 enabled = false
 target_position = Vector2(-3, 0)
 hit_from_inside = true
 
-[node name="Arrowfront" type="Sprite2D" parent="."]
+[node name="Arrowfront" type="Sprite2D" parent="." unique_id=120351058]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_mcjxq")
 position = Vector2(2, 0)
@@ -47,17 +47,17 @@ texture = ExtResource("1_u38uc")
 region_enabled = true
 region_rect = Rect2(92, 0, 4, 8)
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." unique_id=1201863613]
 collision_layer = 8
 collision_mask = 0
 monitoring = false
 
-[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox" unique_id=685101306]
 unique_name_in_owner = true
 position = Vector2(1.5, 0.5)
 shape = SubResource("RectangleShape2D_u38uc")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1951410666]
 position = Vector2(2.38419e-07, 0.5)
 scale = Vector2(0.4, 0.15)
 

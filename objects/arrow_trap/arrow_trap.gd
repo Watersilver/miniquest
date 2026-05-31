@@ -7,6 +7,8 @@ extends Node2D
 
 @export var raycast_start_dir := Global.Direction.RIGHT
 
+@export var silver := false
+
 
 var spawn_point := global_position
 var spawn_timer := 0.0
@@ -18,11 +20,15 @@ func _ready() -> void:
 	ray_cast_2d.target_position = Vector2(999 * dir, 0)
 	ray_cast_2d.force_raycast_update()
 	
+	arrow.silver = silver
+	arrow.reset()
 	arrow.collided.connect(func(): spawn_timer = 1)
 	arrow.out_of_bounds.connect(func(): spawn_timer = 0.1)
 
 
 func _physics_process(delta: float) -> void:
+	arrow.silver = silver
+	
 	if ray_cast_2d.enabled:
 		ray_cast_2d.force_raycast_update()
 		if ray_cast_2d.is_colliding():

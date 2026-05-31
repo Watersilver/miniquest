@@ -1,5 +1,6 @@
 @tool
 extends CharacterBody2D
+class_name EnemyWorm
 
 @onready var sprite: AnimatedSprite2D = %Sprite
 @onready var common_enemy: CommonEnemy = %CommonEnemy
@@ -8,6 +9,9 @@ extends CharacterBody2D
 
 @export var direction := Global.Direction.RIGHT
 @export var max_speed := 30.0
+
+@export var init_delay := 1.0
+var _init_delay_timer := init_delay
 
 const _DEATH_TIMER_MAX := 0.15
 var _death_timer := _DEATH_TIMER_MAX
@@ -33,6 +37,9 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	
+	var init_delay_done := _init_delay_timer <= 0
+	_init_delay_timer -= delta
+	
 	if common_enemy.is_dead():
 		if _death_timer < _DEATH_TIMER_MAX * 0.5:
 			sprite.play("dead")
@@ -55,7 +62,7 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
-	if is_on_floor():
+	if is_on_floor() and init_delay_done:
 		var c: Object = rc.get_collider()
 		if not c or (c is Node and not c.get_parent() is Player):
 			c = rc2.get_collider()
@@ -86,5 +93,5 @@ func _physics_process(delta: float) -> void:
 				sprite.speed_scale = 0
 	else:
 		velocity.x = 0
-		
+		sprite.speed_scale = 0
 		sprite.flip_h = direction == Global.Direction.LEFT

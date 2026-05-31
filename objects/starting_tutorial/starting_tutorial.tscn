@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bcyciiqu8dc4j"]
+
+[ext_resource type="Script" uid="uid://bxmmxmdilxobv" path="res://objects/starting_tutorial/starting_tutorial.gd" id="1_nsc2e"]
+
+[node name="StartingTutorial" type="Node" unique_id=1204220795]
+script = ExtResource("1_nsc2e")

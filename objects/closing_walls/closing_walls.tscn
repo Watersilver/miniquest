@@ -1,0 +1,67 @@
+[gd_scene format=4 uid="uid://c8eirhiey08ry"]
+
+[ext_resource type="Script" uid="uid://dj46ck3iuyfe5" path="res://objects/closing_walls/closing_walls.gd" id="1_3oepk"]
+[ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="1_bev1m"]
+[ext_resource type="Script" uid="uid://dtf8mebdh3jfy" path="res://main_tileset.gd" id="2_3oepk"]
+
+[node name="ClosingWalls" type="Node2D" unique_id=65396218]
+script = ExtResource("1_3oepk")
+
+[node name="Left" type="Node2D" parent="." unique_id=470024283]
+unique_name_in_owner = true
+position = Vector2(8, 40)
+
+[node name="MainTileset" type="TileMapLayer" parent="Left" unique_id=1186397161]
+unique_name_in_owner = true
+position = Vector2(-8, -40)
+tile_map_data = PackedByteArray("AAAAAAcABAATACgAAAAAAAgABAATACYAAAAAAAkABAATACcAAAAAAAoABAATACgAAAAAAAUABAATACYAAAAAAAYABAATACcAAAA=")
+tile_set = ExtResource("1_bev1m")
+use_kinematic_bodies = true
+script = ExtResource("2_3oepk")
+metadata/_custom_type_script = "uid://dtf8mebdh3jfy"
+
+[node name="FloorTiles" type="TileMapLayer" parent="Left/MainTileset" unique_id=335085543]
+unique_name_in_owner = true
+visible = false
+tile_map_data = PackedByteArray("AAD1/wUABAAUACgAAFD2/wUABAAUACcAAFD3/wUABAAUACYAAFD4/wUABAAUACgAAFD5/wUABAAUACcAAFD6/wUABAAUACYAAFD7/wUABAAUACgAAFD8/wUABAAUACcAAFD9/wUABAAUACYAAFD+/wUABAAUACgAAFD//wUABAAUACcAAFAAAAUABAAUACYAAFA=")
+tile_set = ExtResource("1_bev1m")
+use_kinematic_bodies = true
+script = ExtResource("2_3oepk")
+metadata/_custom_type_script = "uid://dtf8mebdh3jfy"
+
+[node name="Polygon2D" type="Polygon2D" parent="Left/MainTileset" unique_id=2099895216]
+unique_name_in_owner = true
+visible = false
+show_behind_parent = true
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-88, 88, 8, 88, 8, 40, -88, 40)
+
+[node name="Right" type="Node2D" parent="." unique_id=850327883]
+unique_name_in_owner = true
+position = Vector2(152, 40)
+
+[node name="MainTileset2" type="TileMapLayer" parent="Right" unique_id=1616450101]
+unique_name_in_owner = true
+position = Vector2(-152, -40)
+tile_map_data = PackedByteArray("AAATAAcABAAUACgAAAATAAgABAAUACYAAAATAAkABAAUACcAAAATAAoABAAUACgAAAATAAUABAAUACYAAAATAAYABAAUACcAAAA=")
+tile_set = ExtResource("1_bev1m")
+use_kinematic_bodies = true
+script = ExtResource("2_3oepk")
+metadata/_custom_type_script = "uid://dtf8mebdh3jfy"
+
+[node name="FloorTiles2" type="TileMapLayer" parent="Right/MainTileset2" unique_id=770375484]
+unique_name_in_owner = true
+visible = false
+tile_map_data = PackedByteArray("AAATAAUABAATACYAAGAUAAUABAATACcAAGAVAAUABAATACgAAGAWAAUABAATACYAAGAXAAUABAATACcAAGAYAAUABAATACgAAGAZAAUABAATACYAAGAaAAUABAATACcAAGAbAAUABAATACgAAGAcAAUABAATACYAAGAdAAUABAATACcAAGAeAAUABAATACgAAGA=")
+tile_set = ExtResource("1_bev1m")
+use_kinematic_bodies = true
+script = ExtResource("2_3oepk")
+metadata/_custom_type_script = "uid://dtf8mebdh3jfy"
+
+[node name="Polygon2D2" type="Polygon2D" parent="Right/MainTileset2" unique_id=1904898685]
+unique_name_in_owner = true
+visible = false
+show_behind_parent = true
+position = Vector2(240, 0)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-88, 88, 8, 88, 8, 40, -88, 40)

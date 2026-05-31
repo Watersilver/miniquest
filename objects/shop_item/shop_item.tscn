@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwqkqrgq6j3jn"]
+[gd_scene format=3 uid="uid://dwqkqrgq6j3jn"]
 
 [ext_resource type="Script" uid="uid://np37h20xma84" path="res://objects/shop_item/shop_item.gd" id="1_sm7ym"]
 [ext_resource type="Texture2D" uid="uid://gw23isqhaw70" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Items.png" id="2_83r6v"]
@@ -42,24 +42,24 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="ShopItem" type="Area2D" groups=["shop_items"]]
+[node name="ShopItem" type="Area2D" unique_id=199100995 groups=["shop_items"]]
 collision_layer = 2048
 collision_mask = 256
 script = ExtResource("1_sm7ym")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=425399651]
 shape = SubResource("CircleShape2D_83r6v")
 
-[node name="LabelOffset" type="Node2D" parent="."]
+[node name="LabelOffset" type="Node2D" parent="." unique_id=846452497]
 unique_name_in_owner = true
 position = Vector2(0, -12)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="LabelOffset"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="LabelOffset" unique_id=1817163421]
 position = Vector2(-3, 0)
 sprite_frames = SubResource("SpriteFrames_w588g")
 autoplay = "default"
 
-[node name="Label" type="Label" parent="LabelOffset"]
+[node name="Label" type="Label" parent="LabelOffset" unique_id=1000630994]
 unique_name_in_owner = true
 offset_left = 1.0
 offset_top = -7.0

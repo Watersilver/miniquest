@@ -131,6 +131,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2brev"]
+size = Vector2(4, 8)
+
 [node name="Flame" type="Node2D" unique_id=979390629]
 script = ExtResource("1_mqgbg")
 
@@ -147,3 +150,11 @@ dmg_dice = 2
 haz_shape = Rect2(0, 0, 4, 8)
 hitpoints = 3
 hitbox_shape = Rect2(0, 0, 4, 8)
+
+[node name="FireArea" type="Area2D" parent="." unique_id=440237890]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 131072
+
+[node name="FireShape" type="CollisionShape2D" parent="FireArea" unique_id=3607430]
+shape = SubResource("RectangleShape2D_2brev")

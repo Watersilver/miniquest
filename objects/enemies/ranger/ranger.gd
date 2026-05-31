@@ -1,6 +1,7 @@
 @tool
 
 extends CharacterBody2D
+class_name EnemyRanger
 
 const PROJECTILE = preload("uid://bpyn0rqd6mrg2")
 

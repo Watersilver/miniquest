@@ -302,6 +302,7 @@ shape = SubResource("RectangleShape2D_0lf06")
 
 [node name="KeyDisplay" type="Sprite2D" parent="." unique_id=1615459752]
 unique_name_in_owner = true
+z_index = 1
 material = ExtResource("5_nek6i")
 position = Vector2(4, 100)
 texture = ExtResource("6_0u82r")

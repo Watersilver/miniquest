@@ -1,6 +1,7 @@
 @tool
 
 extends CharacterBody2D
+class_name EnemySnake
 
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
 
@@ -25,7 +26,7 @@ enum Facing {
 	RANDOM = 0
 }
 
-@export var type = SnakeType.RED
+@export var type := SnakeType.RED
 
 @export var init_facing := Facing.RANDOM:
 	set(f):
@@ -130,14 +131,14 @@ func _physics_process(delta: float) -> void:
 					else: facing = Global.Direction.LEFT
 					_turnaround_cooldown = _TURNAROUND_COOLDOWN_DURATION
 			
-			if type == SnakeType.RED:
-				animated_sprite_2d.play("red_walk")
-			elif type == SnakeType.YELLOW:
-				animated_sprite_2d.play("yellow_walk")
-			
 			velocity.x = speed * facing
 		else:
 			velocity.x = 0
+		
+		if type == SnakeType.RED:
+			animated_sprite_2d.play("red_walk")
+		elif type == SnakeType.YELLOW:
+			animated_sprite_2d.play("yellow_walk")
 	else:
 		if type == SnakeType.RED:
 			if animated_sprite_2d.animation != "red_walk":

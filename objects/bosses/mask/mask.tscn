@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://5o6gk6iv805f"]
+
+[ext_resource type="Script" uid="uid://cc2l8id8ia48n" path="res://objects/bosses/mask/mask.gd" id="1_cp44m"]
+[ext_resource type="Texture2D" uid="uid://daqdpttmfmvme" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Emoji.png" id="1_wgqq4"]
+[ext_resource type="Script" uid="uid://05fo8fr304mu" path="res://resources/oscillation.gd" id="2_hrgy2"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_s6673"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="5_ajxqg"]
+
+[sub_resource type="Resource" id="Resource_ajxqg"]
+script = ExtResource("2_hrgy2")
+amplitude = Vector3(3, 2, 0)
+frequency = Vector3(0.5, 0.34, 0)
+metadata/_custom_type_script = "uid://05fo8fr304mu"
+
+[node name="Mask" type="Node2D" unique_id=702935487 groups=["bosses"]]
+z_index = 1
+script = ExtResource("1_cp44m")
+oscillation = SubResource("Resource_ajxqg")
+
+[node name="Anchor" type="Node2D" parent="." unique_id=510548324]
+unique_name_in_owner = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Anchor" unique_id=35496282]
+unique_name_in_owner = true
+material = ExtResource("2_s6673")
+texture = ExtResource("1_wgqq4")
+hframes = 8
+vframes = 17
+frame = 8
+
+[node name="CommonEnemy" parent="." unique_id=809384789 instance=ExtResource("5_ajxqg")]
+unique_name_in_owner = true
+immune_to_ice = true
+dmg_dice = 4
+enhancement = 1
+haz_shape = Rect2(0, 0, 4, 4)
+advantage = true
+hitpoints = 200
+hitbox_shape = Rect2(0, 0, 6, 6)

@@ -1,116 +1,128 @@
 extends Node
 
-class Footsteps extends Node:
-	var walk := AudioStreamPlayer.new()
-	var run := AudioStreamPlayer.new()
-	var walk_hard := AudioStreamPlayer.new()
-	var run_hard := AudioStreamPlayer.new()
-	var jump := AudioStreamPlayer.new()
-	var jump_hard := AudioStreamPlayer.new()
-	var land := AudioStreamPlayer.new()
-	var land_hard := AudioStreamPlayer.new()
-	
-	func _init(path: String) -> void:
-		add_child(walk)
-		add_child(run)
-		add_child(walk_hard)
-		add_child(run_hard)
-		add_child(jump)
-		add_child(jump_hard)
-		add_child(land)
-		add_child(land_hard)
-		
-		var dir := DirAccess.open(path)
-		if dir == null: printerr("Could not open folder: " + path); return
-		dir.list_dir_begin()
-		for subdir_name: String in dir.get_directories():
-			if subdir_name.ends_with("Walk"):
-				var subdir := DirAccess.open(path + subdir_name)
-				if subdir == null: printerr("Could not open folder: " + path + subdir_name); return
-				subdir.list_dir_begin()
-				for file: String in subdir.get_files():
-					if file.ends_with(".import"): continue
-					
-					var stream_playa := walk
-					if file.contains("Hard_Walk"):
-						stream_playa = walk_hard
-					
-					var rando_stream: AudioStreamRandomizer
-					if not stream_playa.stream:
-						rando_stream = AudioStreamRandomizer.new()
-						stream_playa.stream = rando_stream
-						rando_stream.playback_mode = rando_stream.PLAYBACK_RANDOM
-					else:
-						rando_stream = stream_playa.stream
-					
-					var resource := load(subdir.get_current_dir() + "/" + file)
-					rando_stream.add_stream(-1,resource)
-				subdir.list_dir_end()
-			elif subdir_name.ends_with("Run"):
-				var subdir := DirAccess.open(path + subdir_name)
-				if subdir == null: printerr("Could not open folder: " + path + subdir_name); return
-				subdir.list_dir_begin()
-				for file: String in subdir.get_files():
-					if file.ends_with(".import"): continue
-					
-					var stream_playa := run
-					if file.contains("Hard_Run"):
-						stream_playa = run_hard
-					
-					var rando_stream: AudioStreamRandomizer
-					if not stream_playa.stream:
-						rando_stream = AudioStreamRandomizer.new()
-						stream_playa.stream = rando_stream
-						rando_stream.playback_mode = rando_stream.PLAYBACK_RANDOM
-					else:
-						rando_stream = stream_playa.stream
-					
-					var resource := load(subdir.get_current_dir() + "/" + file)
-					rando_stream.add_stream(-1,resource)
-				subdir.list_dir_end()
-			elif subdir_name.ends_with("Jump") or subdir_name.ends_with("Land"):
-				var subdir := DirAccess.open(path + subdir_name)
-				if subdir == null: printerr("Could not open folder: " + path + subdir_name); return
-				subdir.list_dir_begin()
-				for file: String in subdir.get_files():
-					if file.ends_with(".import"): continue
-					
-					var stream_playa := jump
-					if file.contains("Hard_Jump_Land"):
-						stream_playa = land_hard
-					elif file.contains("Hard_Jump_Start"):
-						stream_playa = jump_hard
-					elif file.contains("Land"):
-						stream_playa = land
-					
-					var rando_stream: AudioStreamRandomizer
-					if not stream_playa.stream:
-						rando_stream = AudioStreamRandomizer.new()
-						stream_playa.stream = rando_stream
-						rando_stream.playback_mode = rando_stream.PLAYBACK_RANDOM
-					else:
-						rando_stream = stream_playa.stream
-					
-					var resource := load(subdir.get_current_dir() + "/" + file)
-					rando_stream.add_stream(-1,resource)
-				subdir.list_dir_end()
-		dir.list_dir_end()
+const BUS_NAME_MASTER = "Master"
+const BUS_NAME_SFX = "Sfx"
+const BUS_NAME_BGM = "Bgm"
 
-#func _setup_random_sfx(asp: AudioStreamPlayer, path: String, pm := AudioStreamRandomizer.PLAYBACK_RANDOM):
-	#var rando_stream = AudioStreamRandomizer.new()
-	#rando_stream.playback_mode = pm
-	#asp.stream = rando_stream
-	#
-	#var dir := DirAccess.open(path)
-	#if dir == null: printerr("Could not open folder"); return
-	#dir.list_dir_begin()
-	#for file: String in dir.get_files():
-		#if file.ends_with(".import"): continue
-		#var resource := load(dir.get_current_dir() + "/" + file)
-		#rando_stream.add_stream(-1, resource)
+@onready var bgm: AudioStreamPlayer = %Bgm
 
-#var rock_footsteps: Footsteps
-#
-#func _ready() -> void:
-	#rock_footsteps = Footsteps.new("res://assets/audio/sfx/rock/")
-	#add_child(rock_footsteps)
+@export var music_themes: MusicThemes
+@export var sound_effects: SoundEffects
+var sfx_players_dict: Dictionary[String, AudioStreamPlayer]
+
+
+func play_sfx(sound_name: String, fallbacks: Array[String] = []) -> void:
+	if not sfx_players_dict.has(sound_name):
+		var f := fallbacks.duplicate()
+		play_sfx(f.pop_front(), f)
+	else:
+		sfx_players_dict[sound_name].play()
+
+
+func _gbi(bus_name: String) -> int:
+	return AudioServer.get_bus_index(bus_name)
+
+
+func set_volume(vol: float) -> void:
+	AudioServer.set_bus_volume_linear(_gbi(BUS_NAME_MASTER), clampf(vol, 0, 1))
+
+
+func get_volume() -> float:
+	return AudioServer.get_bus_volume_linear(_gbi(BUS_NAME_MASTER))
+
+
+func set_sfx_mute(enable: bool) -> void:
+	AudioServer.set_bus_mute(_gbi(BUS_NAME_SFX), enable)
+
+
+func get_sfx_mute() -> bool:
+	return AudioServer.is_bus_mute(_gbi(BUS_NAME_SFX))
+
+
+func set_bgm_mute(enable: bool) -> void:
+	AudioServer.set_bus_mute(_gbi(BUS_NAME_BGM), enable)
+
+
+func get_bgm_mute() -> bool:
+	return AudioServer.is_bus_mute(_gbi(BUS_NAME_BGM))
+
+
+func play_music(stream: AudioStream, force_restart := false) -> void:
+	if force_restart or bgm.stream != stream or not bgm.playing:
+		bgm.stream = stream
+		restart_music()
+
+
+func restart_music() -> void:
+	bgm.play()
+
+
+func stop_music() -> void:
+	bgm.stop()
+
+
+func play_footstep_sound() -> void:
+	play_sfx('walk_steps')
+
+
+func play_run_footstep_sound() -> void:
+	play_sfx('run_steps')
+
+
+func play_jump_sound() -> void:
+	play_sfx('jump')
+
+
+func play_double_jump_sound() -> void:
+	play_sfx('double_jump', ["jump"])
+
+
+func play_player_hurt_sound() -> void:
+	play_sfx('player_hurt')
+
+
+func play_fall_down_sound() -> void:
+	play_sfx('fall_down')
+
+
+func play_player_death_sound() -> void:
+	play_sfx('player_death')
+
+
+func play_attack_sound() -> void:
+	play_sfx('attack')
+
+
+func play_magic_attack_sound() -> void:
+	play_sfx('magic_attack')
+
+
+func load_sounds_to_player(pl: AudioStreamPlayer, folder_name: String, fallbacks: Array[String] = []) -> void:
+	var walk_steps_dir := DirAccess.open("res://assets/audio/sfx/" + folder_name + "/")
+	if walk_steps_dir == null:
+		if fallbacks.size() > 0:
+			fallbacks = fallbacks.duplicate()
+			load_sounds_to_player(pl, fallbacks.pop_front(), fallbacks)
+		printerr("Failed opening " + folder_name + " directory")
+	else:
+		var rando := AudioStreamRandomizer.new()
+		pl.stream = rando
+		for file in walk_steps_dir.get_files():
+			if file.ends_with(".import"): continue
+			var resource := load(walk_steps_dir.get_current_dir() + "/" + file)
+			rando.add_stream(-1, resource)
+
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+	for sound in sound_effects.sounds:
+		var audstr := AudioStreamPlayer.new()
+		audstr.bus = BUS_NAME_SFX
+		audstr.stream = sound_effects.sounds[sound]
+		add_child(audstr)
+		sfx_players_dict.set(sound, audstr)
+
+func _physics_process(_delta: float) -> void:
+	if Engine.is_editor_hint():
+		return

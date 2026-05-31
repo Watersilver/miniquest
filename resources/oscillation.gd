@@ -2,6 +2,15 @@
 extends Resource
 class_name OscillationResource
 
+
+static func cosV3(v: Vector3) -> Vector3:
+	return Vector3(
+		cos(v.x),
+		cos(v.y),
+		cos(v.z)
+	)
+
+
 ## x,y are position, z is rotation
 @export var amplitude := Vector3(1,1,0)
 ## x,y are position, z is rotation
@@ -13,17 +22,22 @@ var _t := 0.0
 
 var position := Vector2(0, 0)
 var rotation := 0.0
-var _equilibrium := Vector3(position.x, position.y, rotation)
+## The calculated velocity of the 3 oscillations (z is, again, rotation)
+var velocity := Vector3(0, 0, 0)
 var _has_updated := false
+
 
 func has_updated() -> bool:
 	return _has_updated
 
 func update(delta: float) -> void:
 	_has_updated = true
+	# angular frequence = TAU * frequency
 	var p := TAU * frequency * _t + initial_phase
-	position.x = _equilibrium.x + amplitude.x * sin(p.x)
-	position.y = _equilibrium.y + amplitude.y * sin(p.y)
-	rotation = _equilibrium.z + amplitude.z * sin(p.z)
+	position.x = amplitude.x * sin(p.x)
+	position.y = amplitude.y * sin(p.y)
+	rotation = amplitude.z * sin(p.z)
+	
+	velocity = amplitude * TAU * frequency * cosV3(p)
 	
 	_t += delta

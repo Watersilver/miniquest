@@ -1,41 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8jot8f0riaao"]
+[gd_scene format=3 uid="uid://c8jot8f0riaao"]
 
 [ext_resource type="Script" uid="uid://bs3vv4ervpuf8" path="res://autoloads/binary_choice_manager/binary_choice_manager.gd" id="1_7a4q7"]
 [ext_resource type="Texture2D" uid="uid://bwl5l2moh0odr" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Frames-and-Banners.png" id="2_k7le2"]
 
-[node name="BinaryChoiceManager" type="Control"]
+[node name="BinaryChoiceManager" type="Control" unique_id=1508348339]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_7a4q7")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=6564807]
 unique_name_in_owner = true
 layer = 2
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=902280320]
 offset_right = 160.0
 offset_bottom = 29.0
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=755510115]
 offset_right = 160.0
 offset_bottom = 32.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1015985334]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer" unique_id=932020631]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer" unique_id=1476271822]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="YesFocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="YesFocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer" unique_id=606577811]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -46,7 +47,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="YesUnfocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="YesUnfocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer" unique_id=331012439]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_k7le2")
@@ -56,29 +57,29 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer" unique_id=280944516]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Confirm" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/MarginContainer"]
+[node name="Confirm" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer/MarginContainer" unique_id=1639012997]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Yas!"
 horizontal_alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer" unique_id=87222849]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2" unique_id=1789171537]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="NoFocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2"]
+[node name="NoFocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2" unique_id=542696676]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -89,7 +90,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="NoUnfocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2"]
+[node name="NoUnfocus" type="NinePatchRect" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2" unique_id=1331894676]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_k7le2")
@@ -99,14 +100,14 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2" unique_id=867872006]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Decline" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/MarginContainer"]
+[node name="Decline" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/MarginContainer2/MarginContainer" unique_id=107552837]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Nay!"

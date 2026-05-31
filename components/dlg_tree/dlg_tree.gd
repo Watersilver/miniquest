@@ -5,6 +5,7 @@ class_name DlgTree
 @export_multiline var text: Array[String] = []
 @export var accept_txt := ""
 @export var accept_tree: DlgTree = null
+@export var accept_script: Activatable
 @export var decline_txt := ""
 @export var decline_tree: DlgTree = null
 @export var escapable := true
@@ -24,6 +25,8 @@ enum Affected {
 @export var addition := 1.0
 
 @export var destroy_on_end := false
+
+signal end()
 
 
 func _should_destroy_on_end() -> bool:
@@ -49,7 +52,7 @@ func _on_text_end():
 		BinaryChoiceManager.prompt(
 			accept_txt,
 			decline_txt,
-			accept_tree.activate if accept_tree else _empty,
+			accept_tree.activate if accept_tree else accept_script.activate if accept_script else _empty,
 			decline_tree.activate if decline_tree else _empty
 		)
 	else:
@@ -71,6 +74,7 @@ func _on_text_end():
 			Global.session.upgrades.raise_dmg_die(1)
 			if Refs.level_manager.player.health.value > 0:
 				Global.session.upgrades.max_health -= 1
+	end.emit()
 	on_end()
 	if _should_destroy_on_end() and can_destroy:
 		var n = self

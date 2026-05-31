@@ -65,7 +65,8 @@ func get_room_origin_at(grid_pos: Vector2i) -> Vector2i:
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
-		InputMap.load_from_project_settings()
+		pass
+		#InputMap.load_from_project_settings()
 	else:
 		for child in get_children():
 			if child is Room:
@@ -100,13 +101,17 @@ func _physics_process(delta: float) -> void:
 		
 		
 		var is_2d_editor_visible := false
-		var ems := EditorInterface.get_editor_main_screen()
+		# Web export bug: https://github.com/godotengine/godot/issues/91713
+		var editor_interface = Engine.get_singleton("EditorInterface")
+		#var ems := EditorInterface.get_editor_main_screen()
+		var ems = editor_interface.get_editor_main_screen()
 		for c in ems.get_children():
 			if c.name.contains("CanvasItemEditor"):
 				is_2d_editor_visible = c.visible
 		
 		if is_2d_editor_visible:
-			for n in EditorInterface.get_selection().get_selected_nodes():
+			#for n in EditorInterface.get_selection().get_selected_nodes():
+			for n in editor_interface.get_selection().get_selected_nodes():
 				if is_ancestor_of(n) or n == self:
 					_can_be_interacted_with = true
 					break

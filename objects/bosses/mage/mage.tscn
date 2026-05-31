@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://dgyydtca2uksw"]
+
+[ext_resource type="Script" uid="uid://c84a87naabd3e" path="res://objects/bosses/mage/mage.gd" id="1_u8nkk"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_3loxp"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_eehsg"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="2_u8nkk"]
+[ext_resource type="Texture2D" uid="uid://c5tax4uxysgtw" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Icons.png" id="4_eehsg"]
+[ext_resource type="PackedScene" uid="uid://b4u7mwf50ayxj" path="res://objects/bosses/mage/serpent.tscn" id="4_iwat1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3loxp"]
+atlas = ExtResource("2_eehsg")
+region = Rect2(0, 504, 10, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdu0r"]
+atlas = ExtResource("2_eehsg")
+region = Rect2(0, 520, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6fyi"]
+atlas = ExtResource("2_eehsg")
+region = Rect2(0, 512, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mm2u"]
+atlas = ExtResource("2_eehsg")
+region = Rect2(0, 496, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1txo"]
+atlas = ExtResource("2_eehsg")
+region = Rect2(8, 496, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_imuur"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3loxp")
+}],
+"loop": false,
+"name": &"cast",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdu0r")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6fyi")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mm2u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1txo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iwat1"]
+radius = 24.0
+
+[node name="Mage" type="Node2D" unique_id=2072817179 groups=["bosses"]]
+script = ExtResource("1_u8nkk")
+serpent_init_timer = 2.0
+
+[node name="Serpent" parent="." unique_id=1356724550 instance=ExtResource("4_iwat1")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -152)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=141772630]
+unique_name_in_owner = true
+material = ExtResource("2_3loxp")
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_imuur")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CommonEnemy" parent="AnimatedSprite2D" unique_id=809384789 instance=ExtResource("2_u8nkk")]
+unique_name_in_owner = true
+visible = false
+immune_to_ice = true
+harmless = true
+hitpoints = 40
+
+[node name="Label" type="Label" parent="AnimatedSprite2D" unique_id=607741404]
+unique_name_in_owner = true
+visible = false
+offset_left = -6.0
+offset_right = 34.0
+offset_bottom = 12.0
+text = "hp"
+
+[node name="ExclamationMark" type="Sprite2D" parent="AnimatedSprite2D" unique_id=1785228985]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -9)
+texture = ExtResource("4_eehsg")
+region_enabled = true
+region_rect = Rect2(8, 264, 8, 8)
+
+[node name="PlDetector" type="Area2D" parent="." unique_id=698576253]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlDetector" unique_id=539855277]
+shape = SubResource("CircleShape2D_iwat1")

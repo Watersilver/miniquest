@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ctghu6s0ts75b" path="res://objects/bosses/big_slime/big_slime.gd" id="1_1qp7u"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_geegy"]
+[ext_resource type="Shader" uid="uid://xm1cftf7qbto" path="res://objects/bosses/big_slime/big_slime.gdshader" id="2_a5ixh"]
 [ext_resource type="PackedScene" uid="uid://cpfn7w2lxbkeq" path="res://components/hazard/hazard.tscn" id="3_v26i2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a5ixh"]
@@ -279,10 +280,16 @@ _data = {
 &"walk": SubResource("Animation_0w304")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6to50"]
+shader = ExtResource("2_a5ixh")
+shader_parameter/clr = Color(0, 0, 0, 1)
+shader_parameter/type = 2
+shader_parameter/thickness = 1.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnpq2"]
 size = Vector2(10, 6)
 
-[node name="BigSlime" type="CharacterBody2D" unique_id=558190372]
+[node name="BigSlime" type="CharacterBody2D" unique_id=558190372 groups=["bosses"]]
 collision_layer = 0
 script = ExtResource("1_1qp7u")
 
@@ -297,6 +304,7 @@ autoplay = &"idle"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=323063739]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_6to50")
 texture = ExtResource("1_geegy")
 hframes = 6
 vframes = 43

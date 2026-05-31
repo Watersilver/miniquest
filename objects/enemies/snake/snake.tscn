@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b7qgoa2hyhi12"]
 
 [ext_resource type="Script" uid="uid://biarb6olqpkos" path="res://objects/enemies/snake/snake.gd" id="1_e6mak"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_iqyy5"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_nmmlc"]
 [ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_iqyy5"]
 
@@ -108,7 +109,7 @@ collision_mask = 8193
 
 [node name="WallCheckerShape" type="CollisionShape2D" parent="WallChecker" unique_id=734393670]
 unique_name_in_owner = true
-position = Vector2(-4, 0)
+position = Vector2(4, 0)
 shape = SubResource("RectangleShape2D_e6mak")
 
 [node name="FloorChecker" type="Area2D" parent="." unique_id=1333661439]
@@ -118,17 +119,16 @@ collision_mask = 8195
 
 [node name="FloorCheckerShape" type="CollisionShape2D" parent="FloorChecker" unique_id=1734865268]
 unique_name_in_owner = true
-position = Vector2(-4, 5)
+position = Vector2(4, 5)
 shape = SubResource("RectangleShape2D_nmmlc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55774422]
 unique_name_in_owner = true
-use_parent_material = true
+material = ExtResource("2_iqyy5")
 sprite_frames = SubResource("SpriteFrames_5wbqj")
 animation = &"red_walk"
 autoplay = "red_walk"
 frame_progress = 0.5152854
-flip_h = true
 
 [node name="CommonEnemy" parent="." unique_id=2040644512 instance=ExtResource("3_iqyy5")]
 unique_name_in_owner = true

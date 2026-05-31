@@ -1,0 +1,25 @@
+[gd_scene format=4 uid="uid://bjyfxkk1wcbla"]
+
+[ext_resource type="TileSet" uid="uid://8r2aoe3rip4w" path="res://main_tileset.tres" id="1_g6xbj"]
+[ext_resource type="Script" uid="uid://ckhw8sioho123" path="res://objects/ceiling_crusher/ceiling_crusher.gd" id="1_xvovg"]
+[ext_resource type="Script" uid="uid://dtf8mebdh3jfy" path="res://main_tileset.gd" id="2_xvovg"]
+
+[node name="CeilingCrusher" type="Node2D" unique_id=1056488514]
+script = ExtResource("1_xvovg")
+
+[node name="TileLayer" type="TileMapLayer" parent="." unique_id=1313937386]
+tile_map_data = PackedByteArray("AAABAAAABAAUACYAAGACAAAABAAUACcAAGADAAAABAAUACgAAGAEAAAABAAUACYAAGAFAAAABAAUACcAAGAGAAAABAAUACgAAGAHAAAABAAUACYAAGAIAAAABAAUACcAAGAJAAAABAAUACgAAGAKAAAABAAUACYAAGALAAAABAAUACcAAGAMAAAABAAUACgAAGANAAAABAAUACYAAGAOAAAABAAUACcAAGAPAAAABAAUACgAAGA=")
+tile_set = ExtResource("1_g6xbj")
+use_kinematic_bodies = true
+script = ExtResource("2_xvovg")
+
+[node name="TileLayer2" type="TileMapLayer" parent="." unique_id=646273083]
+tile_map_data = PackedByteArray("AAABAAAABAATACYAADACAAAABAAUACcAAGADAAAABAAUACgAAGAEAAAABAAUACYAAGAFAAAABAAUACcAAGAGAAAABAAUACgAAGAHAAAABAAUACYAAGAIAAAABAAUACcAAGAJAAAABAAUACgAAGAKAAAABAAUACYAAGALAAAABAAUACcAAGAMAAAABAAUACgAAGANAAAABAAUACYAAGAOAAAABAAUACcAAGAPAAAABAATACgAAAAPAP//BAATACcAAAAPAP7/BAATACYAAAAPAPv/BAATACYAAAAPAPz/BAATACcAAAAPAP3/BAATACgAAAAPAPj/BAATACYAAAAPAPn/BAATACcAAAAPAPr/BAATACgAAAAPAPX/BAATACYAAAAPAPb/BAATACcAAAAPAPf/BAATACgAAAAPAPL/BAATACYAAAAPAPP/BAATACcAAAAPAPT/BAATACgAAAABAP//BAATACcAADABAP7/BAATACgAADABAP3/BAATACYAADABAPz/BAATACcAADABAPv/BAATACgAADABAPr/BAATACYAADABAPn/BAATACcAADABAPj/BAATACgAADABAPf/BAATACYAADABAPb/BAATACcAADABAPX/BAATACgAADABAPT/BAATACYAADABAPP/BAATACcAADABAPL/BAATACgAADA=")
+tile_set = ExtResource("1_g6xbj")
+use_kinematic_bodies = true
+script = ExtResource("2_xvovg")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1666005007]
+modulate = Color(0, 0, 0, 1)
+show_behind_parent = true
+polygon = PackedVector2Array(8, -112, 8, 8, 128, 8, 128, -112)

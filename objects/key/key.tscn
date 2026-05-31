@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b7titvwcdsd0h"]
+
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="1_cnk4p"]
+[ext_resource type="Script" uid="uid://cdgaydgkq3moc" path="res://objects/key/key.gd" id="1_wulxn"]
+[ext_resource type="Texture2D" uid="uid://gw23isqhaw70" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Items.png" id="2_wulxn"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kq3lj"]
+bounce = 0.21
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kq3lj"]
+radius = 3.0
+
+[node name="Key" type="Node2D" unique_id=664467024]
+script = ExtResource("1_wulxn")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=1532819876]
+unique_name_in_owner = true
+position = Vector2(0, -1)
+collision_layer = 0
+collision_mask = 8195
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_kq3lj")
+inertia = 0.1
+can_sleep = false
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D" unique_id=1939908992]
+material = ExtResource("1_cnk4p")
+texture = ExtResource("2_wulxn")
+region_enabled = true
+region_rect = Rect2(8, 36, 8, 5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D" unique_id=985000094]
+polygon = PackedVector2Array(-3, -1, -1, -1, -1, 0, 3, 0, 3, 2, -3, 2)
+
+[node name="Area2D" type="Area2D" parent="RigidBody2D" unique_id=1837280298]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/Area2D" unique_id=461170486]
+shape = SubResource("CircleShape2D_kq3lj")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="RigidBody2D" unique_id=498482470]
+unique_name_in_owner = true
+show_rect = false

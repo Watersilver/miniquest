@@ -1,6 +1,10 @@
 extends CharacterBody2D
 class_name BigSlime
 
+const BOSS_MUSIC: AudioStream = preload("uid://bvci6o7av1464")
+
+const JUMPER = preload("uid://cj25b2mpqu35s")
+
 @onready var hitbox: Area2D = %Hitbox
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var sprite_2d: Sprite2D = %Sprite2D
@@ -10,8 +14,11 @@ class_name BigSlime
 @export var hop_height := 16.0
 @export var rage_hop_hspeed_multiplier := 3.0
 
+@export var no_rage := false
+
 var _hitpoints := max_hitpoints
 var _reached_halfpoint := false
+var _panic_timer := 0.0
 
 
 enum State {
@@ -22,7 +29,8 @@ enum State {
 	HOP_AROUND,
 	JUMP_OFF_SCREEN,
 	RUN_TO_SIDE,
-	DYIN
+	DYIN,
+	SPAWN
 }
 
 var state := State.START
@@ -49,16 +57,11 @@ var _hopping_gravity := 0.0
 var _hopping_jump_mult := 1.0
 
 var _was_on_floor := false
-
-# TODO:
-# patterns:
-# Jump from one side to other (variable amount of jumps)
-# Run from one side to other
-# Jump off screen, land on player, stun if player is grounded on land
-# Summon little slimes when off screen on half hp
+var _is_spawn := false
 
 
 func get_rage() -> float:
+	if no_rage: return 0
 	return (max_hitpoints - _hitpoints) / max_hitpoints
 
 
@@ -147,6 +150,11 @@ func get_rage_vy() -> float:
 
 
 func _ready() -> void:
+	_is_spawn = state == State.SPAWN
+	if Global.session.saved_data.object_flags.has("slime_dead") and Global.session.saved_data.object_flags["slime_dead"] and state != State.SPAWN:
+		queue_free()
+		return
+	
 	_hitpoints = max_hitpoints
 	_hopping_gravity = get_rage_gravity()
 	
@@ -164,6 +172,15 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if animation_player.assigned_animation == "damage" or animation_player.assigned_animation == "die":
+		if _panic_timer > 5:
+			if state == State.DYIN:
+				_last_processed_state = State.JUMP_OFF_SCREEN
+			_hurt = 1
+		_panic_timer += delta
+	else:
+		_panic_timer = 0
+	
 	$Label.text = str(_hitpoints)
 	
 	# Add the gravity.
@@ -189,7 +206,7 @@ func _physics_process(delta: float) -> void:
 	
 	if _hitpoints <= 10 and not _reached_halfpoint:
 		_reached_halfpoint = true
-		_iframes = INF
+		_iframes = 2
 		state = State.JUMP_OFF_SCREEN
 	
 	_iframes -= delta
@@ -202,6 +219,8 @@ func _physics_process(delta: float) -> void:
 	if _last_processed_state != state:
 		_hopping_gravity = 0
 		match state:
+			State.SPAWN:
+				_state_counter = 0
 			State.DYIN:
 				animation_player.play("damage")
 				_state_flags = 0
@@ -255,6 +274,19 @@ func _physics_process(delta: float) -> void:
 	
 	# Handle state
 	match state:
+		State.SPAWN:
+			animation_player.speed_scale = 0
+			if _state_counter < 0.5:
+				animation_player.play("die")
+				animation_player.seek(0.13)
+			else:
+				animation_player.play("die")
+				animation_player.seek(0.0)
+			if _state_counter >= 1:
+				state = State.CHOOSE
+				animation_player.play("idle")
+				animation_player.speed_scale = 1
+			_state_counter += delta
 		State.DYIN:
 			velocity.x = 0
 			velocity.y = 0
@@ -268,6 +300,9 @@ func _physics_process(delta: float) -> void:
 						_state_counter = 0.0
 				else:
 					if _state_counter > 1:
+						Global.session.saved_data.slime_boss = true
+						if not _is_spawn:
+							AudioManager.stop_music()
 						queue_free()
 					_state_counter += delta
 		State.START:
@@ -278,10 +313,14 @@ func _physics_process(delta: float) -> void:
 			if _state_counter > 0.3:
 				MessageDisplayer.display(
 					["Welcome to the Slime Pit!", "Prepare to get Slimed!"],
-					func(): state = State.CHOOSE,
+					func():
+						state = State.CHOOSE
+						AudioManager.play_music(AudioManager.music_themes.boss_theme),
 					false
 				)
 		State.WAIT:
+			if not is_on_floor():
+				velocity.y += 100 * delta
 			if _state_counter <= 0:
 				state = State.CHOOSE
 				_interstate_payload = _state_flags
@@ -294,6 +333,8 @@ func _physics_process(delta: float) -> void:
 			_interstate_payload = _state_flags
 		State.RUN_TO_SIDE:
 			velocity.x = _state_flags * 50 * (1 + get_rage())
+			if not is_on_floor():
+				velocity.y += 100 * delta
 			
 			if is_on_wall():
 				if _state_flags == -get_wall_normal().x:
@@ -343,6 +384,10 @@ func _physics_process(delta: float) -> void:
 						#sprite_2d.flip_h = not sprite_2d.flip_h
 		State.JUMP_OFF_SCREEN:
 			sprite_2d.flip_h = global_position.x > Refs.level_manager.player.body.global_position.x
+			if global_position.y < 40:
+				collision_mask = 0
+			else:
+				collision_mask = 1
 			match _state_flags:
 				0:
 					velocity.x = 0
@@ -355,6 +400,16 @@ func _physics_process(delta: float) -> void:
 						animation_player.play("jump_start",-1,1.5)
 					if not animation_player.is_playing():
 						_state_flags = 2
+						var j1: Jumper = JUMPER.instantiate()
+						var j2: Jumper = JUMPER.instantiate()
+						j1.position = position + Vector2(-4, 0)
+						j1.type = [j1.Type.STATIC, j1.Type.RANDOM, j1.Type.FORWARD, j1.Type.FOLLOW].pick_random()
+						j2.position = position + Vector2(4, 0)
+						j2.type = [j2.Type.STATIC, j2.Type.RANDOM, j2.Type.FORWARD, j2.Type.FOLLOW].pick_random()
+						add_sibling(j1)
+						add_sibling(j2)
+						j1.common_enemy.immune_to_ice = true
+						j2.common_enemy.immune_to_ice = true
 				2:
 					velocity.y = -200
 					if position.y < -10:

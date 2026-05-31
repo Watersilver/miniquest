@@ -78,9 +78,9 @@ shape = SubResource("RectangleShape2D_jnjyq")
 [node name="OutlineAdder" type="SubViewportContainer" parent="CharacterBody2D" unique_id=179589267]
 editor_description = "Using this subviewport container to add outline because using the shader directly on the sprite causes the outline to appear for out of bounds pixels. Rendering the sprite region on a subviewport makes it its own texture, so there are no out of bounds pixels. It can also allow for outline to be placed outside of the normal sprite size."
 material = SubResource("ShaderMaterial_xkryw")
-offset_left = -6.0
+offset_left = -12.0
 offset_top = -9.0
-offset_right = 6.0
+offset_right = 12.0
 offset_bottom = 1.0
 
 [node name="SubViewport" type="SubViewport" parent="CharacterBody2D/OutlineAdder" unique_id=1215697488]
@@ -88,11 +88,11 @@ transparent_bg = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(12, 10)
+size = Vector2i(24, 10)
 render_target_update_mode = 4
 
 [node name="Positioner" type="Node2D" parent="CharacterBody2D/OutlineAdder/SubViewport" unique_id=1251762868]
-position = Vector2(6, 9)
+position = Vector2(12, 9)
 
 [node name="CharacterAnimations" parent="CharacterBody2D/OutlineAdder/SubViewport/Positioner" unique_id=585753885 instance=ExtResource("2_g7ett")]
 unique_name_in_owner = true
@@ -139,7 +139,8 @@ unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hitbox" unique_id=1191971506]
+[node name="HitboxShape" type="CollisionShape2D" parent="CharacterBody2D/Hitbox" unique_id=1191971506]
+unique_name_in_owner = true
 position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_g7ett")
 debug_color = Color(0.931882, 0.261252, 1.92523e-07, 0.42)

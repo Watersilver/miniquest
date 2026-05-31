@@ -28,6 +28,8 @@ signal out_of_bounds
 ## How long before it disappears after hitting wall (-1 stays forever)
 @export var linger_time := 0.5
 
+@export var silver := false
+
 var _t := 0.0
 var _collided := false
 var _out_of_bounds := false
@@ -41,7 +43,11 @@ func is_out_of_bounds():
 
 
 func reset():
-	hitbox_shape.disabled = false
+	if silver:
+		arrowback.region_rect.position.y = 8
+		arrowfront.region_rect.position.y = 8
+	
+	hitbox_shape.set_deferred("disabled", false)
 	
 	arrowback_ray.enabled = true
 	arrowback_ray.force_raycast_update()
@@ -55,6 +61,10 @@ func reset():
 	_collided = false
 	_out_of_bounds = false
 	_t = 0
+
+
+func roll_dmg(p: Player) -> int:
+	return floori(randf() * p.health.maximum / 1.0 if silver else 2.0) + 1
 
 
 func _handle_rot():
@@ -88,7 +98,7 @@ func _process(delta: float) -> void:
 			position.x += dir * speed
 			force_raycast_update()
 			if is_colliding():
-				hitbox_shape.disabled = true
+				hitbox_shape.set_deferred("disabled", true)
 				arrowfront.visible = false
 				_collided = true
 				collided.emit()
@@ -100,6 +110,6 @@ func _process(delta: float) -> void:
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	hitbox_shape.disabled = true
+	hitbox_shape.set_deferred("disabled", true)
 	_out_of_bounds = true
 	out_of_bounds.emit()

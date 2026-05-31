@@ -22,7 +22,10 @@ enum Type {
 	BAT,
 	GRIFFON,
 	SWIM,
-	WATER_WALK
+	WATER_WALK,
+	WATER_STUFF,
+	ICE,
+	STAFF
 }
 
 @export var type := Type.NULL
@@ -52,6 +55,12 @@ static func has_type(t: Type) -> bool:
 			return u.swim
 		Type.WATER_WALK:
 			return u.water_walk
+		Type.WATER_STUFF:
+			return u.water_walk and u.swim
+		Type.ICE:
+			return u.element_ice
+		Type.STAFF:
+			return u.weapon == Global.Weapon.STAFF
 	return false
 
 
@@ -89,6 +98,14 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 			u.swim = true
 		Type.WATER_WALK:
 			u.water_walk = true
+		Type.WATER_STUFF:
+			u.swim = true
+			u.water_walk = true
+		Type.ICE:
+			u.element_ice = true
+		Type.STAFF:
+			u.set_weapon_upgrade(Global.Weapon.STAFF)
+			u.raise_dmg_die(1)
 	
 	var form_dict := {
 		"jump": _to_str(InputMap.action_get_events("jump")),

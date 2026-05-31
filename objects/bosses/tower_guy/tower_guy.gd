@@ -1,5 +1,6 @@
 @tool
 extends Node2D
+class_name TowerGuy
 
 @onready var as2d2: AnimatedSprite2D = %AnimatedSprite2D2
 
@@ -9,6 +10,12 @@ extends Node2D
 
 @export_tool_button("play/stop anims") var toggle_anims_action = toggle_anims
 
+@export var top_height := 16.0
+@export var bottom_height := 60.0
+@export var leftmost_x := 48.0
+@export var rightmost_x := 112.0
+@export var no_rage := false
+
 const ONE_OVER_SIN_4_90 := 1 / sin(sin(sin(sin(PI / 2))))
 
 enum State {
@@ -17,6 +24,7 @@ enum State {
 	INIT_DESCEND,
 	EQUILIBRIUM,
 	DESCEND,
+	SPAWN,
 }
 
 var _state := State.INIT
@@ -37,6 +45,8 @@ var _max_hp := 0.0
 var _death_timer := 0.0
 var _death_state := 0
 var _death_velocity := Vector2()
+
+var _is_spawn := false
 
 
 func set_flip_h(h: bool):
@@ -75,7 +85,8 @@ func is_right_of_centre():
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-	if Global.session.saved_data.object_flags.has("tower_guy") and Global.session.saved_data.object_flags["tower_guy"]:
+	_is_spawn = _state == State.SPAWN
+	if Global.session.saved_data.object_flags.has("tower_guy") and Global.session.saved_data.object_flags["tower_guy"] and _state != State.SPAWN:
 		queue_free()
 	_max_hp = common_enemy.hitpoints
 
@@ -109,6 +120,8 @@ func _physics_process(delta: float) -> void:
 			_death_state = 2
 			_death_velocity.y -= delta
 			_death_velocity = Vector2([22,11,-11,-22].pick_random(), -55)
+			if not _is_spawn:
+				AudioManager.stop_music()
 		elif _death_state == 2:
 			_death_velocity.y += delta * 255
 			position += _death_velocity * delta
@@ -125,24 +138,38 @@ func _physics_process(delta: float) -> void:
 	play_idle_anim()
 	
 	match _state:
+		State.SPAWN:
+			if _prev_state != _state:
+				_t = 0
+			if _t < 0.5:
+				play_hurt_anim()
+				as2d2.play("dead")
+			else:
+				play_hurt_anim()
+			if _t > 1:
+				_state = State.INIT_DESCEND
+				set_flip_h(is_right_of_centre())
+				play_idle_anim()
+			_t += delta
 		State.INIT:
 			if Refs.level_manager.player:
-				if Refs.level_manager.player.body.global_position.x > global_position.x:
+				if Refs.level_manager.player.body.global_position.x > global_position.x and Refs.level_manager.player.body.is_on_floor():
 					MessageDisplayer.display(
 						["You're bothering me!", "WHY are you bothering me??"],
 						func():
 							_state = State.INIT_DESCEND
 							for n in get_tree().get_nodes_in_group("moving_platforms"):
 								n.queue_free()
-							position.x = [48, 112].pick_random()
+							position.x = [leftmost_x, rightmost_x].pick_random()
 							set_flip_h(is_right_of_centre())
+							AudioManager.play_music(AudioManager.music_themes.boss_theme)
 							,
 						false
 					)
 		State.INIT_DESCEND:
 			position.y += delta * 25
-			if global_position.y >= 16:
-				global_position.y = 16
+			if global_position.y >= top_height:
+				global_position.y = top_height
 				_state = State.DESCEND
 		State.DESCEND:
 			if _prev_state != _state:
@@ -155,10 +182,13 @@ func _physics_process(delta: float) -> void:
 				_t = 0
 				_descend_type = randi() % 7
 			
-			global_position.x = _state_x_start + _direction * _state_progress_x * 64
-			global_position.y = _state_y_start + _state_progress_y * 44
+			global_position.x = _state_x_start + _direction * _state_progress_x * (rightmost_x - leftmost_x)
+			global_position.y = _state_y_start + _state_progress_y * (bottom_height - top_height)
 			
-			_t += delta * (1 + 1 - common_enemy.hitpoints / _max_hp)
+			if no_rage:
+				_t += delta
+			else:
+				_t += delta * (1 + 1 - common_enemy.hitpoints / _max_hp)
 			
 			match _descend_type:
 				0:
@@ -188,8 +218,8 @@ func _physics_process(delta: float) -> void:
 		State.EQUILIBRIUM:
 			if _prev_state != _state:
 				set_flip_h(is_right_of_centre())
-				global_position.y = 16
-				global_position.x = 112 if abs(global_position.x - 48) > abs(global_position.x - 112) else 48
+				global_position.y = top_height
+				global_position.x = rightmost_x if abs(global_position.x - leftmost_x) > abs(global_position.x - rightmost_x) else leftmost_x
 			else:
 				_state = State.DESCEND
 	
@@ -199,3 +229,4 @@ func _physics_process(delta: float) -> void:
 func _exit_tree() -> void:
 	if common_enemy.is_dead():
 		Global.session.saved_data.object_flags["tower_guy"] = true
+		Global.session.saved_data.tower_boss = true

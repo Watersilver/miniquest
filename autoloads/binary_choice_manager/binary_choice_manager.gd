@@ -29,7 +29,7 @@ func prompt(accept: String, refuse: String, accept_callback := empty_func, refus
 	on_no = refuse_callback
 	_cursor = 1
 
-func is_active():
+func is_active() -> bool:
 	return _active
 
 

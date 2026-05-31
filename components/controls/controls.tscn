@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://bb7alf0cdfnhn"]
+
+[ext_resource type="Texture2D" uid="uid://5l6363ius31s" path="res://assets/mine/controller.png" id="1_fbmvb"]
+[ext_resource type="Texture2D" uid="uid://cceutvharud14" path="res://assets/mine/keyboard.png" id="2_uofnx"]
+
+[node name="Controls" type="Node2D" unique_id=1316297338]
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=969949238]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, 64, 160, 64, 160, 120, 0, 120)
+
+[node name="Controller" type="Sprite2D" parent="." unique_id=290735089]
+position = Vector2(136, 103)
+texture = ExtResource("1_fbmvb")
+
+[node name="Keyboard" type="Sprite2D" parent="." unique_id=157309008]
+position = Vector2(40, 102)
+texture = ExtResource("2_uofnx")
+
+[node name="Label" type="Label" parent="." unique_id=1961142603]
+offset_left = 7.8399963
+offset_top = 65.63573
+offset_right = 55.839996
+offset_bottom = 77.63573
+text = "Movement"
+
+[node name="Label2" type="Label" parent="." unique_id=1502210972]
+modulate = Color(0.30980393, 0.42352942, 0.9843137, 1)
+offset_left = 64.0
+offset_top = 66.0
+offset_right = 112.0
+offset_bottom = 78.0
+text = "Jump"
+
+[node name="Label3" type="Label" parent="." unique_id=1861586143]
+modulate = Color(0.69803923, 0.0627451, 0.1882353, 1)
+offset_left = 96.0
+offset_top = 66.0
+offset_right = 144.0
+offset_bottom = 78.0
+text = "Attack"
+
+[node name="Label4" type="Label" parent="." unique_id=552752242]
+modulate = Color(0.63529414, 0.9529412, 0.63529414, 1)
+offset_left = 8.0
+offset_top = 76.0
+offset_right = 56.0
+offset_bottom = 88.0
+text = "Backdash"
+
+[node name="Label5" type="Label" parent="." unique_id=1566502135]
+modulate = Color(1, 0.32941177, 0.9254902, 1)
+offset_left = 64.0
+offset_top = 76.0
+offset_right = 112.0
+offset_bottom = 88.0
+text = "Dash"
+
+[node name="Label6" type="Label" parent="." unique_id=2023996139]
+modulate = Color(1, 0.9098039, 0, 1)
+offset_left = 96.0
+offset_top = 76.0
+offset_right = 144.0
+offset_bottom = 88.0
+text = "Pause"
+
+[node name="Label7" type="Label" parent="." unique_id=1818590903]
+modulate = Color(0.50980395, 0.30980393, 0.07058824, 1)
+offset_left = 75.0
+offset_top = 92.0
+offset_right = 141.0
+offset_bottom = 116.0
+theme_override_constants/line_spacing = 0
+text = "UI/Talk"
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1521263982]
+points = PackedVector2Array(0, 64, 160, 64)
+width = 2.0

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1di5awybi227" path="res://objects/enemies/jumper/jumper.gd" id="1_58ogx"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_ip3ub"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_gyyvl"]
 [ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="4_gyyvl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_58ogx"]
@@ -14,6 +15,7 @@ script = ExtResource("1_58ogx")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=128335633]
 unique_name_in_owner = true
+material = ExtResource("2_gyyvl")
 texture = ExtResource("1_ip3ub")
 flip_h = true
 hframes = 12
@@ -28,3 +30,7 @@ shape = SubResource("RectangleShape2D_58ogx")
 unique_name_in_owner = true
 haz_shape = Rect2(0, 1, 6, 6)
 hitbox_shape = Rect2(0, 1, 6, 6)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=456697991]
+unique_name_in_owner = true
+show_rect = false

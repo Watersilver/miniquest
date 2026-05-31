@@ -1,6 +1,97 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0s8y8p7qqy5q"]
+[gd_scene format=3 uid="uid://b0s8y8p7qqy5q"]
 
 [ext_resource type="Script" uid="uid://c50l0hoppybg6" path="res://autoloads/audio_manager/audio_manager.gd" id="1_fksr7"]
+[ext_resource type="AudioStream" uid="uid://bvci6o7av1464" path="res://assets/audio/bgm/boss.mp3" id="2_835mp"]
+[ext_resource type="AudioStream" uid="uid://ccg2yi7sxwawt" path="res://assets/audio/bgm/miniquest.mp3" id="3_bntsi"]
+[ext_resource type="AudioStream" uid="uid://d1d1anpk405al" path="res://assets/audio/bgm/final_boss.mp3" id="3_eeu3u"]
+[ext_resource type="Script" uid="uid://dkasreos256hv" path="res://autoloads/audio_manager/music_themes.gd" id="4_eeu3u"]
+[ext_resource type="Script" uid="uid://c3i44qe0idmis" path="res://autoloads/audio_manager/sound_effects.gd" id="6_eeu3u"]
+[ext_resource type="AudioStream" uid="uid://c5ip432f6wo87" path="res://assets/audio/sfx/attack/MagicSlash2.ogg" id="7_h8hcc"]
+[ext_resource type="AudioStream" uid="uid://bls0hcstj12cp" path="res://assets/audio/sfx/double_jump/SingleJumpLowPitch.ogg" id="8_orc33"]
+[ext_resource type="AudioStream" uid="uid://cpfl2x28ygpyn" path="res://assets/audio/sfx/fall_down/Sink.ogg" id="9_8d5a7"]
+[ext_resource type="AudioStream" uid="uid://bsh7n3e0k64g8" path="res://assets/audio/sfx/jump/SingleJump.ogg" id="10_ah7pn"]
+[ext_resource type="AudioStream" uid="uid://b42veh6t5php6" path="res://assets/audio/sfx/magic_attack/MissileSpell1.ogg" id="11_r8r2e"]
+[ext_resource type="AudioStream" uid="uid://dh5iy2k0is4pj" path="res://assets/audio/sfx/magic_attack/MissileSpell2.ogg" id="12_d2kg2"]
+[ext_resource type="AudioStream" uid="uid://dpfk1wxptf6g" path="res://assets/audio/sfx/magic_attack/MissileSpell3.ogg" id="13_dkpb4"]
+[ext_resource type="AudioStream" uid="uid://dmiosmxssgb5i" path="res://assets/audio/sfx/player_death/Stairs.ogg" id="14_l6se7"]
+[ext_resource type="AudioStream" uid="uid://bu5fk4dgp11a8" path="res://assets/audio/sfx/player_hurt/PlayerHurt.ogg" id="15_svkef"]
+[ext_resource type="AudioStream" uid="uid://16f5c7t5hnso" path="res://assets/audio/sfx/run_steps/GravelStep1.ogg" id="16_xtod6"]
+[ext_resource type="AudioStream" uid="uid://bavelsd3i5mnh" path="res://assets/audio/sfx/run_steps/GravelStep2.ogg" id="17_fnjpn"]
+[ext_resource type="AudioStream" uid="uid://q6w1tmsenkkm" path="res://assets/audio/sfx/run_steps/GravelStep3.ogg" id="18_qel6x"]
+[ext_resource type="AudioStream" uid="uid://bdd1yulqv2xn7" path="res://assets/audio/sfx/walk_steps/WoodStep1.ogg" id="19_nt0bf"]
+[ext_resource type="AudioStream" uid="uid://bjlkbkuf0in12" path="res://assets/audio/sfx/walk_steps/WoodStep2.ogg" id="20_468v5"]
+[ext_resource type="AudioStream" uid="uid://bpqp5tn4el348" path="res://assets/audio/sfx/walk_steps/WoodStep3.ogg" id="21_tqgmb"]
 
-[node name="AudioManager" type="Node"]
+[sub_resource type="Resource" id="Resource_3yauf"]
+script = ExtResource("4_eeu3u")
+miniquest_theme = ExtResource("3_bntsi")
+boss_theme = ExtResource("2_835mp")
+final_boss_theme = ExtResource("3_eeu3u")
+metadata/_custom_type_script = "uid://dkasreos256hv"
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_h8hcc"]
+streams_count = 1
+stream_0/stream = ExtResource("7_h8hcc")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_orc33"]
+streams_count = 1
+stream_0/stream = ExtResource("8_orc33")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8d5a7"]
+streams_count = 1
+stream_0/stream = ExtResource("9_8d5a7")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ah7pn"]
+streams_count = 1
+stream_0/stream = ExtResource("10_ah7pn")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_r8r2e"]
+streams_count = 3
+stream_0/stream = ExtResource("11_r8r2e")
+stream_1/stream = ExtResource("12_d2kg2")
+stream_2/stream = ExtResource("13_dkpb4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_d2kg2"]
+streams_count = 1
+stream_0/stream = ExtResource("14_l6se7")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dkpb4"]
+streams_count = 1
+stream_0/stream = ExtResource("15_svkef")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l6se7"]
+streams_count = 3
+stream_0/stream = ExtResource("16_xtod6")
+stream_1/stream = ExtResource("17_fnjpn")
+stream_2/stream = ExtResource("18_qel6x")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_svkef"]
+streams_count = 3
+stream_0/stream = ExtResource("19_nt0bf")
+stream_1/stream = ExtResource("20_468v5")
+stream_2/stream = ExtResource("21_tqgmb")
+
+[sub_resource type="Resource" id="Resource_xtod6"]
+script = ExtResource("6_eeu3u")
+sounds = Dictionary[String, AudioStream]({
+"attack": SubResource("AudioStreamRandomizer_h8hcc"),
+"double_jump": SubResource("AudioStreamRandomizer_orc33"),
+"fall_down": SubResource("AudioStreamRandomizer_8d5a7"),
+"jump": SubResource("AudioStreamRandomizer_ah7pn"),
+"magic_attack": SubResource("AudioStreamRandomizer_r8r2e"),
+"player_death": SubResource("AudioStreamRandomizer_d2kg2"),
+"player_hurt": SubResource("AudioStreamRandomizer_dkpb4"),
+"run_steps": SubResource("AudioStreamRandomizer_l6se7"),
+"walk_steps": SubResource("AudioStreamRandomizer_svkef")
+})
+metadata/_custom_type_script = "uid://c3i44qe0idmis"
+
+[node name="AudioManager" type="Node" unique_id=791491569]
+process_mode = 3
 script = ExtResource("1_fksr7")
+music_themes = SubResource("Resource_3yauf")
+sound_effects = SubResource("Resource_xtod6")
+
+[node name="Bgm" type="AudioStreamPlayer" parent="." unique_id=568126428]
+unique_name_in_owner = true
+bus = &"Bgm"

@@ -1,0 +1,159 @@
+[gd_scene format=3 uid="uid://biqy6rfl185b"]
+
+[ext_resource type="PackedScene" uid="uid://ddtplryl7v5i0" path="res://objects/npc/npc.tscn" id="1_1xvko"]
+[ext_resource type="Script" uid="uid://bt8woayq2irve" path="res://objects/elun_mosk/elun_mosk.gd" id="1_1y5fj"]
+[ext_resource type="PackedScene" uid="uid://dy08oreqdktro" path="res://components/character_animations/character_animations.tscn" id="2_1y5fj"]
+[ext_resource type="PackedScene" uid="uid://rjy7o54jv6th" path="res://components/dlg_tree/dlg_tree.tscn" id="3_00v7e"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="4_qrika"]
+[ext_resource type="Texture2D" uid="uid://drlped8d55tx3" path="res://assets/elun.png" id="5_00v7e"]
+[ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="7_uejy7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrika"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uejy7"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcg81"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pet4u"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngnv4"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4a81"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xd0ds"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_si1eh"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vwp7"]
+atlas = ExtResource("5_00v7e")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y1wvw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrika")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uejy7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcg81")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pet4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ngnv4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4a81")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xd0ds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_si1eh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vwp7")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="ElunMosk" type="Node2D" unique_id=83613107]
+script = ExtResource("1_1y5fj")
+
+[node name="Npc" parent="." unique_id=626792536 instance=ExtResource("1_1xvko")]
+unique_name_in_owner = true
+position = Vector2(0, -4)
+
+[node name="CharacterAnimations" parent="Npc" unique_id=945450528 instance=ExtResource("2_1y5fj")]
+material = ExtResource("4_qrika")
+position = Vector2(0, 4)
+skin = 3
+
+[node name="DlgTree" parent="Npc" unique_id=260602087 node_paths=PackedStringArray("accept_tree", "decline_tree") instance=ExtResource("3_00v7e")]
+unique_name_in_owner = true
+text = Array[String](["My name is Elun Mosk!", "I am dressed in a Boba Fett costume because he is cool.", "I, too, am cool, like uh Boba Fett! Cooler maybe!", "Your colour pleases me!", "Give me all of your money!"])
+accept_txt = "Yes"
+accept_tree = NodePath("Yes")
+decline_txt = "No"
+decline_tree = NodePath("No")
+escapable = false
+
+[node name="Yes" parent="Npc/DlgTree" unique_id=1931317105 instance=ExtResource("3_00v7e")]
+unique_name_in_owner = true
+text = Array[String](["Humanity salutes you! I salute, too, sometimes!", "I will get a kajillion bajillion people on mars!", "uh uh next year", "I'm confident by next year.", "I'll now go beg Jeff to invite me to his wildest party!", "So long su-", "uh uh I mean bye, oh benefactor of humanity."])
+escapable = false
+destroy_on_end = true
+
+[node name="No" parent="Npc/DlgTree" unique_id=1792466493 instance=ExtResource("3_00v7e")]
+unique_name_in_owner = true
+text = Array[String](["You are evil! You hate humanity!"])
+
+[node name="NoMoney" parent="Npc/DlgTree" unique_id=1556641106 instance=ExtResource("3_00v7e")]
+unique_name_in_owner = true
+text = Array[String](["Whaaa-? No money?", "You're evil."])
+
+[node name="FinalNo" parent="Npc/DlgTree" unique_id=1450675671 instance=ExtResource("3_00v7e")]
+unique_name_in_owner = true
+text = Array[String](["Why are you doing this to meeee!?", "I... money. I. NEED. MONEY.", "uh uh AIEEEEEEEE"])
+escapable = false
+destroy_on_end = true
+
+[node name="AltDlg" type="Node" parent="Npc" unique_id=1407416074]
+unique_name_in_owner = true
+
+[node name="AltIntro" parent="Npc/AltDlg" unique_id=1603345362 instance=ExtResource("3_00v7e")]
+unique_name_in_owner = true
+text = Array[String](["I am still Elun and I still need MONEY!", "All of it!"])
+accept_txt = "Yes"
+decline_txt = "No"
+
+[node name="ElunFaceSizeManager" type="Node2D" parent="." unique_id=856397538]
+unique_name_in_owner = true
+position = Vector2(0, -4)
+scale = Vector2(0.1, 0.1)
+
+[node name="ElunFace" type="AnimatedSprite2D" parent="ElunFaceSizeManager" unique_id=1671355762]
+unique_name_in_owner = true
+visible = false
+position = Vector2(0, -20)
+sprite_frames = SubResource("SpriteFrames_y1wvw")
+
+[node name="Grave" type="Sprite2D" parent="." unique_id=2127144576]
+unique_name_in_owner = true
+visible = false
+material = ExtResource("4_qrika")
+position = Vector2(0, -4)
+texture = ExtResource("7_uejy7")
+region_enabled = true
+region_rect = Rect2(48, 0, 7, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="Grave" unique_id=141829838]
+position = Vector2(0, -7)
+texture = ExtResource("7_uejy7")
+region_enabled = true
+region_rect = Rect2(56, 9, 7, 7)
+
+[node name="Npc" parent="Grave" unique_id=2020933666 instance=ExtResource("1_1xvko")]
+text = Array[String](["Here lies Elun", "He also lied about space", "Never got to mars", "But now he got to a hotter place"])

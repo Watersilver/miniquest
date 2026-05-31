@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b4u7mwf50ayxj"]
+
+[ext_resource type="Script" uid="uid://cqf4p2r26887g" path="res://objects/bosses/mage/serpent.gd" id="1_hvgao"]
+[ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="2_mbft0"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_y34m2"]
+[ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_mbft0"]
+
+[node name="Serpent" type="Node2D" unique_id=1356724550]
+script = ExtResource("1_hvgao")
+
+[node name="Sprites" type="Node2D" parent="." unique_id=2049106866]
+unique_name_in_owner = true
+modulate = Color(18.892157, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprites" unique_id=779289880]
+material = ExtResource("2_y34m2")
+position = Vector2(4, 0)
+texture = ExtResource("2_mbft0")
+hframes = 12
+vframes = 86
+frame = 600
+
+[node name="CommonEnemy" parent="Sprites/Sprite2D" unique_id=809384789 instance=ExtResource("3_mbft0")]
+dmg_dice = 1
+enhancement = 1
+haz_shape = Rect2(-2.5, 0, 3, 8)
+advantage = true
+hitpoints = 20
+hitbox_shape = Rect2(0, 0, 0, 0)
+unhittable = true

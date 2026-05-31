@@ -44,6 +44,11 @@ enum SkinType {
 @export var npc_fallback_skin := SkinType.DEFAULT
 
 
+signal footstep()
+func emit_footstep() -> void:
+	footstep.emit()
+
+
 enum AnimationId {
 	IDLE,
 	WALK,

@@ -1,11 +1,28 @@
 extends Node2D
 
+## If provided must be truthy before this can be enabled
+@export var flag := ""
 
 var disabled_children: Array[Node] = []
 
 
+func _is_enemy_alive(node: Node) -> bool:
+	if node is CommonEnemy:
+		if node.is_dead():
+			return false
+		elif node.is_frozen:
+			return false
+	return true
+
+
 func _do_enemies_exist():
-	return get_tree().get_nodes_in_group('enemies').size() > 0
+	if flag != "":
+		if Global.session.saved_data.object_flags.has(flag):
+			if not Global.session.saved_data.object_flags[flag]:
+				return true
+		else:
+			return true
+	return get_tree().get_nodes_in_group('enemies').filter(_is_enemy_alive).size() > 0
 
 
 func _notification(what: int) -> void:

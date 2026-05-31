@@ -1,9 +1,12 @@
 @tool
 extends CharacterBody2D
+class_name Jumper
 
 @onready var sprite_2d: Sprite2D = %Sprite2D
 
 @onready var common_enemy: CommonEnemy = %CommonEnemy
+
+@onready var vosn2d: VisibleOnScreenNotifier2D = %VisibleOnScreenNotifier2D
 
 const JUMP_VELOCITY = -100.0
 
@@ -20,10 +23,15 @@ const _PERIOD := 2.0
 
 @export var direction := Global.Direction.LEFT
 
+@export var start_looking_at_player := false
+
+@export var h_speed := 25.0
+
 var _recovery_timer := 0.01
 
 const _DEATH_TIMER_MAX := 0.15
 var _death_timer := _DEATH_TIMER_MAX
+var _out_of_bounds_timer := 0.0
 
 
 func _on_died():
@@ -38,6 +46,17 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	
+	if type == Type.RANDOM:
+		direction = [Global.Direction.LEFT, Global.Direction.RIGHT].pick_random()
+	
+	if start_looking_at_player:
+		if Refs.level_manager and Refs.level_manager.player:
+			if Refs.level_manager.player.body.global_position.x - global_position.x > 0:
+				direction = Global.Direction.RIGHT
+			else:
+				direction = Global.Direction.LEFT
+			sprite_2d.flip_h = direction == Global.Direction.LEFT
+	
 	common_enemy.died.connect(_on_died)
 
 
@@ -48,6 +67,11 @@ func _physics_process(delta: float) -> void:
 		sprite_2d.frame_coords.y = 6 + frame_adjustment
 		sprite_2d.flip_h = direction == Global.Direction.LEFT
 		return
+	
+	if _out_of_bounds_timer > 1:
+		queue_free()
+	if not vosn2d.is_on_screen():
+		_out_of_bounds_timer += delta
 	
 	if common_enemy.is_dead():
 		if _death_timer < _DEATH_TIMER_MAX * 0.5:
@@ -111,6 +135,6 @@ func _physics_process(delta: float) -> void:
 		if type != Type.STATIC:
 			if is_on_wall():
 				direction = Global.Direction.LEFT if get_wall_normal().x < 0 else Global.Direction.RIGHT
-			velocity.x = direction * 25
+			velocity.x = direction * h_speed
 		
 		sprite_2d.flip_h = direction == Global.Direction.LEFT

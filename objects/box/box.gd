@@ -114,6 +114,7 @@ func _move(dir: Global.Direction) -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
+	if Global.box_cooldown > 0: return
 	if velocity.x != 0: return
 	if area is PlayerAttack:
 		if not area.push: return
@@ -132,3 +133,5 @@ func _on_area_entered(area: Area2D) -> void:
 			if left.is_colliding(): return
 		
 		_move(d)
+		await get_tree().physics_frame
+		Global.box_cooldown = 0.4

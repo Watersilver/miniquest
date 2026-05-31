@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cph4h3u4ygtu3" path="res://objects/enemies/fish/fish.gd" id="1_2l8pw"]
 [ext_resource type="Texture2D" uid="uid://d3stdxi8dax26" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Enemies.png" id="1_uu5ky"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_pewkd"]
 [ext_resource type="PackedScene" uid="uid://co281h45lh5hi" path="res://components/common_enemy/common_enemy.tscn" id="3_quwfc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pewkd"]
@@ -30,6 +31,7 @@ disabled = true
 
 [node name="Sprite" type="Sprite2D" parent="Body" unique_id=366684017]
 unique_name_in_owner = true
+material = ExtResource("2_pewkd")
 texture = ExtResource("1_uu5ky")
 hframes = 12
 vframes = 86
@@ -37,6 +39,7 @@ frame = 528
 
 [node name="CommonEnemy" parent="Body" unique_id=809384789 instance=ExtResource("3_quwfc")]
 unique_name_in_owner = true
+immune_to_ice = true
 dmg_dice = 3
 haz_shape = Rect2(0, 0, 6, 4)
 hitpoints = 3
@@ -63,6 +66,7 @@ shape = SubResource("CircleShape2D_quwfc")
 unique_name_in_owner = true
 enabled = false
 target_position = Vector2(24, 0)
+collision_mask = 8193
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Body" unique_id=1097663783]
 unique_name_in_owner = true

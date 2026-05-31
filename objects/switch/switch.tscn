@@ -8,8 +8,8 @@
 size = Vector2(8, 8)
 
 [node name="LocalSwitch" type="Area2D" unique_id=968327545]
-collision_layer = 0
-collision_mask = 256
+collision_layer = 65536
+collision_mask = 512
 script = ExtResource("1_7oapj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=553777086]

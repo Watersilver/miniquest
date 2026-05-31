@@ -174,6 +174,9 @@ func _ready() -> void:
 	else:
 		$Body/Area2D.queue_free()
 		arrow.queue_free()
+		
+		if _state is Still:
+			_state._t = randf() * 2 + 1
 
 
 func _physics_process(delta: float) -> void:
@@ -192,10 +195,10 @@ func _physics_process(delta: float) -> void:
 	water_detector_2.position = _get_wd2pos()
 	match type:
 		Type.PATROL:
-			if patrol_right_lim and body.position.x > patrol_right_lim.position.x:
+			if patrol_right_lim and body.global_position.x > patrol_right_lim.global_position.x:
 				direction.x = -abs(direction.x)
 				_velocity.x = -abs(_velocity.x)
-			if patrol_left_lim and body.position.x < patrol_left_lim.position.x:
+			if patrol_left_lim and body.global_position.x < patrol_left_lim.global_position.x:
 				direction.x = abs(direction.x)
 				_velocity.x = abs(_velocity.x)
 	

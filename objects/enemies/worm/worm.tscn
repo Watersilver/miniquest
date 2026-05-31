@@ -87,9 +87,11 @@ autoplay = "move"
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1036012296]
 unique_name_in_owner = true
 target_position = Vector2(160, 0)
-collision_mask = 8449
+collision_mask = 41217
+collide_with_areas = true
 
 [node name="RayCast2D2" type="RayCast2D" parent="." unique_id=1026527734]
 unique_name_in_owner = true
 target_position = Vector2(-160, 0)
-collision_mask = 8449
+collision_mask = 41217
+collide_with_areas = true

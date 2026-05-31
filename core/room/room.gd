@@ -3,14 +3,21 @@
 extends Node2D
 class_name Room
 
+@export var music_override: String
+
+@export_group("Starting Player State", "st_pl_")
+@export var st_pl_state := Player.State.NORMAL
+@export var st_pl_still_recoil := false
 @export_group("Starting Upgrades", "st_up_")
 @export_flags("controlled_fall", "jump", "double_jump", "backdash", "run", "bat", "griffon", "swim", "water_walk", "ice", "fire") var st_up_skills := 0
 @export var st_up_gold := 0
 @export var st_up_health := 1
+@export var st_up_keys := 0
 @export var st_up_weapon := Global.Weapon.NONE
 @export var st_up_damage := Global.Damage.ROLL_1D2
 @export var st_up_crit := 0
 @export var st_up_enhancement := 0
+@export var st_up_advantage := false
 @export_group("Starting World State", "st_st_")
 @export var st_st_boss_slime_dead := false
 @export var st_st_boss_tower_dead := false
@@ -101,6 +108,8 @@ const MAIN_TILESET_TRES = preload("res://main_tileset.tres")
 @export_range(1,5,1) var size_y := 1
 
 @export var is_empty := false
+
+@export var on_exit_flag: String
 
 @export_group("Exits")
 @export var exit_markers_up: Array[int] = []

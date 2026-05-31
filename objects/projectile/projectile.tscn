@@ -15,7 +15,7 @@ metadata/_custom_type_script = "uid://05fo8fr304mu"
 [sub_resource type="CircleShape2D" id="CircleShape2D_pcrhp"]
 radius = 1.0
 
-[node name="Projectile" type="Node2D" unique_id=7767951]
+[node name="Projectile" type="Node2D" unique_id=7767951 groups=["projectiles"]]
 script = ExtResource("1_d2sno")
 oscillation = SubResource("Resource_tj2i2")
 
@@ -31,7 +31,7 @@ unique_name_in_owner = true
 material = ExtResource("3_pcrhp")
 texture = ExtResource("3_5vqdy")
 region_enabled = true
-region_rect = Rect2(16, 472, 6, 5)
+region_rect = Rect2(2, 330, 4, 4)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=577567469]
 unique_name_in_owner = true

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dl46gsdnu5iim"]
+
+[ext_resource type="Script" uid="uid://cev3du7x6kfhj" path="res://objects/enemies/spawner/spawner.gd" id="1_0lbya"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0lbya"]
+resource_local_to_scene = true
+size = Vector2(16, 16)
+
+[node name="Spawner" type="Node2D" unique_id=2111028311]
+editor_description = "If a spawner has children spawners, it will use their positions and shapes to spawn. If they have a spawn scene and/or spawn params set the parent will use it instead of its own."
+script = ExtResource("1_0lbya")
+
+[node name="SpawnArea" type="Area2D" parent="." unique_id=601492601]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="SpawnAreaShape" type="CollisionShape2D" parent="SpawnArea" unique_id=431474421]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_0lbya")
+disabled = true

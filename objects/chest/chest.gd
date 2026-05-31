@@ -12,6 +12,8 @@ class_name Chest
 @onready var great_money: AnimatedSprite2D = %GreatMoney
 @onready var life: AnimatedSprite2D = %Life
 @onready var crit: Node2D = %Crit
+@onready var enhancement: Sprite2D = %Enhancement
+@onready var damage: AnimatedSprite2D = %Damage
 
 var _item: Node2D = null
 
@@ -25,7 +27,9 @@ enum Col {
 enum Content {
 	LIFE,
 	GOLD,
-	CRIT
+	CRIT,
+	ENHANCEMENT,
+	DAMAGE_ROLL
 }
 
 @export var color := Col.BROWN
@@ -45,7 +49,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		if _is_opened():
 			sprite.region_rect.position.y += 16
-			collision_shape_2d.disabled = true
+			collision_shape_2d.set_deferred("disabled", true)
 		
 		body_entered.connect(_on_body_entered)
 		body_exited.connect(_on_body_exited)
@@ -78,6 +82,10 @@ func _process(delta: float) -> void:
 					_item = life
 				elif content_type == Content.CRIT:
 					_item = crit
+				elif content_type == Content.ENHANCEMENT:
+					_item = enhancement
+				elif content_type == Content.DAMAGE_ROLL:
+					_item = damage
 				else:
 					if amount <= 5:
 						_item = little_money
@@ -108,6 +116,7 @@ func _on_body_exited(body: Node2D) -> void:
 
 func _open() -> void:
 	if _is_opened(): return
+	Global.session.saved_data.chests += 1
 	Global.session.saved_data.object_flags[Refs.level_manager.get_unique_name(self)] = true
 	collision_shape_2d.set_deferred("disabled", true)
 	
@@ -121,3 +130,7 @@ func _open() -> void:
 		Global.session.saved_data.money += amount
 	elif content_type == Content.CRIT:
 		Global.session.upgrades.crit_chance += amount
+	elif content_type == Content.ENHANCEMENT:
+		Global.session.upgrades.enhancement += amount
+	elif content_type == Content.DAMAGE_ROLL:
+		Global.session.upgrades.raise_dmg_die(amount)

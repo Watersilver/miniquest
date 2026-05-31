@@ -24,12 +24,16 @@ func get_room_coordinates() -> Vector2i:
 	return _room_coordinates
 
 var current_room: Room
+var enter_direction := Vector2i(0, 0)
 
-func shake_it():
+signal screen_shake()
+
+func shake_it(duration := 0.3, power := 4):
 	if is_instance_valid(current_room):
+		screen_shake.emit()
 		for child in current_room.get_children():
 			if child is MainTileset:
-				(child as MainTileset).apply_shake(0.3,4)
+				(child as MainTileset).apply_shake(duration, power)
 
 func get_player_coordinates() -> Vector2i:
 	return player.get_room_block_coordinates(current_room) + _room_coordinates
@@ -41,15 +45,19 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	
 	
 	# Clear old room
-	var old_room := current_room
 	if is_instance_valid(current_room) and current_room.is_inside_tree():
+		if current_room.on_exit_flag != "":
+			Global.session.saved_data.object_flags[current_room.on_exit_flag] = true
 		current_room.queue_free()
 		current_room = null
 	
 	
 	# Load new room
+	var old_room := current_room
 	current_room = room_scene.instantiate()
-	if old_room: old_room.name = "to." + current_room.name # Ensure there won't be a name collision
+	if old_room:
+		# Ensure there won't be a name collision
+		old_room.name = "to." + current_room.name
 	_room_coordinates = level.get_room_origin_at(destination)
 	
 	room_name.text = current_room.name
@@ -96,6 +104,15 @@ func go_to_room(destination: Vector2i, new_player_pos: Vector2 = player.body.glo
 	# Weirdly, if I make the area hostile, player doesn't get damaged
 	# so the weirdness happens only from the perspective of the added room
 	add_child(current_room)
+	
+	if current_room.music_override != "":
+		if not AudioManager.music_themes.overrides.has(current_room.music_override):
+			printerr("Music override '" + current_room.music_override + "' not found. Falling back to default room music.")
+			AudioManager.play_music(AudioManager.music_themes.miniquest_theme)
+		else:
+			AudioManager.play_music(AudioManager.music_themes.overrides.get(current_room.music_override))
+	else:
+		AudioManager.play_music(AudioManager.music_themes.miniquest_theme)
 
 ## Use only for objects with consistent names
 func get_unique_name(node: Node) -> String:
@@ -164,11 +181,13 @@ func _spawn_to_level():
 		Global.session.upgrades.element_fire = true
 	
 	Global.session.saved_data.money = current_room.st_up_gold
+	Global.session.saved_data.keys = current_room.st_up_keys
 	Global.session.upgrades.max_health = current_room.st_up_health
 	Global.session.upgrades.weapon = current_room.st_up_weapon
 	Global.session.upgrades.damage = current_room.st_up_damage
 	Global.session.upgrades.crit_chance = current_room.st_up_crit
 	Global.session.upgrades.enhancement = current_room.st_up_enhancement
+	Global.session.upgrades.advantage = current_room.st_up_advantage
 	
 	Global.session.saved_data.slime_boss = current_room.st_st_boss_slime_dead
 	Global.session.saved_data.tower_boss = current_room.st_st_boss_tower_dead
@@ -179,6 +198,9 @@ func _spawn_to_level():
 		if t == "green_switch":
 			Global.session.saved_data.pressed_switches[Global.Switch.GREEN] = true
 		Global.session.saved_data.object_flags[t] = true
+	
+	player._state = current_room.st_pl_state
+	player.still_recoil = current_room.st_pl_still_recoil
 	
 	Checkpoint.mark()
 
@@ -238,7 +260,8 @@ func _on_top_exit_area_entered(_a: Node2D) -> void:
 		if not has_exit:
 			player.handle_out_of_bounds()
 			return
-	var dest := get_player_coordinates() + Vector2i(0, -1)
+	enter_direction = Vector2i(0, -1)
+	var dest := get_player_coordinates() + enter_direction
 	var target_room := level.get_room_at(dest)
 	if not target_room:
 		player.handle_out_of_bounds()
@@ -258,7 +281,8 @@ func _on_right_exit_area_entered(_a: Node2D) -> void:
 		if not has_exit:
 			player.handle_out_of_bounds()
 			return
-	var dest := get_player_coordinates() + Vector2i(1,0)
+	enter_direction = Vector2i(1, 0)
+	var dest := get_player_coordinates() + enter_direction
 	var target_room := level.get_room_at(dest)
 	if not target_room:
 		var wraparound_dest := level.get_leftmost_room_pos_at(dest.y)
@@ -281,7 +305,8 @@ func _on_bottom_exit_area_entered(_a: Node2D) -> void:
 		if not has_exit:
 			player.handle_out_of_bounds()
 			return
-	var dest := get_player_coordinates() + Vector2i(0,1)
+	enter_direction = Vector2i(0, 1)
+	var dest := get_player_coordinates() + enter_direction
 	var target_room := level.get_room_at(dest)
 	if not target_room:
 		player.handle_out_of_bounds()
@@ -301,7 +326,8 @@ func _on_left_exit_area_entered(_a: Node2D) -> void:
 		if not has_exit:
 			player.handle_out_of_bounds()
 			return
-	var dest := get_player_coordinates() + Vector2i(-1,0)
+	enter_direction = Vector2i(-1, 0)
+	var dest := get_player_coordinates() + enter_direction
 	var target_room := level.get_room_at(dest)
 	if not target_room:
 		var wraparound_dest := level.get_rightmost_room_pos_at(dest.y)

@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://ddtplryl7v5i0"]
+[gd_scene format=3 uid="uid://ddtplryl7v5i0"]
 
 [ext_resource type="Script" uid="uid://6k80wsexu1u5" path="res://objects/npc/npc.gd" id="1_nxjfv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_15dke"]
 size = Vector2(24, 8)
 
-[node name="Npc" type="Area2D"]
+[node name="Npc" type="Area2D" unique_id=2020933666 groups=["npcs"]]
 collision_layer = 2048
 collision_mask = 4096
 script = ExtResource("1_nxjfv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1481930022]
 shape = SubResource("RectangleShape2D_15dke")

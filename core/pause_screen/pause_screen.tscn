@@ -1,0 +1,609 @@
+[gd_scene format=3 uid="uid://mgtr53gckf8a"]
+
+[ext_resource type="PackedScene" uid="uid://bb7alf0cdfnhn" path="res://components/controls/controls.tscn" id="1_k64wx"]
+[ext_resource type="Script" uid="uid://dh11lwtnisx4f" path="res://core/pause_screen/pause_screen.gd" id="1_yqj1y"]
+[ext_resource type="Texture2D" uid="uid://c5tax4uxysgtw" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Icons.png" id="2_1dt23"]
+[ext_resource type="Texture2D" uid="uid://gw23isqhaw70" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Items.png" id="3_plwyx"]
+[ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="4_tqco2"]
+[ext_resource type="Texture2D" uid="uid://espn3an06gji" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Extras.png" id="6_e1etq"]
+[ext_resource type="Texture2D" uid="uid://daqdpttmfmvme" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Emoji.png" id="7_yxg33"]
+[ext_resource type="Texture2D" uid="uid://bhkwcqtwu0ckg" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Inputs.png" id="8_2mk4y"]
+[ext_resource type="Texture2D" uid="uid://c17oyow80ldnm" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Other.png" id="8_4dgm8"]
+
+[sub_resource type="Curve" id="Curve_2mk4y"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), -0.7546494, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqj1y"]
+atlas = ExtResource("3_plwyx")
+region = Rect2(48, 40, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1etq"]
+atlas = ExtResource("3_plwyx")
+region = Rect2(48, 48, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxg33"]
+atlas = ExtResource("3_plwyx")
+region = Rect2(48, 56, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2mk4y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqj1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1etq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxg33")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7otku"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61bf5"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3nee"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epivx"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3t8y4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7otku")
+}],
+"loop": true,
+"name": &"max",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61bf5")
+}],
+"loop": true,
+"name": &"min",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3nee")
+}],
+"loop": true,
+"name": &"one_third",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epivx")
+}],
+"loop": true,
+"name": &"two_thirds",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uosok"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(8, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t547k"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(0, 16, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7otku"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uosok")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t547k")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rulnt"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(8, 16, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1h32"]
+atlas = ExtResource("2_1dt23")
+region = Rect2(0, 16, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_epivx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rulnt")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1h32")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydgtt"]
+atlas = ExtResource("8_4dgm8")
+region = Rect2(96, 56, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8b1c"]
+atlas = ExtResource("8_4dgm8")
+region = Rect2(96, 64, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uosok"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ydgtt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8b1c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dgm8"]
+atlas = ExtResource("8_2mk4y")
+region = Rect2(0, 104, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjvpw"]
+atlas = ExtResource("8_2mk4y")
+region = Rect2(16, 104, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ydgtt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dgm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjvpw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hg1ov"]
+atlas = ExtResource("8_2mk4y")
+region = Rect2(0, 120, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rk32b"]
+atlas = ExtResource("8_2mk4y")
+region = Rect2(16, 120, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u8b1c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hg1ov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rk32b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="PauseScreen" type="Node2D" unique_id=1627915105]
+process_mode = 2
+z_index = 10
+script = ExtResource("1_yqj1y")
+slide_curve = SubResource("Curve_2mk4y")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1462175289]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, 0, 160, 0, 160, 120, 0, 120)
+
+[node name="Controls" parent="." unique_id=1316297338 instance=ExtResource("1_k64wx")]
+
+[node name="Info" type="Node2D" parent="." unique_id=1111449437]
+unique_name_in_owner = true
+position = Vector2(-162, 0)
+
+[node name="DeathsLabel" type="Label" parent="Info" unique_id=1394716830]
+unique_name_in_owner = true
+offset_left = 53.0
+offset_top = -3.0
+offset_right = 119.0
+offset_bottom = 9.0
+text = "Deaths: 0"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/DeathsLabel" unique_id=1919634231]
+position = Vector2(-6.290455, 8.357384)
+texture = ExtResource("2_1dt23")
+region_enabled = true
+region_rect = Rect2(24, 248, 8, 8)
+
+[node name="CriticalRateLabel" type="Label" parent="Info" unique_id=773524718]
+unique_name_in_owner = true
+offset_left = 53.0
+offset_top = 37.0
+offset_right = 147.0
+offset_bottom = 49.0
+text = "Critical Rate: 0%"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/CriticalRateLabel" unique_id=1216915755]
+position = Vector2(-6.290455, 8.357384)
+texture = ExtResource("2_1dt23")
+region_enabled = true
+region_rect = Rect2(0, 248, 8, 8)
+
+[node name="Enhancement" type="Label" parent="Info" unique_id=598603690]
+unique_name_in_owner = true
+offset_left = 53.0
+offset_top = 24.0
+offset_right = 137.0
+offset_bottom = 36.0
+text = "Enhancement: +0"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/Enhancement" unique_id=1905906278]
+position = Vector2(-6.290455, 8.357384)
+texture = ExtResource("2_1dt23")
+region_enabled = true
+region_rect = Rect2(64, 248, 8, 8)
+
+[node name="DamageRoll" type="Label" parent="Info" unique_id=703783577]
+unique_name_in_owner = true
+offset_left = 53.0
+offset_top = 10.0
+offset_right = 141.0
+offset_bottom = 22.0
+text = "Damage roll: 1d2"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/DamageRoll" unique_id=475432697]
+position = Vector2(-5.290455, 8.357384)
+texture = ExtResource("3_plwyx")
+region_enabled = true
+region_rect = Rect2(32, 8, 8, 8)
+
+[node name="Chests" type="Label" parent="Info" unique_id=1905319345]
+unique_name_in_owner = true
+offset_left = 53.0
+offset_top = 50.0
+offset_right = 141.0
+offset_bottom = 62.0
+text = "Chests: 0%"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/Chests" unique_id=294759109]
+position = Vector2(-5.290455, 7.3573837)
+texture = ExtResource("4_tqco2")
+region_enabled = true
+region_rect = Rect2(16, 168, 8, 8)
+
+[node name="Line2D" type="Line2D" parent="Info" unique_id=823195989]
+position = Vector2(41, 0)
+points = PackedVector2Array(120, 64, 120, 0)
+width = 2.0
+
+[node name="Health" type="Label" parent="Info" unique_id=134832255]
+unique_name_in_owner = true
+offset_left = 173.0
+offset_top = -2.0
+offset_right = 203.0
+offset_bottom = 10.0
+text = ": 1/"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/Health" unique_id=1133564123]
+position = Vector2(-6, 8)
+texture = ExtResource("2_1dt23")
+region_enabled = true
+region_rect = Rect2(0, 96, 8, 8)
+
+[node name="MaxHealth" type="Label" parent="Info/Health" unique_id=1252919235]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 52.0
+offset_bottom = 19.0
+text = "1"
+
+[node name="Money" type="Label" parent="Info" unique_id=1191101190]
+unique_name_in_owner = true
+offset_left = 173.0
+offset_top = 15.0
+offset_right = 203.0
+offset_bottom = 27.0
+text = ": 0"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/Money" unique_id=696049203]
+position = Vector2(-6, 8)
+texture = ExtResource("2_1dt23")
+region_enabled = true
+region_rect = Rect2(0, 144, 8, 8)
+
+[node name="Keys" type="Label" parent="Info" unique_id=779917794]
+unique_name_in_owner = true
+offset_left = 173.0
+offset_top = 33.0
+offset_right = 203.0
+offset_bottom = 45.0
+text = ": 0"
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/Keys" unique_id=1271630771]
+position = Vector2(-6, 8)
+texture = ExtResource("2_1dt23")
+region_enabled = true
+region_rect = Rect2(16, 80, 8, 8)
+
+[node name="GridContainer" type="GridContainer" parent="Info" unique_id=1957695264]
+offset_left = 164.0
+offset_top = 54.0
+offset_right = 203.0
+offset_bottom = 62.0
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 0
+columns = 5
+
+[node name="Weapon" type="Control" parent="Info/GridContainer" unique_id=93798000]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+
+[node name="SwordSpr" type="Sprite2D" parent="Info/GridContainer/Weapon" unique_id=1112269651]
+unique_name_in_owner = true
+texture = ExtResource("3_plwyx")
+centered = false
+region_enabled = true
+region_rect = Rect2(8, 8, 8, 8)
+
+[node name="HalberdSpr" type="Sprite2D" parent="Info/GridContainer/Weapon" unique_id=1956029955]
+unique_name_in_owner = true
+texture = ExtResource("3_plwyx")
+centered = false
+region_enabled = true
+region_rect = Rect2(8, 16, 8, 8)
+
+[node name="BowSpr" type="Sprite2D" parent="Info/GridContainer/Weapon" unique_id=797285613]
+unique_name_in_owner = true
+texture = ExtResource("3_plwyx")
+centered = false
+region_enabled = true
+region_rect = Rect2(72, 0, 8, 8)
+
+[node name="StaffSpr" type="Sprite2D" parent="Info/GridContainer/Weapon" unique_id=1933218874]
+unique_name_in_owner = true
+texture = ExtResource("3_plwyx")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 8)
+
+[node name="GreenSwitch" type="Control" parent="Info/GridContainer" unique_id=872187290]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/GridContainer/GreenSwitch" unique_id=430638886]
+position = Vector2(1, 0)
+texture = ExtResource("6_e1etq")
+centered = false
+region_enabled = true
+region_rect = Rect2(16, 48, 8, 8)
+
+[node name="Advantage" type="Control" parent="Info/GridContainer" unique_id=1257548362]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Info/GridContainer/Advantage" unique_id=1171537526]
+texture = ExtResource("2_1dt23")
+centered = false
+region_enabled = true
+region_rect = Rect2(8, 192, 8, 8)
+
+[node name="Power" type="Control" parent="Info/GridContainer" unique_id=624672570]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Info/GridContainer/Power" unique_id=1908368165]
+sprite_frames = SubResource("SpriteFrames_2mk4y")
+autoplay = "default"
+frame_progress = 0.39493546
+centered = false
+
+[node name="Line2D2" type="Line2D" parent="Info" unique_id=508854791]
+position = Vector2(43, 0)
+points = PackedVector2Array(161, 0, 161, 63)
+width = 2.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Info" unique_id=1304064224]
+offset_left = 205.0
+offset_top = -4.0
+offset_right = 322.0
+offset_bottom = 8.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="Info/HSplitContainer" unique_id=1180664203]
+layout_mode = 2
+text = "UPGRADES"
+horizontal_alignment = 1
+
+[node name="Line2D3" type="Line2D" parent="Info" unique_id=1108826084]
+position = Vector2(43, 0)
+points = PackedVector2Array(162, 9, 279, 9)
+width = 2.0
+
+[node name="GridContainer2" type="GridContainer" parent="Info" unique_id=483088573]
+offset_left = 208.0
+offset_top = 10.0
+offset_right = 322.0
+offset_bottom = 63.0
+columns = 3
+
+[node name="JumpLabel" type="Label" parent="Info/GridContainer2" unique_id=1947916481]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Jump"
+
+[node name="IceLabel" type="Label" parent="Info/GridContainer2" unique_id=41581283]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ice"
+
+[node name="DashLabel" type="Label" parent="Info/GridContainer2" unique_id=1254885855]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Dash"
+
+[node name="CFallLabel" type="Label" parent="Info/GridContainer2" unique_id=1666376261]
+unique_name_in_owner = true
+layout_mode = 2
+text = "c.Fall"
+
+[node name="SwimLabel" type="Label" parent="Info/GridContainer2" unique_id=537567996]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Swim"
+
+[node name="FairyLabel" type="Label" parent="Info/GridContainer2" unique_id=1074323831]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fairy"
+
+[node name="GriffonLabel" type="Label" parent="Info/GridContainer2" unique_id=848612395]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Griffon"
+
+[node name="DJumpLabel" type="Label" parent="Info/GridContainer2" unique_id=1925587737]
+unique_name_in_owner = true
+layout_mode = 2
+text = "D.Jump"
+
+[node name="Control" type="Control" parent="Info/GridContainer2" unique_id=15372788]
+layout_mode = 2
+
+[node name="Sad" type="Sprite2D" parent="Info/GridContainer2/Control" unique_id=1797179768]
+unique_name_in_owner = true
+position = Vector2(12.538574, 9.282753)
+texture = ExtResource("7_yxg33")
+region_enabled = true
+region_rect = Rect2(8, 80, 8, 8)
+
+[node name="Neutral" type="Sprite2D" parent="Info/GridContainer2/Control" unique_id=1957352625]
+unique_name_in_owner = true
+position = Vector2(12.538574, 9.282753)
+texture = ExtResource("7_yxg33")
+region_enabled = true
+region_rect = Rect2(16, 80, 8, 8)
+
+[node name="Happy" type="Sprite2D" parent="Info/GridContainer2/Control" unique_id=1389230527]
+unique_name_in_owner = true
+position = Vector2(12.538574, 9.282753)
+texture = ExtResource("7_yxg33")
+region_enabled = true
+region_rect = Rect2(0, 80, 8, 8)
+
+[node name="VeryHappy" type="Sprite2D" parent="Info/GridContainer2/Control" unique_id=150100334]
+unique_name_in_owner = true
+position = Vector2(12.538574, 9.282753)
+texture = ExtResource("7_yxg33")
+region_enabled = true
+region_rect = Rect2(0, 80, 8, 8)
+
+[node name="Line2D4" type="Line2D" parent="Info" unique_id=1713641499]
+points = PackedVector2Array(41, 64, 41, 0)
+width = 2.0
+
+[node name="Menu" type="VBoxContainer" parent="Info" unique_id=1480109860]
+unique_name_in_owner = true
+offset_left = 11.0
+offset_right = 46.0
+offset_bottom = 63.0
+theme_override_constants/separation = 0
+
+[node name="VolumeLabel" type="Label" parent="Info/Menu" unique_id=55418597]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Vol"
+
+[node name="VolSpr" type="AnimatedSprite2D" parent="Info/Menu/VolumeLabel" unique_id=964280288]
+unique_name_in_owner = true
+position = Vector2(23, 8)
+sprite_frames = SubResource("SpriteFrames_3t8y4")
+animation = &"max"
+
+[node name="MusicLabel" type="Label" parent="Info/Menu" unique_id=266657413]
+unique_name_in_owner = true
+layout_mode = 2
+text = "BGM"
+
+[node name="MusicSpr" type="AnimatedSprite2D" parent="Info/Menu/MusicLabel" unique_id=59310868]
+unique_name_in_owner = true
+position = Vector2(23, 8)
+sprite_frames = SubResource("SpriteFrames_7otku")
+animation = &"on"
+
+[node name="SoundLabel" type="Label" parent="Info/Menu" unique_id=1280509668]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SFX"
+
+[node name="SoundSpr" type="AnimatedSprite2D" parent="Info/Menu/SoundLabel" unique_id=1415911624]
+unique_name_in_owner = true
+position = Vector2(23, 8)
+sprite_frames = SubResource("SpriteFrames_epivx")
+animation = &"on"
+
+[node name="DieLabel" type="Label" parent="Info/Menu" unique_id=2113227593]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Die"
+
+[node name="QuitLabel" type="Label" parent="Info/Menu" unique_id=43310866]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="Cursor" type="AnimatedSprite2D" parent="Info/Menu" unique_id=551591285]
+unique_name_in_owner = true
+position = Vector2(-6, 8)
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_uosok")
+autoplay = "default"
+flip_h = true
+
+[node name="PressRight" type="AnimatedSprite2D" parent="." unique_id=919362391]
+unique_name_in_owner = true
+position = Vector2(156, 32)
+sprite_frames = SubResource("SpriteFrames_ydgtt")
+autoplay = "default"
+
+[node name="PressLeft" type="AnimatedSprite2D" parent="." unique_id=911457313]
+unique_name_in_owner = true
+position = Vector2(4, 32)
+sprite_frames = SubResource("SpriteFrames_u8b1c")
+autoplay = "default"
+frame_progress = 0.47720706

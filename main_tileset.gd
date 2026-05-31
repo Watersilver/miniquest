@@ -25,6 +25,8 @@ const YELLOW_SOLID = preload("uid://dn882e8xfd5er")
 
 @export var disable_trigger := ""
 
+@export var collision_disable_direction: Vector2i
+
 
 class _ReplacedTile extends Resource:
 	enum Type {
@@ -207,18 +209,78 @@ func _animate_sawblades():
 			saw.atlas_coords.y -= 12
 		set_cell(saw.coords, saw.src, saw.atlas_coords, TileSetAtlasSource.TRANSFORM_FLIP_H if saw.flip_h else 0)
 
+
+var _spikes_ranges: Array[Rect2i] = [
+	Rect2i(Vector2i(1, 27), Vector2i(2, 1)),
+	Rect2i(Vector2i(4, 27), Vector2i(2, 1)),
+	Rect2i(Vector2i(7, 27), Vector2i(2, 1)),
+	Rect2i(Vector2i(9, 27), Vector2i(2, 1)),
+]
+func _get_spikes_type(c: CellData) -> int:
+	if c.src != 5: return -1
+	if _t(c.atlas_coords, [_spikes_ranges[0]]):
+		return 0
+	if _t(c.atlas_coords, [_spikes_ranges[1]]):
+		return 1
+	if _t(c.atlas_coords, [_spikes_ranges[2]]):
+		return 2
+	if _t(c.atlas_coords, [_spikes_ranges[3]]):
+		return 3
+	return -1
+var spikes: Array[CellData] = []
+func _animate_spikes():
+	for spike in spikes:
+		var type := _get_spikes_type(spike)
+		spike.atlas_coords.x += 1
+		var rect := _spikes_ranges[type]
+		if spike.atlas_coords.x > rect.position.x + rect.size.x - 1:
+			spike.atlas_coords.x = rect.position.x
+		set_cell(spike.coords, spike.src, spike.atlas_coords, TileSetAtlasSource.TRANSFORM_FLIP_H if spike.flip_h else 0)
+
+
+var _retractable_spikes_ranges: Array[Rect2i] = [
+	Rect2i(Vector2i(0, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(1, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(2, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(3, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(4, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(5, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(6, 25), Vector2i(1, 1)),
+	Rect2i(Vector2i(7, 25), Vector2i(1, 1)),
+]
+func _get_retractable_spikes_type(c: CellData) -> int:
+	if c.src != 5: return -1
+	if _t(c.atlas_coords, _retractable_spikes_ranges):
+		if c.atlas_coords.x % 2 == 0:
+			return 0
+		else:
+			return 1
+	return -1
+var retractable_spikes: Array[CellData] = []
+func _animate_retractable_spikes():
+	for s in retractable_spikes:
+		var type := _get_retractable_spikes_type(s)
+		s.atlas_coords.x += 2
+		var rect := _retractable_spikes_ranges[type]
+		if s.atlas_coords.x > rect.position.x + 6:
+			s.atlas_coords.x = rect.position.x
+		set_cell(s.coords, s.src, s.atlas_coords, s.transform)
+
+
 class CellData:
 	var src := -1
 	var coords := Vector2i(-1,-1)
 	var atlas_coords := Vector2i(-1,-1)
-	var flip_h
+	var flip_h: bool
 	var dir := 1
+	var transform := 0
 	
-	func _init(source: int, coordinates: Vector2i, atlas_coordinates: Vector2i, flip_hor := false) -> void:
+	func _init(source: int, coordinates: Vector2i, atlas_coordinates: Vector2i, flip_hor := false, trans := 0) -> void:
 		src = source
 		coords = coordinates
 		atlas_coords = atlas_coordinates
 		flip_h = flip_hor
+		transform = trans
 
 class Shake:
 	var countdown := 0.0
@@ -264,6 +326,15 @@ func _handle_triggers():
 	enabled = e != 0
 
 func _ready() -> void:
+	if Refs.level_manager:
+		if collision_disable_direction.x != 0 or collision_disable_direction.y != 0:
+			if collision_disable_direction.x != 0:
+				if signi(Refs.level_manager.enter_direction.x) == collision_disable_direction.x:
+					collision_enabled = false
+			else:
+				if signi(Refs.level_manager.enter_direction.y) == collision_disable_direction.y:
+					collision_enabled = false
+	
 	tick.connect(_on_tick)
 	
 	var waterfall_ranges: Array[Rect2i] = []
@@ -315,6 +386,7 @@ func _ready() -> void:
 			var rt := _ReplacedTile.new()
 			rt.type = _ReplacedTile.Type.ARROW_TRAP
 			rt.coords = coords
+			rt.variant = 1 if atlas_coords.y > 0 else 0
 			if atlas_coords.x == 11:
 				rt.dir = Global.Direction.LEFT
 			else:
@@ -360,6 +432,16 @@ func _ready() -> void:
 			_replacements.push_back(rt)
 			
 			erase_cell(coords)
+		elif src == 5 and _t(atlas_coords, _spikes_ranges):
+			spikes.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
+		elif src == 5 and _t(atlas_coords, _retractable_spikes_ranges):
+			var cd := CellData.new(src, coords, atlas_coords)
+			cd.transform = TileSetAtlasSource.TRANSFORM_FLIP_H if is_cell_flipped_h(coords) else 0
+			if is_cell_flipped_v(coords):
+				cd.transform |= TileSetAtlasSource.TRANSFORM_FLIP_V
+			if is_cell_transposed(coords):
+				cd.transform |= TileSetAtlasSource.TRANSFORM_TRANSPOSE
+			retractable_spikes.push_back(cd)
 		elif src == 5 and _t(atlas_coords, _sawblade_ranges):
 			sawblades.push_back(CellData.new(src, coords, atlas_coords, is_cell_flipped_h(coords)))
 		elif src == 6 and _t(atlas_coords, [Rect2i(Vector2i(20, 7), Vector2i(2, 7)), Rect2i(Vector2i(20, 15), Vector2i(1, 7))]):
@@ -407,6 +489,7 @@ func _ready() -> void:
 				at.position.x += 4
 				at.position.y += 4
 				at.raycast_start_dir = r.dir
+				at.silver = r.variant > 0
 				add_child(at)
 			_ReplacedTile.Type.BOX:
 				var box := BOX.instantiate()
@@ -498,5 +581,10 @@ func _on_tick() -> void:
 	_animate_waterfall()
 	
 	_animate_sawblades()
+	
+	#_animate_spikes()
+	
+	if _tick_counter % 3 == 0:
+		_animate_retractable_spikes()
 	
 	_tick_counter += 1

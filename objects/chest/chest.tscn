@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://bg6fkjj0kc0tx"]
 
 [ext_resource type="Script" uid="uid://banx56j2rx7t0" path="res://objects/chest/chest.gd" id="1_f2ppc"]
+[ext_resource type="Material" uid="uid://bn8d23rylbiad" path="res://outlinematerial.tres" id="2_5rr60"]
 [ext_resource type="Texture2D" uid="uid://bl3j7uk5wqphe" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Interactables.png" id="2_141al"]
 [ext_resource type="Texture2D" uid="uid://gw23isqhaw70" path="res://assets/Chroma-Noir-v2.1/Chroma-Noir-8x8/Items.png" id="3_141al"]
+[ext_resource type="Texture2D" uid="uid://c5tax4uxysgtw" path="res://assets/Chroma-Noir-User-Interface-v1.0/Chroma-Noir-User-Interface-8x8/Icons.png" id="5_5hgct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5rr60"]
 size = Vector2(8, 8)
@@ -115,19 +117,19 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g8tsr"]
-atlas = ExtResource("3_141al")
-region = Rect2(0, 56, 8, 8)
+[sub_resource type="AtlasTexture" id="AtlasTexture_clqd1"]
+atlas = ExtResource("5_5hgct")
+region = Rect2(1, 208, 8, 8)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_i27q5"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_g8tsr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g8tsr")
+"texture": SubResource("AtlasTexture_clqd1")
 }],
 "loop": true,
 "name": &"default",
-"speed": 8.0
+"speed": 5.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ms8l"]
@@ -152,10 +154,29 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_141al"]
-font_size = 6
+[sub_resource type="AtlasTexture" id="AtlasTexture_h21wd"]
+atlas = ExtResource("5_5hgct")
+region = Rect2(48, 224, 8, 8)
 
-[node name="Chest" type="Area2D" unique_id=1189301274]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8b6h"]
+atlas = ExtResource("5_5hgct")
+region = Rect2(72, 224, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i27q5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h21wd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8b6h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Chest" type="Area2D" unique_id=1189301274 groups=["chests"]]
 collision_layer = 0
 collision_mask = 256
 script = ExtResource("1_f2ppc")
@@ -167,6 +188,7 @@ shape = SubResource("RectangleShape2D_5rr60")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1880522423]
 unique_name_in_owner = true
+material = ExtResource("2_5rr60")
 position = Vector2(4, 4)
 texture = ExtResource("2_141al")
 region_enabled = true
@@ -193,21 +215,41 @@ frame_progress = 0.185985
 [node name="GreatMoney" type="AnimatedSprite2D" parent="." unique_id=1817136524]
 unique_name_in_owner = true
 visible = false
-sprite_frames = SubResource("SpriteFrames_i27q5")
+sprite_frames = SubResource("SpriteFrames_g8tsr")
 
 [node name="Life" type="AnimatedSprite2D" parent="." unique_id=1425063246]
 unique_name_in_owner = true
 visible = false
 sprite_frames = SubResource("SpriteFrames_boclg")
 
-[node name="Crit" type="Node2D" parent="." unique_id=527647392]
+[node name="Crit" type="Sprite2D" parent="." unique_id=1982654442]
 unique_name_in_owner = true
 visible = false
+material = ExtResource("2_5rr60")
+texture = ExtResource("5_5hgct")
+region_enabled = true
+region_rect = Rect2(0, 248, 8, 8)
 
-[node name="Label" type="Label" parent="Crit" unique_id=808940490]
-offset_left = -14.0
-offset_top = -8.0
-offset_right = 16.0
-offset_bottom = 4.0
-text = "Crit+"
-label_settings = SubResource("LabelSettings_141al")
+[node name="Enhancement" type="Sprite2D" parent="." unique_id=1936140513]
+unique_name_in_owner = true
+visible = false
+material = ExtResource("2_5rr60")
+position = Vector2(-1, -1)
+texture = ExtResource("5_5hgct")
+region_enabled = true
+region_rect = Rect2(64, 248, 8, 8)
+
+[node name="Damage" type="AnimatedSprite2D" parent="." unique_id=119168038]
+unique_name_in_owner = true
+visible = false
+position = Vector2(2, 0)
+sprite_frames = SubResource("SpriteFrames_i27q5")
+frame_progress = 0.041843146
+
+[node name="Sprite" type="Sprite2D" parent="Damage" unique_id=60085292]
+show_behind_parent = true
+material = ExtResource("2_5rr60")
+position = Vector2(-5, -2)
+texture = ExtResource("3_141al")
+region_enabled = true
+region_rect = Rect2(32, 8, 8, 8)

@@ -21,6 +21,7 @@ signal griffon_ceiling_smash
 @onready var interaction_checker: Area2D = %InteractionChecker
 #@onready var state_debug_label: Label = %StateDebugLabel
 @onready var climb_trans_shape: CollisionShape2D = %ClimbShape
+@onready var hitbox_shape: CollisionShape2D = %HitboxShape
 
 const JUMP_INIT_SPEED := 180.0
 const JUMP_ANTICIPATION_DURATION := 0.05
@@ -30,9 +31,12 @@ const WALK_SPEED := 50.0
 const BAT_DURATION := 3.0
 
 var attack: PlayerAttack
+var still_recoil := false
+var dial: Node2D = null
 
 
 func get_room_block_coordinates(room: Room) -> Vector2i:
+	if not room: return Vector2i(0, 0)
 	return Vector2i(
 		clampi(
 			floori(body.global_position.x / float(room.BLOCK_WIDTH)),
@@ -72,9 +76,8 @@ enum State {
 	BAT,
 	GRIFFON,
 	HIT_CEILING,
-	WALLJUMP, # TODO?
 	SWIM,
-	WATER_MOVE #TODO (prbably not as a state but a check for normal movement)
+	WILE_E_COYOTE,
 }
 var _prev_state := State.NONE
 var _state := State.NORMAL:
@@ -116,18 +119,25 @@ var _fall_peak := INF
 var _waterwalk_to_swim_cooldown := 0.0
 var _inside_wall_timer := 0.0
 var _exhale_timer := 0.0
+var _double_jump_anticipation := false
 
 var _init_vel := Vector2(0,0)
 var velocity: Vector2:
 	set(v):
+		var changed_x := v.x != velocity.x
+		var changed_y := v.y != velocity.y
 		if Global.session.is_underwater and not is_swim_mode_toggled():
 			if _state == State.BACKDASH:
-				v.x *= 0.95
+				if changed_x:
+					v.x *= 0.95
 			elif _state == State.RUN:
-				v.x *= 0.9
+				if changed_x:
+					v.x *= 0.9
 			else:
-				v.x *= 0.75
-				v.y *= 0.98
+				if changed_x:
+					v.x *= 0.75
+				if changed_y:
+					v.y *= 0.96
 		
 		if not is_node_ready():
 			_init_vel = v
@@ -214,10 +224,10 @@ func _should_climb():
 	return Input.is_action_pressed("move_up") and ladder_detector.has_overlapping_bodies() and _climb_cooldown <= 0
 
 func _should_bat():
-	return not Global.session.is_underwater and Global.session.upgrades.bat and Input.is_action_just_pressed("dash") and not body.is_on_floor() and _bat_mana > 0
+	return not dial and not Global.session.is_underwater and Global.session.upgrades.bat and Input.is_action_just_pressed("dash") and not body.is_on_floor() and _bat_mana > 0
 
 func _should_griffon():
-	return Global.session.upgrades.griffon and Input.is_action_just_pressed("dodge") and ((not body.is_on_floor() and _griffon_air_cooldown <= 0) or (Input.is_action_pressed("move_up") and not body.is_on_floor())) and _griffon_cooldown <= 0
+	return not dial and Global.session.upgrades.griffon and Input.is_action_just_pressed("dodge") and ((not body.is_on_floor() and _griffon_air_cooldown <= 0) or (Input.is_action_pressed("move_up") and not body.is_on_floor())) and _griffon_cooldown <= 0
 
 func _handle_underwater():
 	Global.session.is_underwater = water_detector.has_overlapping_areas() or water_detector.has_overlapping_bodies()
@@ -242,6 +252,7 @@ func _handle_underwater():
 
 
 func _ready() -> void:
+	anim.footstep.connect(_on_footstep)
 	anim.animation_finished.connect(_on_character_animations_animation_finished)
 	anim.animation_looped.connect(_on_character_animations_animation_looped)
 	hitbox.area_entered.connect(_on_hitbox_area_entered)
@@ -292,10 +303,10 @@ func _physics_process(delta: float) -> void:
 			var normal_shape: CollisionShape2D = %NormalShape
 			var bat_shape: CollisionShape2D = %BatShape
 			
-			normal_shape.disabled = false
-			bat_shape.disabled = true
+			normal_shape.set_deferred("disabled", false)
+			bat_shape.set_deferred("disabled", true)
 			bat_mana_center.force_fadeout = false
-			climb_trans_shape.disabled = true
+			climb_trans_shape.set_deferred("disabled", true)
 			
 			# Cleanup prev
 			match _prev_state:
@@ -308,11 +319,18 @@ func _physics_process(delta: float) -> void:
 					_griffon_air_cooldown = 0
 				State.RUN:
 					_griffon_air_cooldown = 0
+				State.RECOIL:
+					still_recoil = false
+				State.JUMP_ANTICIPATION:
+					_double_jump_anticipation = false
 			
 			# Init new
 			match _state:
+				State.WILE_E_COYOTE:
+					_state_countdown = 2.0
+					anim.speed_scale = 1
 				State.CLIMB:
-					climb_trans_shape.disabled = false
+					climb_trans_shape.set_deferred("disabled", false)
 				State.JUMP_ANTICIPATION:
 					if _prev_state != State.JUMP_RECOVERY:
 						_state_countdown = JUMP_ANTICIPATION_DURATION
@@ -328,6 +346,9 @@ func _physics_process(delta: float) -> void:
 					_jump(45)
 					_state_countdown = 1
 				State.DAED:
+					AudioManager.stop_music()
+					AudioManager.play_player_death_sound()
+					Global.session.deaths += 1
 					_state_countdown = 3
 					bat_mana_center.force_fadeout = true
 				State.RUN:
@@ -347,8 +368,8 @@ func _physics_process(delta: float) -> void:
 					#att.get_parent().move_child(att, i - 1)
 					attack = att
 				State.BAT:
-					normal_shape.disabled = true
-					bat_shape.disabled = false
+					normal_shape.set_deferred("disabled", true)
+					bat_shape.set_deferred("disabled", false)
 					_state_countdown = _bat_mana
 				State.GRIFFON:
 					#_jump(JUMP_INIT_SPEED * 2)
@@ -359,6 +380,7 @@ func _physics_process(delta: float) -> void:
 				State.HIT_CEILING:
 					_state_countdown = 0.1
 				State.SWIM:
+					climb_trans_shape.set_deferred("disabled", false)
 					#body.global_position.y = min(water_surface_detector.get_collision_point().y + 5, body.global_position.y)
 					
 					var height := body.position.y - _fall_peak
@@ -385,6 +407,11 @@ func _physics_process(delta: float) -> void:
 			printerr("Oh shiet, infiloop in player.gd init state")
 	
 	match _state:
+		State.WILE_E_COYOTE:
+			if _state_countdown <= 0:
+				still_recoil = true
+				_state = State.RECOIL
+			_state_countdown -= delta
 		State.NORMAL:
 			
 			# Gravity stuff
@@ -400,9 +427,11 @@ func _physics_process(delta: float) -> void:
 					_swim_mode = true
 			
 			var _descending := false
+			var _no_double_jump := false
 			# Switch commented and uncommented statements to prevent holding down + jump to fall through floor
 			#if Input.is_action_pressed("move_down") and Input.is_action_just_pressed("jump"):
 			if Input.is_action_pressed("move_down") and Input.is_action_pressed("jump"):
+				_no_double_jump = true
 				_passing_through_semisolids = true
 				if body.is_on_floor():
 					_descending = true
@@ -412,7 +441,7 @@ func _physics_process(delta: float) -> void:
 			_normal_movement()
 			
 			# Trying to jump
-			var is_double_jump := (not body.is_on_floor() and _can_double_jump and velocity.y > 0)
+			var is_double_jump := (not body.is_on_floor() and not _no_double_jump and _can_double_jump and velocity.y > 0)
 			var is_jump_available := Global.session.upgrades.double_jump if is_double_jump else Global.session.upgrades.jump
 			if not _descending and Input.is_action_just_pressed("jump") and _jump_cooldown <= 0 and is_jump_available:
 				if body.is_on_floor() or is_double_jump:
@@ -425,7 +454,12 @@ func _physics_process(delta: float) -> void:
 						_can_double_jump = false
 					if JUMP_ANTICIPATION_DURATION > 0 and not Global.session.upgrades.controlled_fall:
 						_state = State.JUMP_ANTICIPATION
+						_double_jump_anticipation = is_double_jump
 					else:
+						if is_double_jump:
+							AudioManager.play_double_jump_sound()
+						else:
+							AudioManager.play_jump_sound()
 						_jump(JUMP_INIT_SPEED)
 				else:
 					# Failed jump penalty
@@ -478,6 +512,10 @@ func _physics_process(delta: float) -> void:
 			
 		State.JUMP_ANTICIPATION:
 			if _state_countdown <= 0:
+				if _double_jump_anticipation:
+					AudioManager.play_double_jump_sound()
+				else:
+					AudioManager.play_jump_sound()
 				_state = State.NORMAL
 				_jump(JUMP_INIT_SPEED if Input.is_action_pressed("jump") else JUMP_INIT_SPEED * 0.5)
 				_uncontrolled_jump_x_vel = 0
@@ -558,20 +596,24 @@ func _physics_process(delta: float) -> void:
 				if _should_run_jump:
 					_should_run_jump = false
 					if _can_momentum_jump:
+						AudioManager.play_jump_sound()
 						_momentum_jump = true
 						_state = State.NORMAL
 						_jump(JUMP_INIT_SPEED * 0.9)
 						_uncontrolled_jump_x_vel = _direction * WALK_SPEED * 0.9
 					else:
+						AudioManager.play_jump_sound()
 						_state = State.NORMAL
 						_jump(JUMP_INIT_SPEED)
 						_uncontrolled_jump_x_vel = _direction * WALK_SPEED * 0.5
 				elif Input.is_action_pressed("dash"):
+					AudioManager.play_run_footstep_sound()
 					_state_countdown = 0.1
 					_jump(12)
 					velocity.x = _direction * WALK_SPEED * 1.75
 					_can_momentum_jump = true
 				else:
+					AudioManager.play_run_footstep_sound()
 					_state = State.NORMAL
 			
 			_move()
@@ -586,6 +628,7 @@ func _physics_process(delta: float) -> void:
 				_state_countdown -= delta
 			else:
 				if body.is_on_wall() and signf(body.get_wall_normal().x) == -_direction:
+					AudioManager.play_player_hurt_sound()
 					_state = State.RECOIL
 					_jump(44)
 			
@@ -600,11 +643,13 @@ func _physics_process(delta: float) -> void:
 		State.RECOIL:
 			var grav = body.get_gravity()
 			velocity += grav * delta
-			velocity.x = -_direction * 30
+			if not still_recoil:
+				velocity.x = -_direction * 30
 			
 			_move()
 			
 			if body.is_on_floor():
+				AudioManager.play_fall_down_sound()
 				_state = State.FALLEN
 				_state_countdown = 0.2
 			
@@ -624,6 +669,8 @@ func _physics_process(delta: float) -> void:
 					_state = State.SWIM
 			elif body.is_on_floor() or _state_countdown <= 0:
 				_state = State.NORMAL
+			
+			_handle_underwater()
 		
 		State.FALLEN:
 			if _state_countdown <= 0:
@@ -688,6 +735,7 @@ func _physics_process(delta: float) -> void:
 						#_state = State.JUMP_ANTICIPATION
 						_state = State.NORMAL
 						_jump(JUMP_INIT_SPEED)
+						AudioManager.play_jump_sound()
 				
 				_move()
 				_uncontrolled_jump_x_vel = WALK_SPEED * 0.5 * sign(velocity.x)
@@ -711,7 +759,7 @@ func _physics_process(delta: float) -> void:
 			
 			_uncontrolled_jump_x_vel = WALK_SPEED * 0.5 * sign(velocity.x)
 			
-			if Input.is_action_just_pressed("dash") or _bat_mana <= 0:
+			if not dial and (Input.is_action_just_pressed("dash") or _bat_mana <= 0):
 				_state_countdown = 0.0
 		
 		State.GRIFFON:
@@ -739,7 +787,7 @@ func _physics_process(delta: float) -> void:
 			var immersion := 0.0
 			
 			var surface_dist := water_surface_detector.get_collision_point().y - water_surface_detector.global_position.y
-			if water_surface_detector.is_colliding():
+			if water_surface_detector.is_colliding() and not water_bubble_possible_detector.has_overlapping_areas():
 				if surface_dist >= 3:
 					immersion = 0
 				elif surface_dist <= 2:
@@ -787,6 +835,7 @@ func _physics_process(delta: float) -> void:
 				if JUMP_ANTICIPATION_DURATION > 0 and not Global.session.upgrades.controlled_fall:
 					_state = State.JUMP_ANTICIPATION
 				else:
+					AudioManager.play_jump_sound()
 					_jump(JUMP_INIT_SPEED)
 					_state = State.NORMAL
 		State.DAED:
@@ -798,6 +847,8 @@ func _physics_process(delta: float) -> void:
 				_uncontrolled_jump_x_vel = 0
 				velocity.x = 0
 				velocity.y = 0
+				_bat_mana = BAT_DURATION
+				bat_mana_center.reset()
 				
 				_state = State.NORMAL
 			
@@ -818,7 +869,7 @@ func _physics_process(delta: float) -> void:
 	if _state != State.BAT:
 		if body.is_on_floor() or _state == State.CLIMB or _state == State.SWIM:
 			_bat_mana = min(_bat_mana + delta, BAT_DURATION)
-	else:
+	elif not dial:
 		_bat_mana = max(0, _bat_mana - delta)
 	
 	# Nullify climb cooldown if away from ladder that caused it
@@ -835,6 +886,10 @@ func _physics_process(delta: float) -> void:
 	anim.speed_scale = 1
 	if _state == State.DAED:
 		anim.animation = anim.AnimationId.DISAPPEAR
+	elif _state == State.WILE_E_COYOTE:
+		anim.animation = anim.AnimationId.IDLE
+		if _state_countdown <= 1:
+			anim.speed_scale = 0
 	elif _state == State.BAT:
 		if _state_countdown <= 0:
 			anim.animation = anim.AnimationId.APPEAR
@@ -896,11 +951,11 @@ func _physics_process(delta: float) -> void:
 	
 	
 	# MISC
-	for area in hitbox.get_overlapping_areas():
-		var dmg = _calculate_taken_damage(area)
-		_take_damage(dmg)
-	for bod in hitbox.get_overlapping_bodies():
-		_take_damage(_calculate_taken_damage(bod))
+	if _state != State.DAED and _state != State.HURT and _i_frames <= 0:
+		for area in hitbox.get_overlapping_areas():
+			_take_damage(_calculate_taken_damage(area))
+		for bod in hitbox.get_overlapping_bodies():
+			_take_damage(_calculate_taken_damage(bod))
 	
 	#var state_names := [
 		#"NONE",
@@ -982,6 +1037,7 @@ func _take_damage(dmg: int = 1):
 		_state = State.DAED
 		_i_frames = 0
 	else:
+		AudioManager.play_player_hurt_sound()
 		_state = State.HURT
 
 
@@ -990,11 +1046,26 @@ func _calculate_taken_damage(damager: Object) -> int:
 		var dmg := 1
 		if damager is Hazard:
 			dmg = damager.roll_damage()
+			print('Hazard first roll =', dmg)
+			if damager.advantage and not Global.session.upgrades.advantage:
+				var dmg2: int = damager.roll_damage()
+				print('Hazard advantage roll =', dmg2)
+				dmg = maxi(dmg, dmg2)
+		elif damager.get_parent() is TrapArrow:
+			dmg = damager.get_parent().roll_dmg(self)
 		if Global.session.upgrades.advantage:
 			var dmg2 := 1
 			if damager is Hazard:
-				dmg2 = damager.roll_damage()
+				if damager.advantage:
+					dmg2 = dmg
+				else:
+					dmg2 = damager.roll_damage()
+					print('Player advantage damage roll =', dmg2)
+			elif damager.get_parent() is TrapArrow:
+				dmg2 = damager.get_parent().roll_dmg(self)
+				print('Player advantage damage roll =', dmg2)
 			dmg = mini(dmg, dmg2)
+		print('Final damage taken roll =', dmg)
 		return dmg
 	else:
 		if Global.session.upgrades.advantage:
@@ -1003,13 +1074,17 @@ func _calculate_taken_damage(damager: Object) -> int:
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	var dmg := _calculate_taken_damage(area)
-	_take_damage(dmg)
+	if _state == State.DAED: return
+	if _state == State.HURT: return
+	if _i_frames > 0: return
+	_take_damage(_calculate_taken_damage(area))
 
 
 func _on_hitbox_body_entered(bod: Node2D) -> void:
-	var dmg := _calculate_taken_damage(bod)
-	_take_damage(dmg)
+	if _state == State.DAED: return
+	if _state == State.HURT: return
+	if _i_frames > 0: return
+	_take_damage(_calculate_taken_damage(bod))
 
 
 func _on_character_animations_animation_finished() -> void:
@@ -1025,3 +1100,7 @@ func _on_character_animations_animation_looped() -> void:
 	pass
 	#if anim.animation == anim.AnimationId.WALK:
 		#AudioManager.rock_footsteps.walk.play()
+
+
+func _on_footstep() -> void:
+	AudioManager.play_footstep_sound()
